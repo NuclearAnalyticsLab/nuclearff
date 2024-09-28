@@ -1,0 +1,53 @@
+Type: Package
+Package: nuclearff
+Title: NFL Utilities Core Library for Evaluating Analytics in R with Fantasy Football (NUCLEARFF)
+Version: 0.0.0
+Authors@R: person("Nolan", "MacDonald", email = "nolan@nuclearfantasy.football",
+  role = c("aut", "cre"))
+Maintainer: The package maintainer <yourself@somewhere.net>
+Description: NFL analytics and statistics using nflverse packages in 
+  conjunction with fantasy football.
+URL: https://github.com/NuclearAnalyticsLab/nuclearff
+BugReports: None
+License: MIT
+Depends: 
+    R (>= 3.6.0)
+Imports:
+    DBI,
+    devtools,
+    dplyr,
+    gganimate,
+    ggplot2,
+    ggrepel,
+    gsisdecoder,
+    gt,
+    gtExtras,
+    lintr,
+    nflfastR,
+    nflplotR,
+    nflreadr,
+    nflseedR,
+    remotes,
+    rmarkdown,
+    RSQLite,
+    styler,
+    tidyr,
+    tidyverse,
+    webshot2
+Remotes:
+    dynastyprocess/ffpros,
+    FantasyFootballAnalytics/ffanalytics
+Suggests:
+  badger,
+  extrafont,
+  gitcreds,
+  hexSticker,
+  pkgdown,
+  roxygen2,
+  showtext,
+  sysfonts,
+  usethis
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
