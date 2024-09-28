@@ -1,0 +1,18 @@
+url: https://github.com/NuclearAnalyticsLab/nuclearff
+template:
+  bootstrap: 5
+reference:
+- title: "Functions"
+  desc: >
+    Functions available in `nuclearff`
+  contents:
+  - get_fpts_qb_season
+  - get_rb_adv_stats_season
+  - get_snap_pct
+navbar:
+  structure:
+    left: [home, reference]
+  components:
+    reference:
+      text: "Functions"  # New name for the reference tab
+      href: reference/index.html  # This links the tab to the reference page
