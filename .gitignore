@@ -59,7 +59,7 @@ output/tables
 scripts/
 
 # pkgdown site - don't ignore docs for GitHub pages
-docs/
+# docs/
 
 # renv directories
 /renv/library/
