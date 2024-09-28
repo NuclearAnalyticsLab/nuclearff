@@ -39,11 +39,33 @@ vignettes/*.pdf
 # R Environment Variables
 .Renviron
 
-# pkgdown site
-docs/
-
 # translation temp files
 po/*~
 
 # RStudio Connect folder
 rsconnect/
+
+# macOS
+*.DS_Store
+
+# nflfastR play-by-play database
+data/pbp_db/
+
+# Outputs figures/tables
+output/figures
+output/tables
+
+# Additional test scripts
+scripts/
+
+# pkgdown site - don't ignore docs for GitHub pages
+docs/
+
+# renv directories
+/renv/library/
+/renv/cache/
+/renv/staging/
+
+# Keep the lock file and activation script
+!renv.lock
+!renv/activate.R
