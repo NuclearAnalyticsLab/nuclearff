@@ -4,7 +4,7 @@
 # Code Style Guide: styler::tidyverse_style()
 ################################################################################
 
-#' \strong{RB Cumulative Season Advanced Stats}
+#' RB Cumulative Season Advanced Stats
 #'
 #' Obtain RB cumulative season stats from `nflfastR`, and using `nflreadr`
 #' to acquire Pro Football Reference (PFR) and Next Gen Stats (NGS) data
