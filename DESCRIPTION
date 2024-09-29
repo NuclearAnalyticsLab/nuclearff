@@ -8,7 +8,7 @@ Maintainer: The package maintainer <yourself@somewhere.net>
 Description: NFL analytics and statistics using nflverse packages in 
   conjunction with fantasy football.
 URL: https://github.com/NuclearAnalyticsLab/nuclearff
-BugReports: None
+BugReports: https://github.com/NuclearAnalyticsLab/nuclearff/issues
 License: MIT
 Depends: 
     R (>= 3.6.0)
