@@ -143,8 +143,7 @@ The default arguments is to look for a play-by-play database stored in
 If the user database is saved elsewhere or with different names, then define
 the argument with a string.
 After loading the required packages, the function can be called.
-The first 5 rows of data are shown with `head()` for simplicity.
-```{r, message=FALSE, warning=FALSE}
+```{r, message=FALSE, warning=FALSE, eval=FALSE}
 library(DBI)
 library(RSQLite)
 library(dplyr)
@@ -155,7 +154,6 @@ library(nuclearff)
 rb_adv_stats <- get_rb_adv_stats_season(pbp_db = "./data/pbp_db/pbp_db",
                                         pbp_db_tbl = "nflfastR_pbp",
                                         season = 2024)
-head(rb_adv_stats, 5)
 ```
 
 ## Additional Information
