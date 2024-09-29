@@ -19,11 +19,11 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup, echo = FALSE, message = FALSE, eval=FALSE}
-library(DBI)
-library(RSQLite)
+library(DBI) # pbp_db
+library(RSQLite) # pbp_db
 library(dplyr)  # Load dplyr to use the pipe operator
 library(nflfastR)  # Load your relevant packages
-library(stringr)
+library(stringr) # Parsing player info in snap_pct
 library(nuclearff)
 ```
 

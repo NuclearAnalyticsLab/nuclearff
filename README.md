@@ -42,15 +42,26 @@ remove.packages("nuclearff")
 
 ## Data Usage
 
-To use the package, play-by-play data from `nflfastR` is required.
-By default `nuclearff` functions look for a database located in `data/pbp_db`.
-The database is not included in the repository, and users must download a 
-play-by-play database prior to utilizing functions in `nuclearff`.
+To use the package, play-by-play data from `nflverse` packages is required.
+By default `nuclearff` functions assume there is no database with play-by-play 
+data.
+Instead, the play-by-play data is pulled using `nflreadr::load_pbp`.
 
-The database is named `pbp_db` containing a table `nflfastR_pbp`. 
-This is the default naming scheme for `nflfastR`. All functions do allow 
-specifying the database location, name, and table name. The key is that to use
-`nuclearff`, a database is required.
+The alternative is to use a database, since it is simple to build a database
+and keep it up-to-date. 
+Play-by-play data since 1999 takes up a lot of memory, so working with a 
+database allows you to store only what is necessary into memory.
+Functions allow for using the database with arguments `pbp_db` and `pbp_db_tbl`.
+These arguments must be defined as strings, where `pbp_db` is the path to the
+database as well as the name. `pbp_db_tbl` is the name of the table in the
+database.
+
+For example, you can store the database in the directory `data/pbp_db/` with the
+default naming scheme used by `nflfastR`.
+This means that `pbp_db="data/pbp_db/pbp_db"` and `pbp_db_tbl="nflfastR_pbp"`.
+The database is not included in the repository, and users must download a 
+play-by-play database prior to utilizing functions with database options in 
+`nuclearff`.
 
 For detailed instructions on setting up the database with `nflfastR`, 
 view the vignette using `vignette("setup_pbp_db")` in an R console.
