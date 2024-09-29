@@ -36,7 +36,7 @@ Using R, it is relatively easy to work with databases as long as you are comfort
 
 To use the database, the `DBI` and `RSQLite` packages should be installed.
 To install these required packages, use the following commands in the R console:
-```bash
+```{r, eval=FALSE, message=FALSE, warning=FALSE, eval=FALSE}
 install.packages("DBI")
 install.packages("RSQLite")
 ```
