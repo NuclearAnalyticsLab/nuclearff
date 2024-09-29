@@ -11,8 +11,20 @@ reference:
   - get_snap_pct
 navbar:
   structure:
-    left: [home, reference]
+    left: [home, reference, vignettes]
+    right: [github, x]
   components:
     reference:
       text: "Functions"  # New name for the reference tab
       href: reference/index.html  # This links the tab to the reference page
+    vignettes:
+      text: "Articles"  # Name for the vignettes tab
+      href: articles/index.html  # Link to the articles page (adjust if necessary)
+    x:
+      text: ""
+      icon: fa-brands fa-x-twitter
+      href: "https://x.com/nuclearffnolan"
+    github:
+      text: ""
+      icon: fa-brands fa-github
+      href: "https://github.com/NuclearAnalyticsLab/nuclearff"

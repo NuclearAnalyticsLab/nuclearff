@@ -1,5 +1,5 @@
 ---
-title: Setup a Play-by-Play Database with nflfastR
+title: "Setup a Play-by-Play Database with nflfastR"
 author: "Nolan MacDonald"
 output: rmarkdown::html_vignette
 vignette: >
