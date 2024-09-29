@@ -69,3 +69,9 @@ scripts/
 # Keep the lock file and activation script
 !renv.lock
 !renv/activate.R
+inst/doc
+
+# README
+README.html
+/doc/
+/Meta/

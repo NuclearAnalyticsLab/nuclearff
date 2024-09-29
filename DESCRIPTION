@@ -7,8 +7,8 @@ Authors@R: person("Nolan", "MacDonald", email = "nolan@nuclearfantasy.football",
 Maintainer: The package maintainer <yourself@somewhere.net>
 Description: NFL analytics and statistics using nflverse packages in 
   conjunction with fantasy football.
-URL: https://github.com/NuclearAnalyticsLab/nuclearff
-BugReports: None
+URL: https://github.com/NuclearAnalyticsLab/nuclearff, https://nuclearanalyticslab.github.io/nuclearff/
+BugReports: https://github.com/NuclearAnalyticsLab/nuclearff/issues
 License: MIT
 Depends: 
     R (>= 3.6.0)
@@ -38,16 +38,18 @@ Remotes:
     dynastyprocess/ffpros,
     FantasyFootballAnalytics/ffanalytics
 Suggests:
-  badger,
-  extrafont,
-  gitcreds,
-  hexSticker,
-  pkgdown,
-  roxygen2,
-  showtext,
-  sysfonts,
-  usethis
+    badger,
+    extrafont,
+    gitcreds,
+    hexSticker,
+    knitr,
+    pkgdown,
+    roxygen2,
+    showtext,
+    sysfonts,
+    usethis
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
+VignetteBuilder: knitr

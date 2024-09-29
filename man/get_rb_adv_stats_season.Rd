@@ -2,7 +2,7 @@
 % Please edit documentation in R/season_adv_stats.R
 \name{get_rb_adv_stats_season}
 \alias{get_rb_adv_stats_season}
-\title{\strong{RB Cumulative Season Advanced Stats}}
+\title{RB Cumulative Season Advanced Stats}
 \usage{
 get_rb_adv_stats_season(
   pbp_db = "./data/pbp_db/pbp_db",

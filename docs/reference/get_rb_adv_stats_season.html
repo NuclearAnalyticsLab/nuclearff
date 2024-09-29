@@ -5,7 +5,7 @@ to acquire Pro Football Reference (PFR) and Next Gen Stats (NGS) data"><meta pro
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
-    <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="light" aria-label="Site navigation"><div class="container">
+    <nav class="navbar navbar-expand-lg fixed-top bg-primary" data-bs-theme="dark" aria-label="Site navigation"><div class="container">
 
     <a class="navbar-brand me-2" href="../index.html">nuclearff</a>
 
@@ -18,9 +18,9 @@ to acquire Pro Football Reference (PFR) and Next Gen Stats (NGS) data"><meta pro
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Functions</a></li>
-      </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
- <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
-<li class="nav-item"><a class="nav-link" href="https://github.com/NuclearAnalyticsLab/nuclearff/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
+<li class="nav-item"><a class="nav-link" href="../articles/index.html">Articles</a></li>
+      </ul><ul class="navbar-nav"><li class="nav-item"><a class="nav-link" href="https://github.com/NuclearAnalyticsLab/nuclearff"><span class="fa fa-brands fa-github"></span> </a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://x.com/nuclearffnolan"><span class="fa fa-brands fa-x-twitter"></span> </a></li>
       </ul></div>
 
 
@@ -28,7 +28,7 @@ to acquire Pro Football Reference (PFR) and Next Gen Stats (NGS) data"><meta pro
 </nav><div class="container template-reference-topic">
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-      <img src="../logo.png" class="logo" alt=""><h1><strong>RB Cumulative Season Advanced Stats</strong></h1>
+      <img src="../logo.png" class="logo" alt=""><h1>RB Cumulative Season Advanced Stats</h1>
       <small class="dont-index">Source: <a href="https://github.com/NuclearAnalyticsLab/nuclearff/blob/HEAD/R/season_adv_stats.R"><code>R/season_adv_stats.R</code></a></small>
       <div class="d-none name"><code>get_rb_adv_stats_season.Rd</code></div>
     </div>
@@ -93,7 +93,7 @@ season. The function utilizes <code>nflfastR</code> for play-by-play data to det
 cumulative season statistics. The <code>nflreadr</code> package is also used to obtain
 advanced statistics from Pro Football Reference (PFR) and
 NFL Next Gen Stats (NGS). To use the function, you will need to save
-play-by-play data to a database using the <code>nflfastR</code> function, <code>update_db()</code>.
+play-by-play data to a database using the <code>nflfastR</code> function, <code><a href="https://www.nflfastr.com/reference/update_db.html" class="external-link">update_db()</a></code>.
 For example, the database is saved by default as <code>pbp_db</code> with a table that
 is stored containing all play-by-play information called <code>nflfastR_pbp</code>.
 By defining the argument <code>pbp_db</code> (str) the user is specifying the path to the
@@ -103,7 +103,7 @@ however, the default argument follows the naming scheme provided by the
 <code>nflfastR</code> package. The final requirement is the argument <code>season</code> (int)
 to indicate the NFL season that the user wants to obtain advanced
 statistics for.
-More information is available on <code>update_db()</code> in the
+More information is available on <code><a href="https://www.nflfastr.com/reference/update_db.html" class="external-link">update_db()</a></code> in the
 <a href="https://www.nflfastr.com/reference/update_db.html" class="external-link">nflfastR documentation</a>.</p>
     </div>
     <div class="section level2">

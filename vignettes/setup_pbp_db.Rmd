@@ -1,0 +1,166 @@
+---
+title: "Setup a Play-by-Play Database with nflfastR"
+author: "Nolan MacDonald"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Setup a Play-by-Play Database with nflfastR}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+bibliography: references/references.bib
+csl: references/ieee.csl
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  echo = TRUE
+)
+```
+
+```{r setup, echo = FALSE, message = FALSE, eval=FALSE}
+library(DBI) # pbp_db
+library(RSQLite) # pbp_db
+library(dplyr)  # Load dplyr to use the pipe operator
+library(nflfastR)  # Load your relevant packages
+library(stringr) # Parsing player info in snap_pct
+library(nuclearff)
+```
+
+## Install Packages
+
+Data from `nflfastR` can be stored in a database to access locally instead of pulling play-by-play information each time.
+The database takes up a significant amount of memory, as it stores data dating back to the 1999 season.
+Working with the database is beneficial as is allows you to only bring into memory the data you actually need.
+Using R, it is relatively easy to work with databases as long as you are comfortable with `dplyr` functions to manipulate and tidy data.
+
+To use the database, the `DBI` and `RSQLite` packages should be installed.
+To install these required packages, use the following commands in the R console:
+```{r, eval=FALSE, message=FALSE, warning=FALSE, eval=FALSE}
+install.packages("DBI")
+install.packages("RSQLite")
+```
+
+## Play-By-Play Database
+
+Now that the packages have been installed, the database can be built.
+`nflfastR` uses the function `update_db()` to work with databases.
+Using `update_db()` with no arguments will build a database with default arguments, where the SQLite database will be stored as `pbp_db` that contains all of the play-by-play data in a table called `nflfastR_pbp`.
+To store the database in a specified directory, use the argument `dbdir`.
+To specify the file name use `dbname` and to change the table name use `tblname`.
+
+If there is already an existing database and you want to rebuild it from scratch, use the argument `force_rebuild=TRUE`. 
+This is typically performed when there is an update to play-by-play data from fixing a bug or you want to wipe the database and update it. 
+If you want to rebuild only specific seasons, you can use the command `force_rebuild=2023` or for multiple seasons, `force_rebuild=c(2022, 2023)`.
+
+**Summary of Database and Arguments:**
+
+- `update_db()`: Build or update play-by-play database
+  - `update_db(dbdir = "path/to/save/db")`: Build play-by-play database and save to path
+  - `update_db(dbname="db_name")`: Build play-by-play database with custom name (Default: `nflfastR_pbp`)
+  - `update_db(tblname="tblname")`: Build play-by-play database with custom table name (Default: `nflfastR_pbp`)
+  - `update_db(force_rebuild=TRUE)`: Rebuild entire play-by-play database
+  - - `update_db(force_rebuild=c(2022, 2023))`: Rebuild play-by-play database 2022-2023 seasons
+
+## Create Database
+
+To first create and dump a database you need to load the libraries that were recently installed.
+After loading the libraries, `update_db()` is utilized to create or update the database.
+In this example, the database is saved in the repository's directory, `data/pbp_db`.
+
+```{r, eval=FALSE, message=FALSE, warning=FALSE, eval=FALSE}
+# Import packages
+library(DBI)
+library(RSQLite)
+
+# Create or update the database
+nflfastR::update_db(dbdir = "data/pbp_db")
+```
+
+## Load Database
+
+The database is `pbp_db` loaded from the directory `data/pbp_db`.
+Once connected to the database with `dbConnect()`, the tables stored in the
+database are obtained with `dbListTables`.
+There should only be one table with the newly constructed database, `nflfastR_pbp`,
+as previously discussed since the default naming schemes were used.
+
+```{r, message=FALSE, warning=FALSE, eval=FALSE}
+# Connect to database
+connect <- DBI::dbConnect(RSQLite::SQLite(), "./data/pbp_db/pbp_db")
+
+# List tables
+tables <- DBI::dbListTables(connect)
+# Close the database when finished
+DBI::dbDisconnect(connect)
+
+tables
+```
+
+Another option is to look at the fields (columns) that are stored in the table.
+Use `dbListFields()` to show the data available in the table.
+For the example below, the fields are saved in a list and `head()` is used to
+show only the first 10 fields since there is a large amount of data (372 fields!).
+
+```{r, message=FALSE, warning=FALSE, eval=FALSE}
+# Connect to database
+connect <- DBI::dbConnect(RSQLite::SQLite(), "./data/pbp_db/pbp_db")
+
+# List fields
+fields <- DBI::dbListFields(connect, "nflfastR_pbp")
+# Close the database when finished
+DBI::dbDisconnect(connect)
+
+head(fields, 10)
+```
+
+Finally, the play-by-play table is loaded from the database with `dplyr::tbl()`.
+Use the play-by-play information to write code and conduct the analysis,
+and make sure to disconnect the database when you are finished.
+
+```{r, message=FALSE, warning=FALSE, eval=FALSE}
+# Connect to database
+connect <- DBI::dbConnect(RSQLite::SQLite(), "./data/pbp_db/pbp_db")
+
+# Load pbp_db
+pbp_db <- dplyr::tbl(connect, "nflfastR_pbp")
+
+# Additional code here...
+
+# Close the database when finished
+DBI::dbDisconnect(connect)
+```
+
+## Calling Functions with Database
+
+Now that a database has been created and saved, `nuclearff` functions can be
+utilized.
+For example, try obtaining advanced RB stats for a season but using the function
+`get_rb_adv_stats_season()`.
+The default arguments is to look for a play-by-play database stored in
+`data/pbp_db` named `pbp_db` with a table called `nflfastR_pbp`.
+If the user database is saved elsewhere or with different names, then define
+the argument with a string.
+After loading the required packages, the function can be called.
+```{r, message=FALSE, warning=FALSE, eval=FALSE}
+library(DBI)
+library(RSQLite)
+library(dplyr)
+library(nflfastR)
+library(stringr)
+library(nuclearff)
+
+rb_adv_stats <- get_rb_adv_stats_season(pbp_db = "./data/pbp_db/pbp_db",
+                                        pbp_db_tbl = "nflfastR_pbp",
+                                        season = 2024)
+```
+
+## Additional Information
+
+To determine if any data from `nflverse` has been updated, check the
+[nflverse Data Update and Availability Schedule](https://nflreadr.nflverse.com/articles/nflverse_data_schedule.html).
+
+For more information, refer to the `nflfastR` package [@nflfastR] or the
+[nflfastR documentation](https://www.nflfastr.com).
+
+## References
