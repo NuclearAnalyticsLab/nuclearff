@@ -1,6 +1,8 @@
 url: https://github.com/NuclearAnalyticsLab/nuclearff
 template:
   bootstrap: 5
+  bootswatch: quartz
+  theme: dracula
 reference:
 - title: "Functions"
   desc: >
