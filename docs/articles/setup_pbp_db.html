@@ -161,8 +161,7 @@ discussed since the default naming schemes were used.</p>
 <span><span class="co"># Close the database when finished</span></span>
 <span><span class="fu">DBI</span><span class="fu">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbDisconnect.html" class="external-link">dbDisconnect</a></span><span class="op">(</span><span class="va">connect</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">tables</span></span>
-<span><span class="co">#&gt; [1] "nflfastR_pbp"</span></span></code></pre></div>
+<span><span class="va">tables</span></span></code></pre></div>
 <p>Another option is to look at the fields (columns) that are stored in
 the table. Use <code><a href="https://dbi.r-dbi.org/reference/dbListFields.html" class="external-link">dbListFields()</a></code> to show the data available in
 the table. For the example below, the fields are saved in a list and
@@ -177,9 +176,7 @@ is a large amount of data (372 fields!).</p>
 <span><span class="co"># Close the database when finished</span></span>
 <span><span class="fu">DBI</span><span class="fu">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbDisconnect.html" class="external-link">dbDisconnect</a></span><span class="op">(</span><span class="va">connect</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">fields</span>, <span class="fl">10</span><span class="op">)</span></span>
-<span><span class="co">#&gt;  [1] "play_id"      "game_id"      "old_game_id"  "home_team"    "away_team"   </span></span>
-<span><span class="co">#&gt;  [6] "season_type"  "week"         "posteam"      "posteam_type" "defteam"</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">fields</span>, <span class="fl">10</span><span class="op">)</span></span></code></pre></div>
 <p>Finally, the play-by-play table is loaded from the database with
 <code><a href="https://dplyr.tidyverse.org/reference/tbl.html" class="external-link">dplyr::tbl()</a></code>. Use the play-by-play information to write
 code and conduct the analysis, and make sure to disconnect the database
