@@ -27,6 +27,7 @@ Imports:
     nflplotR,
     nflreadr,
     nflseedR,
+    purrr,
     remotes,
     rmarkdown,
     RSQLite,
