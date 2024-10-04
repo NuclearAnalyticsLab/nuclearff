@@ -36,7 +36,7 @@
 #'  Assume that the database is saved in `project_name/data/`.
 #'  Using the default naming scheme, `nuclearff::get_pbp_data` can be defined using the
 #'  database with `pbp_db = "data/pbp_db"` and `pbp_db_tbl = "nflfastR_pbp"`.
-#'  Note that these two arguments must be defined as strings using `" "`.
+#'  Note that these two arguments must be defined as strings.
 #'  For more information on calculated player stats, refer to the
 #'  [nflfastR `calculate_player_stats()`](
 #'    https://www.nflfastr.com/reference/calculate_player_stats.html
@@ -57,15 +57,17 @@
 #' @return Dataframe with QB stats for user-defined season(s) and week(s)
 #'  obtained from NFL play-by-play data
 #'
-#' @seealso \code{\link[nuclearff]{nuclearff::get_pbp_data}}:
+#' @seealso \code{\link[nuclearff]{nuclearff::get_pbp_data}}
 #'  Obtain play-by-play data for a specified time frame from either a saved
-#'  database or if not defined, using `nflreadr::load_pbp()`.
-#' @seealso \code{\link[nflreadr]{load_pbp}}:
-#'  Load play-by-play data
-#' @seealso \code{\link[nflfastR]{update_db}}:
+#'  database or if not defined, using `nflreadr::load_pbp()`,
+#' @seealso \code{\link[nflreadr]{load_pbp}}
+#'  Load play-by-play data,
+#' @seealso \code{\link[nflfastR]{update_db}}
 #'  Update or Create a nflfastR Play-by-Play Database
 #'
-#' \describe{
+#' @author Nolan MacDonald
+#'
+#' \itemize{
 #'  \item{\code{player_id}}{Player gsis id (e.g., 00-0034796)}
 #'  \item{\code{player_display_name}}{Player name (e.g., Lamar Jackson)}
 #'  \item{\code{player_name}}{Player shortened name (e.g., L.Jackson)}
@@ -110,7 +112,7 @@
 #'    }
 #'  \item{\code{completions}}{Total pass completions (CMP)}
 #'  \item{\code{attempts}}{Total pass attempts (ATT)}
-#'  \item{\code{cmp_pct}}{Pass completion percentage (CMP\%)}
+#'  \item{\code{cmp_pct}}{Pass completion percentage}
 #'  \item{\code{passing_yards}}{Total passing yards}
 #'  \item{\code{passing_tds}}{Total passing touchdowns}
 #'  \item{\code{interceptions}}{Total pass interceptions (INT)}
@@ -193,8 +195,6 @@
 #'    }
 #'  \item{\code{receiving_2pt_conversions}}{Two-point conversion receptions}
 #'  }
-#'
-#' @author Nolan MacDonald
 #'
 #' @export
 get_qb_pbp_stats <- function(pbp_db = NULL,
@@ -313,7 +313,7 @@ get_qb_pbp_stats <- function(pbp_db = NULL,
 #'  Assume that the database is saved in `project_name/data/`.
 #'  Using the default naming scheme, `nuclearff::get_pbp_data` can be defined using the
 #'  database with `pbp_db = "data/pbp_db"` and `pbp_db_tbl = "nflfastR_pbp"`.
-#'  Note that these two arguments must be defined as strings using `" "`.
+#'  Note that these two arguments must be defined as strings.
 #'  For more information on calculated player stats, refer to the
 #'  [nflfastR `calculate_player_stats()`](
 #'    https://www.nflfastr.com/reference/calculate_player_stats.html
@@ -334,15 +334,17 @@ get_qb_pbp_stats <- function(pbp_db = NULL,
 #' @return Dataframe with RB stats for user-defined season(s) and week(s)
 #'  obtained from NFL play-by-play data
 #'
-#' @seealso \code{\link[nuclearff]{nuclearff::get_pbp_data}}:
+#' @seealso \code{\link[nuclearff]{nuclearff::get_pbp_data}}
 #'  Obtain play-by-play data for a specified time frame from either a saved
-#'  database or if not defined, using `nflreadr::load_pbp()`.
-#' @seealso \code{\link[nflreadr]{load_pbp}}:
-#'  Load play-by-play data
-#' @seealso \code{\link[nflfastR]{update_db}}:
+#'  database or if not defined, using `nflreadr::load_pbp()`,
+#' @seealso \code{\link[nflreadr]{load_pbp}}
+#'  Load play-by-play data,
+#' @seealso \code{\link[nflfastR]{update_db}}
 #'  Update or Create a nflfastR Play-by-Play Database
 #'
-#' \describe{
+#' @author Nolan MacDonald
+#'
+#' \itemize{
 #'  \item{\code{player_id}}{Player gsis id (e.g., 00-0038120)}
 #'  \item{\code{player_display_name}}{Player name (e.g., Breece Hall)}
 #'  \item{\code{player_name}}{Player shortened name (e.g., B.Hall)}
@@ -444,7 +446,7 @@ get_qb_pbp_stats <- function(pbp_db = NULL,
 #'  \item{\code{target_share}}{
 #'    Share of targets of player compared to all team targets
 #'    }
-#'  \item{\code{tgt_pct}}{Share of targets percentage (TGT\%)}
+#'  \item{\code{tgt_pct}}{Share of targets percentage}
 #'  \item{\code{air_yards_share}}{
 #'    Share of `receiving_air_yards` of the player to all team `air_yards`
 #'    }
@@ -454,7 +456,7 @@ get_qb_pbp_stats <- function(pbp_db = NULL,
 #'    }
 #'  \item{\code{completions}}{Total pass completions (CMP)}
 #'  \item{\code{attempts}}{Total pass attempts (ATT)}
-#'  \item{\code{cmp_pct}}{Pass completion percentage (CMP\%)}
+#'  \item{\code{cmp_pct}}{Pass completion percentage}
 #'  \item{\code{passing_yards}}{Total passing yards}
 #'  \item{\code{passing_tds}}{Total passing touchdowns}
 #'  \item{\code{interceptions}}{Total pass interceptions (INT)}
@@ -486,8 +488,6 @@ get_qb_pbp_stats <- function(pbp_db = NULL,
 #'    adjusted EPA/play in the following year
 #'    }
 #'    }
-#'
-#' @author Nolan MacDonald
 #'
 #' @export
 get_rb_pbp_stats <- function(pbp_db = NULL,
@@ -612,7 +612,7 @@ get_rb_pbp_stats <- function(pbp_db = NULL,
 #'  Assume that the database is saved in `project_name/data/`.
 #'  Using the default naming scheme, `nuclearff::get_pbp_data` can be defined using the
 #'  database with `pbp_db = "data/pbp_db"` and `pbp_db_tbl = "nflfastR_pbp"`.
-#'  Note that these two arguments must be defined as strings using `" "`.
+#'  Note that these two arguments must be defined as strings.
 #'  For more information on calculated player stats, refer to the
 #'  [nflfastR `calculate_player_stats()`](
 #'    https://www.nflfastr.com/reference/calculate_player_stats.html
@@ -638,6 +638,151 @@ get_rb_pbp_stats <- function(pbp_db = NULL,
 #'  \code{\link[nflfastR]{update_db}}
 #'
 #' @author Nolan MacDonald
+#'
+#' \itemize{
+#'  \item{\code{player_id}}{Player gsis id (e.g., 00-0038120)}
+#'  \item{\code{player_display_name}}{Player name (e.g., Breece Hall)}
+#'  \item{\code{player_name}}{Player shortened name (e.g., B.Hall)}
+#'  \item{\code{position}}{Player position (e.g., RB)}
+#'  \item{\code{team}}{Player team (e.g., NYJ)}
+#'  \item{\code{games}}{Number of games played}
+#'  \item{\code{fpts_std_4pt_td}}{
+#'    Fantasy points for standard format with 4 point TD
+#'    }
+#'  \item{\code{ppg_std_4pt_td}}{
+#'    Fantasy points per game for standard format with 4 point TD
+#'    }
+#'  \item{\code{fpts_half_ppr_4pt_td}}{
+#'    Fantasy points for half PPR format with 4 point TD
+#'    }
+#'  \item{\code{ppg_half_ppr_4pt_td}}{
+#'    Fantasy points per game for half PPR format with 4 point TD
+#'    }
+#'  \item{\code{fpts_ppr_4pt_td}}{
+#'    Fantasy points for full PPR format with 4 point TD
+#'    }
+#'  \item{\code{ppg_ppr_4pt_td}}{
+#'    Fantasy points per game for full PPR format with 4 point TD
+#'    }
+#'  \item{\code{fpts_std_6pt_td}}{
+#'    Fantasy points for standard format with 6 point TD
+#'    }
+#'  \item{\code{ppg_std_6pt_td}}{
+#'    Fantasy points per game for standard format with 6 point TD
+#'    }
+#'  \item{\code{fpts_half_ppr_6pt_td}}{
+#'    Fantasy points for half PPR format with 6 point TD
+#'    }
+#'  \item{\code{ppg_half_ppr_6pt_td}}{
+#'    Fantasy points per game for half PPR format with 6 point TD
+#'    }
+#'  \item{\code{fpts_ppr_6pt_td}}{
+#'    Fantasy points for full PPR format with 6 point TD
+#'    }
+#'  \item{\code{ppg_ppr_6pt_td}}{
+#'    Fantasy points per game for full PPR format with 6 point TD
+#'    }
+#'  \item{\code{targets}}{
+#'    Number of pass plays where the player was targeted as a receiver
+#'    }
+#'  \item{\code{receptions}}{
+#'    Number of pass receptions. Lateral receptions don't count as a reception
+#'    }
+#'  \item{\code{receiving_yards}}{
+#'    Yards gained after a pass reception. Includes yards gained after
+#'    receiving a lateral on a play that started as a pass play
+#'    }
+#'  \item{\code{receiving_tds}}{
+#'    Number of reception touchdowns, including after receiving a lateral on a
+#'    play that began as a pass play
+#'    }
+#'  \item{\code{receiving_fumbles}}{Number of fumbles after a pass reception}
+#'  \item{\code{receiving_fumbles_lost}}{
+#'    Number of fumbles lost after a pass reception
+#'    }
+#'  \item{\code{receiving_air_yards}}{
+#'    Receiving air yards including incomplete passes
+#'    }
+#'  \item{\code{receiving_yards_after_catch}}{
+#'    Yards after the catch gained on plays in which player was receiver (this
+#'    is an unofficial stat and may differ slightly between different sources)
+#'    }
+#'  \item{\code{receiving_first_downs}}{
+#'    Number of first downs gained on a reception
+#'    }
+#'  \item{\code{receiving_epa}}{Expected points added on receptions}
+#'  \item{\code{receiving_2pt_conversions}}{Two-point conversion receptions}
+#'  \item{\code{racr}}{
+#'    Receiving Air Conversion Ratio.
+#'    RACR = `receiving_yards` / `receiving_air_yards`
+#'    }
+#'  \item{\code{target_share}}{
+#'    Share of targets of player compared to all team targets
+#'    }
+#'  \item{\code{tgt_pct}}{Share of targets percentage}
+#'  \item{\code{air_yards_share}}{
+#'    Share of `receiving_air_yards` of the player to all team `air_yards`
+#'    }
+#'  \item{\code{wopr}}{
+#'    Weighted Opportunity Rating.
+#'    WOPR = 1.5 x `target_share` + 0.7 x `air_yards_share`
+#'    }
+#'  \item{\code{carries}}{
+#'    Number of rush attempts including scrambles and kneel downs. Rushes after
+#'    a lateral reception don't count as a carry
+#'    }
+#'  \item{\code{rushing_yards}}{
+#'    Yards gained when rushing including scrambles and kneel downs. Also
+#'    includes yards gained after obtaining a lateral on a play that started
+#'    with a rushing attempt
+#'    }
+#'  \item{\code{rushing_tds}}{
+#'    The number of rushing touchdowns (incl. scrambles). Also includes
+#'    touchdowns after obtaining a lateral on a play that started with a
+#'    rushing attempt
+#'    }
+#'  \item{\code{rushing_fumbles}}{Number of rushes with a fumble}
+#'  \item{\code{rushing_fumbles_lost}}{Number of rushes with a lost fumble}
+#'  \item{\code{rushing_first_downs}}{Number of rushing first downs}
+#'  \item{\code{rushing_epa}}{
+#'    Expected points added (EPA) on rush attempts including scrambles and
+#'    kneel downs
+#'    }
+#'  \item{\code{rushing_2pt_conversions}}{Two-point conversion rushes}
+#'  \item{\code{completions}}{Total pass completions (CMP)}
+#'  \item{\code{attempts}}{Total pass attempts (ATT)}
+#'  \item{\code{cmp_pct}}{Pass completion percentage}
+#'  \item{\code{passing_yards}}{Total passing yards}
+#'  \item{\code{passing_tds}}{Total passing touchdowns}
+#'  \item{\code{interceptions}}{Total pass interceptions (INT)}
+#'  \item{\code{sacks}}{Total number of sacks taken}
+#'  \item{\code{sack_yards}}{Total yards taken from sacks}
+#'  \item{\code{sack_fumbles}}{Total fumbles from sacks}
+#'  \item{\code{sack_fumbles_lost}}{Total fumbles lost from sacks}
+#'  \item{\code{passing_air_yards}}{
+#'    Passing air yards (includes incomplete passes)
+#'    }
+#'  \item{\code{passing_yards_after_catch}}{
+#'    Yards after the catch gained on plays in which player was the passer
+#'    (this is an unofficial stat and may differ slightly between different
+#'    sources).
+#'    }
+#'  \item{\code{passing_first_downs}}{First downs on pass attempts}
+#'  \item{\code{passing_epa}}{
+#'    Total expected points added (EPA) on pass attempts and sacks.
+#'    NOTE: This uses the variable `qb_epa`, which gives QB credit for EPA for
+#'    up to the point where a receiver lost a fumble after a completed catch
+#'    and makes EPA work more like passing yards on plays with fumbles
+#'    }
+#'  \item{\code{passing_2pt_conversions}}{Two-point conversion passes}
+#'  \item{\code{pacr}}{
+#'    Passing Air Conversion Ratio. PACR = `passing_yards` / `passing_air_yards`
+#'    }
+#'  \item{\code{dakota}}{
+#'    Adjusted EPA + CPOE composite based on coefficients which best predicts
+#'    adjusted EPA/play in the following year
+#'    }
+#'    }
 #'
 #' @export
 get_wr_pbp_stats <- function(pbp_db = NULL,
@@ -762,7 +907,7 @@ get_wr_pbp_stats <- function(pbp_db = NULL,
 #'  Assume that the database is saved in `project_name/data/`.
 #'  Using the default naming scheme, `nuclearff::get_pbp_data` can be defined using the
 #'  database with `pbp_db = "data/pbp_db"` and `pbp_db_tbl = "nflfastR_pbp"`.
-#'  Note that these two arguments must be defined as strings using `" "`.
+#'  Note that these two arguments must be defined as strings.
 #'  For more information on calculated player stats, refer to the
 #'  [nflfastR `calculate_player_stats()`](
 #'    https://www.nflfastr.com/reference/calculate_player_stats.html
@@ -770,10 +915,10 @@ get_wr_pbp_stats <- function(pbp_db = NULL,
 #'
 #' @seealso \code{\link[nuclearff]{nuclearff::get_pbp_data}}:
 #'  Obtain play-by-play data for a specified time frame from either a saved
-#'  database or if not defined, using `nflreadr::load_pbp()`.
-#' @seealso \code{\link[nflreadr]{load_pbp}}:
-#'  Load play-by-play data
-#' @seealso \code{\link[nflfastR]{update_db}}:
+#'  database or if not defined, using `nflreadr::load_pbp()`,
+#' @seealso \code{\link[nflreadr]{load_pbp}}
+#'  Load play-by-play data,
+#' @seealso \code{\link[nflfastR]{update_db}}
 #'  Update or Create a nflfastR Play-by-Play Database
 #'
 #' @param pbp_dp Play-by-Play database path (optional)
@@ -791,7 +936,9 @@ get_wr_pbp_stats <- function(pbp_db = NULL,
 #' @return Dataframe with TE stats for user-defined season(s) and week(s)
 #'  obtained from NFL play-by-play data
 #'
-#' \describe{
+#' @author Nolan MacDonald
+#'
+#' \itemize{
 #'  \item{\code{player_id}}{Player gsis id (e.g., 00-0038120)}
 #'  \item{\code{player_display_name}}{Player name (e.g., Breece Hall)}
 #'  \item{\code{player_name}}{Player shortened name (e.g., B.Hall)}
@@ -871,7 +1018,7 @@ get_wr_pbp_stats <- function(pbp_db = NULL,
 #'  \item{\code{target_share}}{
 #'    Share of targets of player compared to all team targets
 #'    }
-#'  \item{\code{tgt_pct}}{Share of targets percentage (TGT\%)}
+#'  \item{\code{tgt_pct}}{Share of targets percentage}
 #'  \item{\code{air_yards_share}}{
 #'    Share of `receiving_air_yards` of the player to all team `air_yards`
 #'    }
@@ -903,7 +1050,7 @@ get_wr_pbp_stats <- function(pbp_db = NULL,
 #'  \item{\code{rushing_2pt_conversions}}{Two-point conversion rushes}
 #'  \item{\code{completions}}{Total pass completions (CMP)}
 #'  \item{\code{attempts}}{Total pass attempts (ATT)}
-#'  \item{\code{cmp_pct}}{Pass completion percentage (CMP\%)}
+#'  \item{\code{cmp_pct}}{Pass completion percentage}
 #'  \item{\code{passing_yards}}{Total passing yards}
 #'  \item{\code{passing_tds}}{Total passing touchdowns}
 #'  \item{\code{interceptions}}{Total pass interceptions (INT)}
@@ -935,8 +1082,6 @@ get_wr_pbp_stats <- function(pbp_db = NULL,
 #'    adjusted EPA/play in the following year
 #'    }
 #'    }
-#'
-#' @author Nolan MacDonald
 #'
 #' @export
 get_te_pbp_stats <- function(pbp_db = NULL,

@@ -32,8 +32,53 @@ beginning with \code{week_min}.}
 \value{
 Dataframe with TE stats for user-defined season(s) and week(s)
 obtained from NFL play-by-play data
+}
+\description{
+Obtain TE stats from NFL play-by-play data for a specified time frame
+from either a saved database or \code{nflreadr::load_pbp()}.
+}
+\details{
+The function \code{get_te_pbp_stats} can be utilized to obtain player stats
+for a specified time frame that can include multiple seasons or even a
+range of weeks instead of the entire season.
+This includes stats for passing, rushing, and receiving obtained by using
+the \code{nflfastR} function \code{calculate_player_stats()}.
+The player stats are utilized to calculate fantasy points
+based on common scoring formats (4/6 point TD, STD, Half PPR, Full PPR).
+The function acquires stats by using cumulative play-by-play data
+by either loading from a saved database or using \code{nflreadr::load_pbp()}.
+The data is obtained for a user-defined season or multiple seasons.
+A range of weeks can also be defined with \code{week_min} and \code{week_max}.
+If the entire season is desired, use \code{week_min = 1} and \code{week_max} does
+not need to be defined.
+To specify loading from a database, define the path to the database with
+\code{pbp_db} as well as the name of the table to load with \code{pbp_db_tbl}.
+To load from a database, you will need to save play-by-play data to a
+database using the \code{nflfastR} function, \code{update_db()}.
+For example, the database is saved by default as \code{pbp_db} with a table that
+is stored containing all play-by-play information called \code{nflfastR_pbp}.
+Assume that the database is saved in \verb{project_name/data/}.
+Using the default naming scheme, \code{nuclearff::get_pbp_data} can be defined using the
+database with \code{pbp_db = "data/pbp_db"} and \code{pbp_db_tbl = "nflfastR_pbp"}.
+Note that these two arguments must be defined as strings.
+For more information on calculated player stats, refer to the
+\href{https://www.nflfastr.com/reference/calculate_player_stats.html}{nflfastR \code{calculate_player_stats()}}
+}
+\seealso{
+\code{\link[nuclearff]{nuclearff::get_pbp_data}}:
+Obtain play-by-play data for a specified time frame from either a saved
+database or if not defined, using \code{nflreadr::load_pbp()},
 
-\describe{
+\code{\link[nflreadr]{load_pbp}}
+Load play-by-play data,
+
+\code{\link[nflfastR]{update_db}}
+Update or Create a nflfastR Play-by-Play Database
+}
+\author{
+Nolan MacDonald
+
+\itemize{
 \item{\code{player_id}}{Player gsis id (e.g., 00-0038120)}
 \item{\code{player_display_name}}{Player name (e.g., Breece Hall)}
 \item{\code{player_name}}{Player shortened name (e.g., B.Hall)}
@@ -113,7 +158,7 @@ RACR = \code{receiving_yards} / \code{receiving_air_yards}
 \item{\code{target_share}}{
 Share of targets of player compared to all team targets
 }
-\item{\code{tgt_pct}}{Share of targets percentage (TGT\\%)}
+\item{\code{tgt_pct}}{Share of targets percentage}
 \item{\code{air_yards_share}}{
 Share of \code{receiving_air_yards} of the player to all team \code{air_yards}
 }
@@ -145,7 +190,7 @@ kneel downs
 \item{\code{rushing_2pt_conversions}}{Two-point conversion rushes}
 \item{\code{completions}}{Total pass completions (CMP)}
 \item{\code{attempts}}{Total pass attempts (ATT)}
-\item{\code{cmp_pct}}{Pass completion percentage (CMP\\%)}
+\item{\code{cmp_pct}}{Pass completion percentage}
 \item{\code{passing_yards}}{Total passing yards}
 \item{\code{passing_tds}}{Total passing touchdowns}
 \item{\code{interceptions}}{Total pass interceptions (INT)}
@@ -177,49 +222,4 @@ Adjusted EPA + CPOE composite based on coefficients which best predicts
 adjusted EPA/play in the following year
 }
 }
-}
-\description{
-Obtain TE stats from NFL play-by-play data for a specified time frame
-from either a saved database or \code{nflreadr::load_pbp()}.
-}
-\details{
-The function \code{get_te_pbp_stats} can be utilized to obtain player stats
-for a specified time frame that can include multiple seasons or even a
-range of weeks instead of the entire season.
-This includes stats for passing, rushing, and receiving obtained by using
-the \code{nflfastR} function \code{calculate_player_stats()}.
-The player stats are utilized to calculate fantasy points
-based on common scoring formats (4/6 point TD, STD, Half PPR, Full PPR).
-The function acquires stats by using cumulative play-by-play data
-by either loading from a saved database or using \code{nflreadr::load_pbp()}.
-The data is obtained for a user-defined season or multiple seasons.
-A range of weeks can also be defined with \code{week_min} and \code{week_max}.
-If the entire season is desired, use \code{week_min = 1} and \code{week_max} does
-not need to be defined.
-To specify loading from a database, define the path to the database with
-\code{pbp_db} as well as the name of the table to load with \code{pbp_db_tbl}.
-To load from a database, you will need to save play-by-play data to a
-database using the \code{nflfastR} function, \code{update_db()}.
-For example, the database is saved by default as \code{pbp_db} with a table that
-is stored containing all play-by-play information called \code{nflfastR_pbp}.
-Assume that the database is saved in \verb{project_name/data/}.
-Using the default naming scheme, \code{nuclearff::get_pbp_data} can be defined using the
-database with \code{pbp_db = "data/pbp_db"} and \code{pbp_db_tbl = "nflfastR_pbp"}.
-Note that these two arguments must be defined as strings using \code{" "}.
-For more information on calculated player stats, refer to the
-\href{https://www.nflfastr.com/reference/calculate_player_stats.html}{nflfastR \code{calculate_player_stats()}}
-}
-\seealso{
-\code{\link[nuclearff]{nuclearff::get_pbp_data}}:
-Obtain play-by-play data for a specified time frame from either a saved
-database or if not defined, using \code{nflreadr::load_pbp()}.
-
-\code{\link[nflreadr]{load_pbp}}:
-Load play-by-play data
-
-\code{\link[nflfastR]{update_db}}:
-Update or Create a nflfastR Play-by-Play Database
-}
-\author{
-Nolan MacDonald
 }

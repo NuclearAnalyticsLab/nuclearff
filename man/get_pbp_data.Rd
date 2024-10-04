@@ -31,13 +31,6 @@ beginning with \code{week_min}.}
 }
 \value{
 Dataframe with NFL play-by-play data
-
-\describe{
-\item{\code{connect}}{
-Connect to the play-by-play database with the \code{RSQLite} package
-}
-\item{\code{pbp_db}}{Load the play-by-play data from the database table}
-\item{\code{pbp}}{Play-by-play dataframe filtered for season(s) and week(s)}
 }
 \description{
 Obtain play-by-play data for a specified time frame from either a saved
@@ -59,19 +52,27 @@ is stored containing all play-by-play information called \code{nflfastR_pbp}.
 Assume that the database is saved in \verb{project_name/data/}.
 Using the default naming scheme, \code{get_pbp_data} can be defined using the
 database with \code{pbp_db = "data/pbp_db"} and \code{pbp_db_tbl = "nflfastR_pbp"}.
-Note that these two arguments must be defined as strings using \code{" "}.
+Note that these two arguments must be defined as strings.
 For more information, \code{nflfastR} provides an example on using the database
 in \link{Example 8: Using the built-in database function}
 (https://www.nflfastr.com/articles/nflfastR.html
 #example-8-using-the-built-in-database-function)
 }
 \seealso{
-\code{\link[nflreadr]{load_pbp}}:
-Load play-by-play data
+\code{\link[nflreadr]{load_pbp}}
+Load play-by-play data,
 
-\code{\link[nflfastR]{update_db}}:
+\code{\link[nflfastR]{update_db}}
 Update or Create a nflfastR Play-by-Play Database
 }
 \author{
 Nolan MacDonald
+
+\itemize{
+\item{\code{connect}}{
+Connect to the play-by-play database with the \code{RSQLite} package
+}
+\item{\code{pbp_db}}{Load the play-by-play data from the database table}
+\item{\code{pbp}}{Play-by-play dataframe filtered for season(s) and week(s)}
+}
 }

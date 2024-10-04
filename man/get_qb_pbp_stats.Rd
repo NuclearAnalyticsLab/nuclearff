@@ -60,22 +60,25 @@ is stored containing all play-by-play information called \code{nflfastR_pbp}.
 Assume that the database is saved in \verb{project_name/data/}.
 Using the default naming scheme, \code{nuclearff::get_pbp_data} can be defined using the
 database with \code{pbp_db = "data/pbp_db"} and \code{pbp_db_tbl = "nflfastR_pbp"}.
-Note that these two arguments must be defined as strings using \code{" "}.
+Note that these two arguments must be defined as strings.
 For more information on calculated player stats, refer to the
 \href{https://www.nflfastr.com/reference/calculate_player_stats.html}{nflfastR \code{calculate_player_stats()}}
 }
 \seealso{
-\code{\link[nuclearff]{nuclearff::get_pbp_data}}:
+\code{\link[nuclearff]{nuclearff::get_pbp_data}}
 Obtain play-by-play data for a specified time frame from either a saved
-database or if not defined, using \code{nflreadr::load_pbp()}.
+database or if not defined, using \code{nflreadr::load_pbp()},
 
-\code{\link[nflreadr]{load_pbp}}:
-Load play-by-play data
+\code{\link[nflreadr]{load_pbp}}
+Load play-by-play data,
 
-\code{\link[nflfastR]{update_db}}:
+\code{\link[nflfastR]{update_db}}
 Update or Create a nflfastR Play-by-Play Database
+}
+\author{
+Nolan MacDonald
 
-\describe{
+\itemize{
 \item{\code{player_id}}{Player gsis id (e.g., 00-0034796)}
 \item{\code{player_display_name}}{Player name (e.g., Lamar Jackson)}
 \item{\code{player_name}}{Player shortened name (e.g., L.Jackson)}
@@ -120,7 +123,7 @@ Fantasy points per game for full PPR format with 6 point TD
 }
 \item{\code{completions}}{Total pass completions (CMP)}
 \item{\code{attempts}}{Total pass attempts (ATT)}
-\item{\code{cmp_pct}}{Pass completion percentage (CMP\\%)}
+\item{\code{cmp_pct}}{Pass completion percentage}
 \item{\code{passing_yards}}{Total passing yards}
 \item{\code{passing_tds}}{Total passing touchdowns}
 \item{\code{interceptions}}{Total pass interceptions (INT)}
@@ -203,7 +206,4 @@ Number of first downs gained on a reception
 }
 \item{\code{receiving_2pt_conversions}}{Two-point conversion receptions}
 }
-}
-\author{
-Nolan MacDonald
 }
