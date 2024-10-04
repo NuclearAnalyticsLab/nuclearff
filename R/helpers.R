@@ -150,8 +150,8 @@ load_data_from_db <- function(pbp_db, pbp_db_tbl, season, week_min, week_max) {
   pbp <- pbp_db %>%
     dplyr::filter(
       season %in% !!season,
-      (is.null(week_max) & !!sym("week") >= !!week_min) |
-        (!is.null(week_max) & !!sym("week") >= !!week_min &
+      (is.null(week_max) & !!rlang::sym("week") >= !!week_min) |
+        (!is.null(week_max) & !!rlang::sym("week") >= !!week_min &
            !!sym("week") <= !!week_max)
     ) %>%
     dplyr::collect()
@@ -201,8 +201,8 @@ load_data_from_nflreadr <- function(season, week_min, week_max) {
   pbp <- nflreadr::load_pbp(season) %>%
     dplyr::filter(
       season %in% !!season,
-      (is.null(week_max) & !!sym("week") >= !!week_min) |
-        (!is.null(week_max) & !!sym("week") >= !!week_min &
+      (is.null(week_max) & !!rlang::sym("week") >= !!week_min) |
+        (!is.null(week_max) & !!rlang::sym("week") >= !!week_min &
            !!sym("week") <= !!week_max)
     )
 
