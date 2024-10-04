@@ -1,3 +1,8 @@
+library(testthat)
+library(dplyr)
+library(rlang)
+library(nflreadr)
+
 # Test getting play-by-play positional stats for TE
 test_that("TE pbp stats snapshot test", {
   # Get TE stats

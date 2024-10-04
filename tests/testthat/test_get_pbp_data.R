@@ -1,3 +1,8 @@
+library(testthat)
+library(dplyr)
+library(rlang)
+library(nflreadr)
+
 # Test getting play-by-play data
 test_that("get_pbp_data snapshot test", {
   # Call your function with sample inputs
