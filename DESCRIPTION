@@ -37,13 +37,15 @@ Imports:
     webshot2
 Remotes:
     dynastyprocess/ffpros,
-    FantasyFootballAnalytics/ffanalytics
+    FantasyFootballAnalytics/ffanalytics,
+    andreweatherman/gtUtils
 Suggests:
     badger,
     extrafont,
     gitcreds,
     hexSticker,
     knitr,
+    lintr,
     pkgdown,
     roxygen2,
     showtext,

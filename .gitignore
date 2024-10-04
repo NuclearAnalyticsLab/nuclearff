@@ -49,7 +49,7 @@ rsconnect/
 *.DS_Store
 
 # nflfastR play-by-play database
-data/pbp_db/
+data/
 
 # Outputs figures/tables
 output/figures

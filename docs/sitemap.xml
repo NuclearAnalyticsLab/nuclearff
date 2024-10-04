@@ -5,9 +5,19 @@
 <url><loc>https://github.com/NuclearAnalyticsLab/nuclearff/articles/setup_pbp_db.html</loc></url>
 <url><loc>https://github.com/NuclearAnalyticsLab/nuclearff/authors.html</loc></url>
 <url><loc>https://github.com/NuclearAnalyticsLab/nuclearff/index.html</loc></url>
-<url><loc>https://github.com/NuclearAnalyticsLab/nuclearff/reference/get_fpts_qb_season.html</loc></url>
-<url><loc>https://github.com/NuclearAnalyticsLab/nuclearff/reference/get_rb_adv_stats_season.html</loc></url>
-<url><loc>https://github.com/NuclearAnalyticsLab/nuclearff/reference/get_snap_pct.html</loc></url>
+<url><loc>https://github.com/NuclearAnalyticsLab/nuclearff/reference/calc_fpts.html</loc></url>
+<url><loc>https://github.com/NuclearAnalyticsLab/nuclearff/reference/calc_fpts_common_formats.html</loc></url>
+<url><loc>https://github.com/NuclearAnalyticsLab/nuclearff/reference/calc_fpts_ppg_common_formats.html</loc></url>
+<url><loc>https://github.com/NuclearAnalyticsLab/nuclearff/reference/get_pbp_data.html</loc></url>
+<url><loc>https://github.com/NuclearAnalyticsLab/nuclearff/reference/get_qb_pbp_stats.html</loc></url>
+<url><loc>https://github.com/NuclearAnalyticsLab/nuclearff/reference/get_rb_pbp_stats.html</loc></url>
+<url><loc>https://github.com/NuclearAnalyticsLab/nuclearff/reference/get_te_pbp_stats.html</loc></url>
+<url><loc>https://github.com/NuclearAnalyticsLab/nuclearff/reference/get_wr_pbp_stats.html</loc></url>
 <url><loc>https://github.com/NuclearAnalyticsLab/nuclearff/reference/index.html</loc></url>
+<url><loc>https://github.com/NuclearAnalyticsLab/nuclearff/reference/load_data_from_db.html</loc></url>
+<url><loc>https://github.com/NuclearAnalyticsLab/nuclearff/reference/load_data_from_nflreadr.html</loc></url>
+<url><loc>https://github.com/NuclearAnalyticsLab/nuclearff/reference/validate_pbp_db.html</loc></url>
+<url><loc>https://github.com/NuclearAnalyticsLab/nuclearff/reference/validate_pbp_season.html</loc></url>
+<url><loc>https://github.com/NuclearAnalyticsLab/nuclearff/reference/validate_pbp_weeks.html</loc></url>
 </urlset>
 

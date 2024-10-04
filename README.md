@@ -56,9 +56,9 @@ These arguments must be defined as strings, where `pbp_db` is the path to the
 database as well as the name. `pbp_db_tbl` is the name of the table in the
 database.
 
-For example, you can store the database in the directory `data/pbp_db/` with the
+For example, you can store the database in the directory `data/` with the
 default naming scheme used by `nflfastR`.
-This means that `pbp_db="data/pbp_db/pbp_db"` and `pbp_db_tbl="nflfastR_pbp"`.
+This means that `pbp_db="data/pbp_db"` and `pbp_db_tbl="nflfastR_pbp"`.
 The database is not included in the repository, and users must download a 
 play-by-play database prior to utilizing functions with database options in 
 `nuclearff`.

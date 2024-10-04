@@ -7,10 +7,25 @@ reference:
 - title: "Functions"
   desc: >
     Functions available in `nuclearff`
+
+- subtitle: "Useful Functions"
   contents:
-  - get_fpts_qb_season
-  - get_rb_adv_stats_season
-  - get_snap_pct
+  - get_pbp_data
+  - get_qb_pbp_stats
+  - get_rb_pbp_stats
+  - get_wr_pbp_stats
+  - get_te_pbp_stats
+  - calc_fpts
+  - calc_fpts_common_formats
+  - calc_fpts_ppg_common_formats
+
+- subtitle: "Helper Functions"
+  contents:
+  - load_data_from_db
+  - load_data_from_nflreadr
+  - validate_pbp_db
+  - validate_pbp_season
+  - validate_pbp_weeks
 navbar:
   structure:
     left: [home, reference, vignettes]

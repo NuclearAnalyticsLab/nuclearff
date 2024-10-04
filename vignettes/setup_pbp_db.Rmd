@@ -74,7 +74,7 @@ library(DBI)
 library(RSQLite)
 
 # Create or update the database
-nflfastR::update_db(dbdir = "data/pbp_db")
+nflfastR::update_db(dbdir = "./data")
 ```
 
 ## Load Database
@@ -87,7 +87,7 @@ as previously discussed since the default naming schemes were used.
 
 ```{r, message=FALSE, warning=FALSE, eval=FALSE}
 # Connect to database
-connect <- DBI::dbConnect(RSQLite::SQLite(), "./data/pbp_db/pbp_db")
+connect <- DBI::dbConnect(RSQLite::SQLite(), "./data/pbp_db")
 
 # List tables
 tables <- DBI::dbListTables(connect)
@@ -104,7 +104,7 @@ show only the first 10 fields since there is a large amount of data (372 fields!
 
 ```{r, message=FALSE, warning=FALSE, eval=FALSE}
 # Connect to database
-connect <- DBI::dbConnect(RSQLite::SQLite(), "./data/pbp_db/pbp_db")
+connect <- DBI::dbConnect(RSQLite::SQLite(), "./data/pbp_db")
 
 # List fields
 fields <- DBI::dbListFields(connect, "nflfastR_pbp")
@@ -120,7 +120,7 @@ and make sure to disconnect the database when you are finished.
 
 ```{r, message=FALSE, warning=FALSE, eval=FALSE}
 # Connect to database
-connect <- DBI::dbConnect(RSQLite::SQLite(), "./data/pbp_db/pbp_db")
+connect <- DBI::dbConnect(RSQLite::SQLite(), "./data/pbp_db")
 
 # Load pbp_db
 pbp_db <- dplyr::tbl(connect, "nflfastR_pbp")
@@ -150,7 +150,7 @@ library(nflfastR)
 library(stringr)
 library(nuclearff)
 
-rb_adv_stats <- get_rb_adv_stats_season(pbp_db = "./data/pbp_db/pbp_db",
+rb_adv_stats <- get_rb_adv_stats_season(pbp_db = "./data/pbp_db",
                                         pbp_db_tbl = "nflfastR_pbp",
                                         season = 2024)
 ```
