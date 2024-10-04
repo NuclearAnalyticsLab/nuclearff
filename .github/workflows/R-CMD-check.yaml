@@ -46,6 +46,16 @@ jobs:
           extra-packages: any::rcmdcheck
           needs: check
 
+      - name: Run Tests
+        run: |
+          Rscript -e 'devtools::test()'
+
+      # Automatically accept snapshots if there are differences
+      - name: Accept Snapshots
+        if: failure()
+        run: |
+          Rscript -e 'testthat::snapshot_accept("get_pbp_data")'
+
       - uses: r-lib/actions/check-r-package@v2
         with:
           upload-snapshots: true
