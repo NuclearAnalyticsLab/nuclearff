@@ -27,13 +27,17 @@ Imports:
     nflplotR,
     nflreadr,
     nflseedR,
+    pkgdown,
     purrr,
+    rcmdcheck,
     remotes,
     rmarkdown,
+    roxygen2,
     RSQLite,
     styler,
     tidyr,
     tidyverse,
+    usethis,
     webshot2
 Remotes:
     dynastyprocess/ffpros,
@@ -46,12 +50,9 @@ Suggests:
     hexSticker,
     knitr,
     lintr,
-    pkgdown,
-    roxygen2,
     showtext,
     sysfonts,
-    testthat (>= 3.0.0),
-    usethis
+    testthat (>= 3.0.0)
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)

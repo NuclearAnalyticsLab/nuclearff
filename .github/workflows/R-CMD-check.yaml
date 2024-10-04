@@ -35,42 +35,18 @@ jobs:
 
       - uses: r-lib/actions/setup-pandoc@v2
 
-      - name: Setup R
       - uses: r-lib/actions/setup-r@v2
         with:
           r-version: ${{ matrix.config.r }}
           http-user-agent: ${{ matrix.config.http-user-agent }}
           use-public-rspm: true
 
-      - name: Install Dependencies
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           extra-packages: any::rcmdcheck
           needs: check
 
-      - name: Check R Package using r-lib/actions
       - uses: r-lib/actions/check-r-package@v2
         with:
           upload-snapshots: true
           build_args: 'c("--no-manual","--compact-vignettes=gs+qpdf")'
-
-      # Install test dependencies (testthat, snapshotTesting)
-      - name: Install test dependencies
-        run: |
-          install.packages(c('testthat', 'snapshotTesting'))
-
-      # Check if testthat tests exist
-      - name: Check for tests
-        id: check
-        run: |
-          if [ -d "./tests/testthat" ]; then
-            echo "tests-exist=true" >> $GITHUB_ENV
-          else
-            echo "tests-exist=false" >> $GITHUB_ENV
-            # Upload test results (if tests are present)
-            - name: Upload test results
-              if: always() && steps.check.outputs.tests-exist == 'true'
-              uses: actions/upload-artifact@v3
-              with:
-                name: test-results
-                path: testthat::test_path()
