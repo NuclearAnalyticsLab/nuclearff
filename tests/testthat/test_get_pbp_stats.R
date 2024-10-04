@@ -4,7 +4,7 @@ library(rlang)
 library(nflreadr)
 
 # Test getting play-by-play positional stats for TE
-test_that("TE pbp stats snapshot test", {
+test_that("TE Play-by-Play Stats Snapshot Test", {
   # Get TE stats
   te_pbp_stats <- get_te_pbp_stats(pbp_db = NULL,
                                    pbp_db_tbl = NULL,

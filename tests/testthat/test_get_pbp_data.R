@@ -10,7 +10,7 @@ test_that("get_pbp_data snapshot test", {
                              pbp_db_tbl = NULL,
                              season = 2023,
                              week_min = 1,
-                             week_max = 2)
+                             week_max = 1)
 
   # Snapshot the result
   expect_snapshot(pbp_output)

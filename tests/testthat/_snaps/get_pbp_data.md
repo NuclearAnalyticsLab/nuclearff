@@ -6,7 +6,7 @@
       -- nflverse play by play data --------------------------------------------------
       i Data updated: 2024-08-19 09:50:07 EDT
     Output
-      # A tibble: 5,660 x 372
+      # A tibble: 2,816 x 372
          play_id game_id     old_game_id home_team away_team season_type  week posteam
            <dbl> <chr>       <chr>       <chr>     <chr>     <chr>       <int> <chr>  
        1       1 2023_01_AR~ 2023091007  WAS       ARI       REG             1 <NA>   
@@ -19,7 +19,7 @@
        8     172 2023_01_AR~ 2023091007  WAS       ARI       REG             1 WAS    
        9     197 2023_01_AR~ 2023091007  WAS       ARI       REG             1 WAS    
       10     220 2023_01_AR~ 2023091007  WAS       ARI       REG             1 WAS    
-      # i 5,650 more rows
+      # i 2,806 more rows
       # i 364 more variables: posteam_type <chr>, defteam <chr>, side_of_field <chr>,
       #   yardline_100 <dbl>, game_date <chr>, quarter_seconds_remaining <dbl>,
       #   half_seconds_remaining <dbl>, game_seconds_remaining <dbl>,

@@ -1,4 +1,4 @@
-# TE pbp stats snapshot test
+# TE Play-by-Play Stats Snapshot Test
 
     Code
       te_pbp_stats
