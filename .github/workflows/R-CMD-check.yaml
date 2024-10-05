@@ -51,11 +51,13 @@ jobs:
           Rscript -e 'devtools::test()'
 
       # Automatically accept snapshots if there are differences
-      - name: Run R CMD Check (Ignore Warnings)
-        run: |
-          R CMD check . --no-manual --compact-vignettes=gs+qpdf --as-cran || true
+      # Doesn't work on Windows - can't determine "check" on powershell
+      # - name: Run R CMD Check (Ignore Warnings)
+      #   run: |
+      #     R CMD check . --no-manual --compact-vignettes=gs+qpdf --as-cran || true
 
-      # - uses: r-lib/actions/check-r-package@v2
-      #   with:
-      #     upload-snapshots: true
-      #     build_args: 'c("--no-manual","--compact-vignettes=gs+qpdf")'
+      - uses: r-lib/actions/check-r-package@v2
+        with:
+          upload-snapshots: false
+          build_args: 'c("--no-manual","--compact-vignettes=gs+qpdf")'
+          error-on: '"error"'
