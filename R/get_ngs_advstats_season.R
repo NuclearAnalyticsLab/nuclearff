@@ -32,7 +32,9 @@
 #' @seealso \code{\link[nflreadr]{load_nextgen_stats}}
 #'  Load player level weekly NFL Next Gen Stats
 #'
-#' \describe{
+#' @author Nolan MacDonald
+#'
+#' \itemize{
 #'  \item{\code{player_id}}{Player gsis id (e.g., 00-0034796)}
 #'  \item{\code{player_display_name}}{Player name (e.g., Lamar Jackson)}
 #'  \item{\code{player_name}}{Player shortened name (e.g., L.Jackson)}
@@ -62,8 +64,7 @@
 #'  \item{\code{avg_air_yards_to_sticks}}{
 #'      Average air yards to the sticks (AYTS)
 #'      }
-#'
-#' @author Nolan MacDonald
+#'      }
 #'
 #' @export
 get_qb_ngs_advstats_season <- function(seasons = NULL) {
@@ -160,10 +161,12 @@ get_qb_ngs_advstats_season <- function(seasons = NULL) {
 #'
 #' @return Dataframe with RB Next Gen Stats for a defined season
 #'
-#' @seealso \code{\link[nflreadr]{load_nextgen_stats}}:
+#' @seealso \code{\link[nflreadr]{load_nextgen_stats}}
 #'  Load player level weekly NFL Next Gen Stats
 #'
-#' \describe{
+#' @author Nolan MacDonald
+#'
+#' \itemize{
 #'  \item{\code{player_id}}{Player gsis id (e.g., 00-0038120)}
 #'  \item{\code{player_display_name}}{Player name (e.g., Breece Hall)}
 #'  \item{\code{player_name}}{Player shortened name (e.g., B.Hall)}
@@ -183,8 +186,7 @@ get_qb_ngs_advstats_season <- function(seasons = NULL) {
 #'      Average rush yards over expected per attempt
 #'      }
 #'  \item{\code{rush_pct_over_expected}}{Average rush % over expected}
-#'
-#' @author Nolan MacDonald
+#'  }
 #'
 #' @export
 get_rb_ngs_advstats_season <- function(seasons = NULL) {
@@ -267,10 +269,12 @@ get_rb_ngs_advstats_season <- function(seasons = NULL) {
 #'
 #' @return Dataframe with WR Next Gen Stats for a defined season
 #'
-#' @seealso \code{\link[nflreadr]{load_nextgen_stats}}:
+#' @seealso \code{\link[nflreadr]{load_nextgen_stats}}
 #'  Load player level weekly NFL Next Gen Stats
 #'
-#' \describe{
+#' @author Nolan MacDonald
+#'
+#' \itemize{
 #'  \item{\code{player_id}}{Player gsis id (e.g., 00-0039337)}
 #'  \item{\code{player_display_name}}{Player name (e.g., Malik Nabers)}
 #'  \item{\code{player_name}}{Player shortened name (e.g., M.Nabers)}
@@ -291,8 +295,7 @@ get_rb_ngs_advstats_season <- function(seasons = NULL) {
 #'  \item{\code{avg_yac_above_expectation}}{
 #'      Average yards after catch above expectation (+/-)
 #'      }
-#'
-#' @author Nolan MacDonald
+#'      }
 #'
 #' @export
 get_wr_ngs_advstats_season <- function(seasons = NULL) {
@@ -376,10 +379,12 @@ get_wr_ngs_advstats_season <- function(seasons = NULL) {
 #'
 #' @return Dataframe with TE Next Gen Stats for a defined season
 #'
-#' @seealso \code{\link[nflreadr]{load_nextgen_stats}}:
+#' @seealso \code{\link[nflreadr]{load_nextgen_stats}}
 #'  Load player level weekly NFL Next Gen Stats
 #'
-#' \describe{
+#' @author Nolan MacDonald
+#'
+#' \itemize{
 #'  \item{\code{player_id}}{Player gsis id (e.g., 00-0037744)}
 #'  \item{\code{player_display_name}}{Player name (e.g., Trey McBride)}
 #'  \item{\code{player_name}}{Player shortened name (e.g., T.McBride)}
@@ -400,8 +405,7 @@ get_wr_ngs_advstats_season <- function(seasons = NULL) {
 #'  \item{\code{avg_yac_above_expectation}}{
 #'      Average yards after catch above expectation (+/-)
 #'      }
-#'
-#' @author Nolan MacDonald
+#'      }
 #'
 #' @export
 get_te_ngs_advstats_season <- function(seasons = NULL) {

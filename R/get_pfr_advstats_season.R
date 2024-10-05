@@ -24,16 +24,18 @@
 #'  https://nflreadr.nflverse.com/articles/dictionary_pfr_passing.html
 #'  ).
 #'
-#' @seealso \code{\link[nflreadr]{load_pfr_advstats}}:
-#'  Load advanced stats from PFR
-#'
 #' @param seasons NFL Season(s) where `seasons = 2024`
 #'
 #' @return
 #'  Dataframe with QB advanced stats from Pro Football Reference (PFR)
 #'  for a defined season
 #'
-#' \describe{
+#' @seealso \code{\link[nflreadr]{load_pfr_advstats}}
+#'  Load advanced stats from PFR
+#'
+#' @author Nolan MacDonald
+#'
+#' \itemize{
 #'  \item{\code{player_display_name}}{Player name (e.g., Lamar Jackson)}
 #'  \item{\code{pass_attempts}}{Total pass attempts}
 #'  \item{\code{throwaways}}{Number of throwaways}
@@ -62,8 +64,7 @@
 #'  \item{\code{pfr_player_id}}{
 #'      Pro Football Reference player ID (e.g., JackLa00)
 #'      }
-#'
-#' @author Nolan MacDonald
+#'      }
 #'
 #' @export
 get_qb_pfr_advstats_season <- function(seasons = NULL) {
@@ -138,16 +139,18 @@ get_qb_pfr_advstats_season <- function(seasons = NULL) {
 #'  https://www.pro-football-reference.com/years/2024/rushing_advanced.htm
 #'  ).
 #'
-#' @seealso \code{\link[nflreadr]{load_pfr_advstats}}:
-#'  Load advanced stats from PFR
-#'
 #' @param seasons NFL Season(s) where `seasons = 2024`
 #'
 #' @return
 #'  Dataframe with RB advanced stats from Pro Football Reference (PFR)
 #'  for a defined season
 #'
-#' \describe{
+#' @seealso \code{\link[nflreadr]{load_pfr_advstats}}
+#'  Load advanced stats from PFR
+#'
+#' @author Nolan MacDonald
+#'
+#' \itemize{
 #'  \item{\code{player_display_name}}{Player name (e.g., Lamar Jackson)}
 #'  \item{\code{age}}{}
 #'  \item{\code{position}}{}
@@ -166,8 +169,7 @@ get_qb_pfr_advstats_season <- function(seasons = NULL) {
 #'  \item{\code{pfr_player_id}}{
 #'      Pro Football Reference player ID (e.g., JackLa00)
 #'      }
-#'
-#' @author Nolan MacDonald
+#'      }
 #'
 #' @export
 get_rb_pfr_advstats_season <- function(seasons = NULL) {
@@ -232,16 +234,18 @@ get_rb_pfr_advstats_season <- function(seasons = NULL) {
 #'  https://www.pro-football-reference.com/years/2024/receiving_advanced.htm
 #'  ).
 #'
-#' @seealso \code{\link[nflreadr]{load_pfr_advstats}}:
-#'  Load advanced stats from PFR
-#'
 #' @param seasons NFL Season(s) where `seasons = 2024`
 #'
 #' @return
 #'  Dataframe with WR advanced stats from Pro Football Reference (PFR)
 #'  for a defined season
 #'
-#' \describe{
+#' @seealso \code{\link[nflreadr]{load_pfr_advstats}}
+#'  Load advanced stats from PFR
+#'
+#' @author Nolan MacDonald
+#'
+#' \itemize{
 #'  \item{\code{player_display_name}}{Player name (e.g., Malik Nabers)}
 #'  \item{\code{age}}{Player age}
 #'  \item{\code{position}}{Player position}
@@ -270,8 +274,7 @@ get_rb_pfr_advstats_season <- function(seasons = NULL) {
 #'  \item{\code{pfr_player_id}}{
 #'      Pro Football Reference player ID (e.g., NabeMa00)
 #'      }
-#'
-#' @author Nolan MacDonald
+#'      }
 #'
 #' @export
 get_wr_pfr_advstats_season <- function(seasons = NULL) {
@@ -342,16 +345,18 @@ get_wr_pfr_advstats_season <- function(seasons = NULL) {
 #'  https://www.pro-football-reference.com/years/2024/receiving_advanced.htm
 #'  ).
 #'
-#' @seealso \code{\link[nflreadr]{load_pfr_advstats}}:
-#'  Load advanced stats from PFR
-#'
 #' @param seasons NFL Season(s) where `seasons = 2024`
 #'
 #' @return
 #'  Dataframe with TE advanced stats from Pro Football Reference (PFR)
 #'  for a defined season
 #'
-#' \describe{
+#' @seealso \code{\link[nflreadr]{load_pfr_advstats}}
+#'  Load advanced stats from PFR
+#'
+#' @author Nolan MacDonald
+#'
+#' \itemize{
 #'  \item{\code{player_display_name}}{Player name (e.g., George Kittle)}
 #'  \item{\code{age}}{Player age}
 #'  \item{\code{position}}{Player position}
@@ -380,8 +385,7 @@ get_wr_pfr_advstats_season <- function(seasons = NULL) {
 #'  \item{\code{pfr_player_id}}{
 #'      Pro Football Reference player ID (e.g., KittGe00)
 #'      }
-#'
-#' @author Nolan MacDonald
+#'      }
 #'
 #' @export
 get_te_pfr_advstats_season <- function(seasons = NULL) {
