@@ -18,14 +18,28 @@ reference:
   - calc_fpts
   - calc_fpts_common_formats
   - calc_fpts_ppg_common_formats
+  - get_qb_ngs_advstats_season
+  - get_rb_ngs_advstats_season
+  - get_wr_ngs_advstats_season
+  - get_te_ngs_advstats_season
+  - get_qb_pfr_advstats_season
+  - get_rb_pfr_advstats_season
+  - get_wr_pfr_advstats_season
+  - get_te_pfr_advstats_season
+  - get_player_data
+  - get_snap_share
 
 - subtitle: "Helper Functions"
   contents:
   - load_data_from_db
   - load_data_from_nflreadr
+  - replace_player_names
+  - replace_team_names
   - validate_pbp_db
   - validate_pbp_season
   - validate_pbp_weeks
+  - validate_ngs_season
+  - validate_pfr_season
 navbar:
   structure:
     left: [home, reference, vignettes]
