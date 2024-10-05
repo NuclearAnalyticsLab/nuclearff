@@ -27,29 +27,36 @@ Imports:
     nflplotR,
     nflreadr,
     nflseedR,
+    pkgdown,
+    purrr,
+    rcmdcheck,
     remotes,
+    rlang,
     rmarkdown,
+    roxygen2,
     RSQLite,
     styler,
     tidyr,
     tidyverse,
+    usethis,
     webshot2
 Remotes:
     dynastyprocess/ffpros,
-    FantasyFootballAnalytics/ffanalytics
+    FantasyFootballAnalytics/ffanalytics,
+    andreweatherman/gtUtils
 Suggests:
     badger,
     extrafont,
     gitcreds,
     hexSticker,
     knitr,
-    pkgdown,
-    roxygen2,
+    lintr,
     showtext,
     sysfonts,
-    usethis
+    testthat (>= 3.0.0)
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
 VignetteBuilder: knitr
+Config/testthat/edition: 3
