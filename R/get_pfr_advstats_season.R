@@ -72,17 +72,11 @@ get_qb_pfr_advstats_season <- function(seasons = NULL) {
   # https://www.pro-football-reference.com/years/2024/rushing_advanced.htm
 
   # Check if season is provided as int (e.g., 2024 or c(2023, 2024))
-  if (is.null(seasons)) {
-    stop("Please provide a season year as an integer.")
-  }
-
   # Ensure seasons is using 2018 or later for PFR advanced stats
-  if (!is.numeric(seasons) || any(seasons < 2018)) {
-    stop("Please provide a valid season (2018 or later).")
-  }
+  nuclearff::validate_pfr_season(seasons)
 
   qb_pfr <- nflreadr::load_pfr_advstats(
-    seasons = !!seasons,
+    seasons = seasons,
     stat_type = "pass",
     summary_level = "season"
   ) %>%
@@ -90,32 +84,32 @@ get_qb_pfr_advstats_season <- function(seasons = NULL) {
     # No need to filter for pos == "QB"
     # Get the stats for season
     dplyr::select(
-      player_display_name = .data$player,
-      .data$pass_attempts, # Pass attempts
-      .data$throwaways, # Throwaways
-      .data$spikes, # Spikes
-      .data$drops, # Throws dropped
-      .data$drop_pct, # Percentage of throws dropped
-      .data$bad_throws, # Bad throws
-      .data$bad_throw_pct, # Percentage of bad throws
-      .data$pocket_time, # Average time in pocket
-      .data$times_blitzed, # Number of times blitzed
-      .data$times_hurried, # Number of times hurried
-      .data$times_hit, # Number of times hit
-      .data$times_pressured, # Number of times pressured
-      .data$pressure_pct, # Percent of the time pressured
-      .data$batted_balls, # Number of batted balls
-      .data$on_tgt_throws, # Number of on target throws
-      .data$on_tgt_pct, # Percentage of on target throws
-      .data$rpo_plays, # Number of RPO plays
-      .data$rpo_yards, # Pass yards on RPO plays
-      .data$rpo_pass_att, # Pass attempts on RPO plays
-      .data$rpo_pass_yards, # Pass yards on RPO plays
-      .data$rpo_rush_att, # Rush attempts on RPO plays
-      .data$rpo_rush_yards, # Rush yards on RPO plays
-      .data$pa_pass_att, # Play action pass attempts
-      .data$pa_pass_yards, # Play action pass yards
-      pfr_player_id = .data$pfr_id # Pro Football Reference (PFR) player ID
+      player_display_name = player,
+      pass_attempts, # Pass attempts
+      throwaways, # Throwaways
+      spikes, # Spikes
+      drops, # Throws dropped
+      drop_pct, # Percentage of throws dropped
+      bad_throws, # Bad throws
+      bad_throw_pct, # Percentage of bad throws
+      pocket_time, # Average time in pocket
+      times_blitzed, # Number of times blitzed
+      times_hurried, # Number of times hurried
+      times_hit, # Number of times hit
+      times_pressured, # Number of times pressured
+      pressure_pct, # Percent of the time pressured
+      batted_balls, # Number of batted balls
+      on_tgt_throws, # Number of on target throws
+      on_tgt_pct, # Percentage of on target throws
+      rpo_plays, # Number of RPO plays
+      rpo_yards, # Pass yards on RPO plays
+      rpo_pass_att, # Pass attempts on RPO plays
+      rpo_pass_yards, # Pass yards on RPO plays
+      rpo_rush_att, # Rush attempts on RPO plays
+      rpo_rush_yards, # Rush yards on RPO plays
+      pa_pass_att, # Play action pass attempts
+      pa_pass_yards, # Play action pass yards
+      pfr_player_id = pfr_id # Pro Football Reference (PFR) player ID
     )
 
   return(qb_pfr)
@@ -177,40 +171,34 @@ get_rb_pfr_advstats_season <- function(seasons = NULL) {
   # https://www.pro-football-reference.com/years/2024/rushing_advanced.htm
 
   # Check if season is provided as int (e.g., 2024 or c(2023, 2024))
-  if (is.null(seasons)) {
-    stop("Please provide a season year as an integer.")
-  }
-
   # Ensure seasons is using 2018 or later for PFR advanced stats
-  if (!is.numeric(seasons) || any(seasons < 2018)) {
-    stop("Please provide a valid season (2018 or later).")
-  }
+  nuclearff::validate_pfr_season(seasons)
 
   rb_pfr <- nflreadr::load_pfr_advstats(
-    seasons = !!seasons,
+    seasons = seasons,
     stat_type = "rush",
     summary_level = "season"
   ) %>%
     # Filter by RB position
-    dplyr::filter(.data$pos == "RB")
+    dplyr::filter(pos == "RB") %>%
   # Get the stats for season
   dplyr::select(
-    player_display_name = .data$player,
-    .data$age, # Age
-    position = .data$pos, # Position
-    .data$g, # Games
-    .data$gs, # Games started
-    .data$att, # Rush attempts
-    .data$yds, # Rush yards
-    .data$td, # Rush touchdowns
-    .data$x1d, # First downs rushing
-    .data$ybc, # Rushing yards before contact
-    .data$ybc_att, # Rushing yards before contact per rushing attempt
-    .data$yac, # Rushing yards after contact
-    .data$yac_att, # Rushing yards after contact per attempt
-    .data$brk_tkl, # Broken tackles on rushes
-    .data$att_br, # Rush attempts per broken tackle
-    pfr_player_id = .data$pfr_id # Pro Football Reference (PFR) player ID
+    player_display_name = player,
+    age, # Age
+    position = pos, # Position
+    g, # Games
+    gs, # Games started
+    att, # Rush attempts
+    yds, # Rush yards
+    td, # Rush touchdowns
+    x1d, # First downs rushing
+    ybc, # Rushing yards before contact
+    ybc_att, # Rushing yards before contact per rushing attempt
+    yac, # Rushing yards after contact
+    yac_att, # Rushing yards after contact per attempt
+    brk_tkl, # Broken tackles on rushes
+    att_br, # Rush attempts per broken tackle
+    pfr_player_id = pfr_id # Pro Football Reference (PFR) player ID
   )
 
   return(rb_pfr)
@@ -282,46 +270,40 @@ get_wr_pfr_advstats_season <- function(seasons = NULL) {
   # https://www.pro-football-reference.com/years/2024/receiving_advanced.htm
 
   # Check if season is provided as int (e.g., 2024 or c(2023, 2024))
-  if (is.null(seasons)) {
-    stop("Please provide a season year as an integer.")
-  }
-
   # Ensure seasons is using 2018 or later for PFR advanced stats
-  if (!is.numeric(seasons) || any(seasons < 2018)) {
-    stop("Please provide a valid season (2018 or later).")
-  }
+  nuclearff::validate_pfr_season(seasons)
 
   wr_pfr <- nflreadr::load_pfr_advstats(
-    seasons = !!seasons,
+    seasons = seasons,
     stat_type = "rec",
     summary_level = "season"
   ) %>%
-    # Filter by WR position
-    dplyr::filter(.data$pos == "WR")
+  # Filter by WR position
+  dplyr::filter(pos == "WR") %>%
   # Get the stats for season
   dplyr::select(
-    player_display_name = .data$player,
-    .data$age, # Age
-    position = .data$pos, # Position
-    .data$g, # Games
-    .data$gs, # Games started
-    .data$tgt, # Targets
-    .data$rec, # Receptions
-    .data$yds, # Receiving yards
-    .data$td, # Receiving touchdowns
-    .data$x1d, # First downs receiving
-    .data$ybc, # Total yards passes traveled in the air before being caught
-    .data$ybc_r, # yards before catch per reception
-    .data$yac, # yards after catch
-    .data$yac_r, # yards after catch per reception
-    .data$adot, # Average depth of target when targeted, completed or not.
-    .data$brk_tkl, # Broken tackles on receptions
-    .data$rec_br, # Rec per broken tackle
-    .data$drop, # Dropped passes
-    .data$drop_percent, # Dropped passes per target
-    int_tgt = .data$int, # Interceptions on passes where targeted
-    .data$rat, # Passer rating on passes when tarketed
-    pfr_player_id = .data$pfr_id # Pro Football Reference (PFR) player ID
+    player_display_name = player,
+    age, # Age
+    position = pos, # Position
+    g, # Games
+    gs, # Games started
+    tgt, # Targets
+    rec, # Receptions
+    yds, # Receiving yards
+    td, # Receiving touchdowns
+    x1d, # First downs receiving
+    ybc, # Total yards passes traveled in the air before being caught
+    ybc_r, # yards before catch per reception
+    yac, # yards after catch
+    yac_r, # yards after catch per reception
+    adot, # Average depth of target when targeted, completed or not.
+    brk_tkl, # Broken tackles on receptions
+    rec_br, # Rec per broken tackle
+    drop, # Dropped passes
+    drop_percent, # Dropped passes per target
+    int_tgt = int, # Interceptions on passes where targeted
+    rat, # Passer rating on passes when tarketed
+    pfr_player_id = pfr_id # Pro Football Reference (PFR) player ID
   )
 
   return(wr_pfr)
@@ -393,46 +375,40 @@ get_te_pfr_advstats_season <- function(seasons = NULL) {
   # https://www.pro-football-reference.com/years/2024/receiving_advanced.htm
 
   # Check if season is provided as int (e.g., 2024 or c(2023, 2024))
-  if (is.null(seasons)) {
-    stop("Please provide a season year as an integer.")
-  }
-
   # Ensure seasons is using 2018 or later for PFR advanced stats
-  if (!is.numeric(seasons) || any(seasons < 2018)) {
-    stop("Please provide a valid season (2018 or later).")
-  }
+  nuclearff::validate_pfr_season(seasons)
 
   te_pfr <- nflreadr::load_pfr_advstats(
-    seasons = !!seasons,
+    seasons = seasons,
     stat_type = "rec",
     summary_level = "season"
   ) %>%
     # Filter by TE position
-    dplyr::filter(.data$pos == "TE")
+    dplyr::filter(pos == "TE") %>%
   # Get the stats for season
   dplyr::select(
-    player_display_name = .data$player,
-    .data$age, # Age
-    position = .data$pos, # Position
-    .data$g, # Games
-    .data$gs, # Games started
-    .data$tgt, # Targets
-    .data$rec, # Receptions
-    .data$yds, # Receiving yards
-    .data$td, # Receiving touchdowns
-    .data$x1d, # First downs receiving
-    .data$ybc, # Total yards passes traveled in the air before being caught
-    .data$ybc_r, # yards before catch per reception
-    .data$yac, # yards after catch
-    .data$yac_r, # yards after catch per reception
-    .data$adot, # Average depth of target when targeted, completed or not.
-    .data$brk_tkl, # Broken tackles on receptions
-    .data$rec_br, # Rec per broken tackle
-    .data$drop, # Dropped passes
-    .data$drop_percent, # Dropped passes per target
-    int_tgt = .data$int, # Interceptions on passes where targeted
-    .data$rat, # Passer rating on passes when targeted
-    pfr_player_id = .data$pfr_id # Pro Football Reference (PFR) player ID
+    player_display_name = player,
+    age, # Age
+    position = pos, # Position
+    g, # Games
+    gs, # Games started
+    tgt, # Targets
+    rec, # Receptions
+    yds, # Receiving yards
+    td, # Receiving touchdowns
+    x1d, # First downs receiving
+    ybc, # Total yards passes traveled in the air before being caught
+    ybc_r, # yards before catch per reception
+    yac, # yards after catch
+    yac_r, # yards after catch per reception
+    adot, # Average depth of target when targeted, completed or not.
+    brk_tkl, # Broken tackles on receptions
+    rec_br, # Rec per broken tackle
+    drop, # Dropped passes
+    drop_percent, # Dropped passes per target
+    int_tgt = int, # Interceptions on passes where targeted
+    rat, # Passer rating on passes when targeted
+    pfr_player_id = pfr_id # Pro Football Reference (PFR) player ID
   )
 
   return(te_pfr)

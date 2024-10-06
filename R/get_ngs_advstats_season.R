@@ -72,68 +72,61 @@ get_qb_ngs_advstats_season <- function(seasons = NULL) {
   # https://nextgenstats.nfl.com/glossary
 
   # Check if season is provided as int (e.g., 2024 or c(2023, 2024))
-  if (is.null(seasons)) {
-    stop("Please provide a season year as an integer.")
-  }
-
   # Ensure seasons is using 2016 or later for NGS advanced stats
-  if (!is.numeric(seasons) || any(seasons < 2016)) {
-    stop("Please provide a valid season (2016 or later).")
-  }
+  nuclearff::validate_ngs_season(seasons)
 
   qb_ngs <- nflreadr::load_nextgen_stats(
     seasons = !!seasons,
     stat_type = "passing"
   ) %>%
-    # Filter by WR Position
-    dplyr::filter(.data$player_position == "QB") %>%
+    # Filter by RB Position
+    # Define week as 0 for the cumulative season stats
+    dplyr::filter(week == 0,
+                  player_position == "QB") %>%
     # Columns to keep - names match nflfastR pbp
     dplyr::group_by(
-      player_id = .data$player_gsis_id, # e.g., 00-0034796
-      player_display_name = .data$player_display_name, # e.g., Lamar Jackson
-      player_name = .data$player_short_name, # e.g., L.Jackson
-      position = .data$player_position # e.g., QB
-    ) %>%
-    # Get the stats for season
-    dplyr::summarise(
+      player_id = player_gsis_id, # e.g., 00-0034796
+      player_display_name = player_display_name, # e.g., Lamar Jackson
+      player_name = player_short_name, # e.g., L.Jackson
+      position = player_position, # e.g., QB
+      team = team_abbr, # e.g., BAL
       # Total pass yards
-      pass_yards = sum(.data$pass_yards),
-      # Total pass touchdowns
-      pass_touchdowns = sum(.data$pass_touchdowns),
-      # Total interceptions
-      interceptions = sum(.data$interceptions),
-      # Average passer rating
-      passer_rating = mean(.data$passer_rating),
-      # Total attempts
-      attempts = sum(.data$attempts),
+      pass_yards,
+      # Total pass TD
+      pass_touchdowns,
+      # Total INT
+      interceptions,
+      # Passer rating
+      passer_rating,
+      # Total pass attempts
+      attempts,
       # Total completions
-      completions = sum(.data$completions),
+      completions,
       # Average completion percentage
-      completion_percentage = mean(.data$completion_percentage),
+      completion_percentage,
       # Average expected completion percentage (xCOMP)
-      expected_completion_percentage =
-        mean(.data$expected_completion_percentage),
+      expected_completion_percentage,
       # Average completion percentage above expectation (CPOE)
-      completion_percentage_above_expectation =
-        mean(.data$completion_percentage_above_expectation),
+      completion_percentage_above_expectation,
       # Average air distance
-      avg_air_distance = mean(.data$avg_air_distance),
+      avg_air_distance,
       # Maximum or longest air distance
-      max_air_distance = max(.data$max_air_distance),
+      max_air_distance,
       # Average time to throw (TT)
-      avg_time_to_throw = mean(.data$avg_time_to_throw),
+      avg_time_to_throw,
       # Average completed air yards (CAY)
-      avg_completed_air_yards = mean(.data$avg_completed_air_yards),
+      avg_completed_air_yards,
       # Average intended air yards (IAY)
-      avg_intended_air_yards = mean(.data$avg_intended_air_yards),
+      avg_intended_air_yards,
       # Average air yards differential (AYD)
-      avg_air_yards_differential = mean(.data$avg_air_yards_differential),
+      avg_air_yards_differential,
       # Average aggressiveness (AGG%)
-      aggressiveness = mean(.data$aggressiveness),
+      aggressiveness,
       # Maximum or longest completed air distance (LCAD)
-      max_completed_air_distance = max(.data$max_completed_air_distance),
+      max_completed_air_distance,
       # Average air yards to the sticks (AYTS)
-      avg_air_yards_to_sticks = mean(.data$avg_air_yards_to_sticks),
+      avg_air_yards_to_sticks
+
     )
 
   return(qb_ngs)
@@ -194,54 +187,41 @@ get_rb_ngs_advstats_season <- function(seasons = NULL) {
   # https://nextgenstats.nfl.com/glossary
 
   # Check if season is provided as int (e.g., 2024 or c(2023, 2024))
-  if (is.null(seasons)) {
-    stop("Please provide a season year as an integer.")
-  }
-
   # Ensure seasons is using 2016 or later for NGS advanced stats
-  if (!is.numeric(seasons) || any(seasons < 2016)) {
-    stop("Please provide a valid season (2016 or later).")
-  }
+  nuclearff::validate_ngs_season(seasons)
 
   rb_ngs <- nflreadr::load_nextgen_stats(
     seasons = !!seasons,
     stat_type = "rushing"
   ) %>%
-    # Filter by WR Position
-    dplyr::filter(.data$player_position == "RB") %>%
-    # Columns to keep - names match nflfastR pbp
-    dplyr::group_by(
-      player_id = .data$player_gsis_id, # e.g., 00-0038120
-      player_display_name = .data$player_display_name, # e.g., Breece Hall
-      player_name = .data$player_short_name, # e.g., B.Hall
-      position = .data$player_position # e.g., RB
+    # Filter by RB Position
+    # Define week as 0 for the cumulative season stats
+    dplyr::filter(week == 0,
+                  player_position == "RB"
     ) %>%
-    # Get the stats for season
-    dplyr::summarise(
-      # Total rush attempts
-      rush_attempts = sum(.data$rush_attempts),
-      # Total rush yards
-      rush_yards = sum(.data$rush_yards),
-      # Average rush yards per attempt
-      avg_rush_yards = mean(.data$avg_rush_yards),
-      # Total rushing touchdowns
-      rush_touchdowns = sum(.data$rush_touchdowns),
-      # Average efficiency (EFF)
-      efficiency = mean(.data$efficiency),
+    # Columns to keep - names match nflfastR pbp
+    dplyr::select(
+      player_id = player_gsis_id, # e.g., 00-0038120
+      player_display_name,        # e.g., Breece Hall
+      player_name = player_short_name, # e.g., B.Hall
+      team = team_abbr, # e.g., NYJ
+      rush_attempts, # Total rush attempts
+      rush_yards, # Total rush yards
+      avg_rush_yards, # Avg. rush yards per attempt
+      rush_touchdowns, # Total rush TD
+      efficiency, # Avg. efficiency (EFF)
       # Average % attempts with 8+ Defenders in the Box (8+D%)
-      percent_attempts_gte_eight_defenders =
-        mean(.data$percent_attempts_gte_eight_defenders),
+      percent_attempts_gte_eight_defenders,
       # Average time behind line of scrimmage (TLOS)
-      avg_time_to_los = mean(.data$avg_time_to_los),
+      avg_time_to_los,
       # Average expected rush yards
-      expected_rush_yards = mean(.data$expected_rush_yards),
+      expected_rush_yards,
       # Average rush yards over expected
-      rush_yards_over_expected = mean(.data$rush_yards_over_expected),
+      rush_yards_over_expected,
       # Average rush yards over expected per attempt
-      rush_yards_over_expected_per_att =
-        mean(.data$rush_yards_over_expected_per_att),
+      rush_yards_over_expected_per_att,
       # Average rush % over expected
-      rush_pct_over_expected = mean(.data$rush_pct_over_expected)
+      rush_pct_over_expected
     )
 
   return(rb_ngs)
@@ -303,57 +283,39 @@ get_wr_ngs_advstats_season <- function(seasons = NULL) {
   # https://nextgenstats.nfl.com/glossary
 
   # Check if season is provided as int (e.g., 2024 or c(2023, 2024))
-  if (is.null(seasons)) {
-    stop("Please provide a season year as an integer.")
-  }
-
   # Ensure seasons is using 2016 or later for NGS advanced stats
-  if (!is.numeric(seasons) || any(seasons < 2016)) {
-    stop("Please provide a valid season (2016 or later).")
-  }
+  nuclearff::validate_ngs_season(seasons)
 
   wr_ngs <- nflreadr::load_nextgen_stats(
-    seasons = !!seasons,
+    seasons = seasons,
     stat_type = "receiving"
   ) %>%
     # Filter by WR Position
-    dplyr::filter(.data$player_position == "WR") %>%
+    # Define week as 0 for the cumulative season stats
+    dplyr::filter(week == 0,
+                  player_position == "WR"
+                  ) %>%
     # Columns to keep - names match nflfastR pbp
-    dplyr::group_by(
-      player_id = .data$player_gsis_id, # e.g., 00-0039337
-      player_display_name = .data$player_display_name, # e.g., Malik Nabers
-      player_name = .data$player_short_name, # e.g., M.Nabers
-      position = .data$player_position # e.g., WR
-    ) %>%
-    # Get the stats for season
-    dplyr::summarise(
-      # Total targets
-      targets = sum(.data$targets),
-      # Total receptions
-      receptions = sum(.data$receptions),
-      # Total yards
-      yards = sum(.data$yards),
-      # Total reception touchdowns
-      rec_touchdowns = sum(.data$rec_touchdowns),
-      # Avg. cushion (CUSH)
-      avg_cushion = mean(.data$avg_cushion),
-      # Avg. separation (SEP)
-      avg_separation = mean(.data$avg_separation),
-      # Avg. targeted air yards (TAY)
-      avg_intended_air_yards = mean(.data$avg_intended_air_yards),
-      # Avg. % share of team's air yards (TAY%)
-      avg_percent_share_of_intended_air_yards =
-        mean(.data$percent_share_of_intended_air_yards),
-      # Avg. catch percentage
-      avg_catch_percentage = mean(.data$catch_percentage),
-      # Avg. yards after catch (YAC)
-      avg_yac = mean(.data$avg_yac),
-      # Avg. expected yards after catch (xYAC)
-      avg_expected_yac = mean(.data$avg_expected_yac),
+    dplyr::select(
+      player_id = player_gsis_id,
+      player_display_name,
+      player_name = player_short_name,
+      team = team_abbr,
+      targets, # Total targets
+      receptions, # Total receptions
+      yards, # Total reception yards
+      rec_touchdowns, # Total reception touchdowns
+      catch_percentage, # Avg catch percentage
+      avg_cushion, # Avg. cushion (CUSH)
+      avg_separation, # Avg. separation (SEP)
+      avg_intended_air_yards, # Avg. targeted air yards (TAY)
+      # avg % share of team air yards (TAY%)
+      percent_share_of_intended_air_yards,
+      avg_yac, # Avg. yards after catch (YAC)
+      avg_expected_yac, # Avg. expected yards after catch (xYAC)
       # Avg. yards after catch above expectation (+/-)
-      avg_yac_above_expectation = mean(.data$avg_yac_above_expectation)
+      avg_yac_above_expectation
     )
-
   return(wr_ngs)
 }
 
@@ -413,55 +375,38 @@ get_te_ngs_advstats_season <- function(seasons = NULL) {
   # https://nextgenstats.nfl.com/glossary
 
   # Check if season is provided as int (e.g., 2024 or c(2023, 2024))
-  if (is.null(seasons)) {
-    stop("Please provide a season year as an integer.")
-  }
-
   # Ensure seasons is using 2016 or later for NGS advanced stats
-  if (!is.numeric(seasons) || any(seasons < 2016)) {
-    stop("Please provide a valid season (2016 or later).")
-  }
+  nuclearff::validate_ngs_season(seasons)
 
   te_ngs <- nflreadr::load_nextgen_stats(
-    seasons = !!seasons,
+    seasons = seasons,
     stat_type = "receiving"
   ) %>%
-    # Filter by WR Position
-    dplyr::filter(.data$player_position == "TE") %>%
-    # Columns to keep - names match nflfastR pbp
-    dplyr::group_by(
-      player_id = .data$player_gsis_id, # e.g., 00-0037744
-      player_display_name = .data$player_display_name, # e.g., Trey McBride
-      player_name = .data$player_short_name, # e.g., T.McBride
-      position = .data$player_position # e.g., TE
+    # Filter by TE Position
+    # Define week as 0 for the cumulative season stats
+    dplyr::filter(week == 0,
+                  player_position == "TE"
     ) %>%
-    # Get the stats for season
-    dplyr::summarise(
-      # Total targets
-      targets = sum(.data$targets),
-      # Total receptions
-      receptions = sum(.data$receptions),
-      # Total yards
-      yards = sum(.data$yards),
-      # Total reception touchdowns
-      rec_touchdowns = sum(.data$rec_touchdowns),
-      # Avg. cushion (CUSH)
-      avg_cushion = mean(.data$avg_cushion),
-      # Avg. separation (SEP)
-      avg_separation = mean(.data$avg_separation),
-      # Avg. targeted air yards (TAY)
-      avg_intended_air_yards = mean(.data$avg_intended_air_yards),
-      # Avg. % share of team's air yards (TAY%)
-      avg_percent_share_of_intended_air_yards =
-        mean(.data$percent_share_of_intended_air_yards),
-      # Avg. catch percentage
-      avg_catch_percentage = mean(.data$catch_percentage),
-      # Avg. yards after catch (YAC)
-      avg_yac = mean(.data$avg_yac),
-      # Avg. expected yards after catch (xYAC)
-      avg_expected_yac = mean(.data$avg_expected_yac),
+    # Columns to keep - names match nflfastR pbp
+    dplyr::select(
+      player_id = player_gsis_id,
+      player_display_name,
+      player_name = player_short_name,
+      team = team_abbr,
+      targets, # Total targets
+      receptions, # Total receptions
+      yards, # Total reception yards
+      rec_touchdowns, # Total reception touchdowns
+      catch_percentage, # Avg catch percentage
+      avg_cushion, # Avg. cushion (CUSH)
+      avg_separation, # Avg. separation (SEP)
+      avg_intended_air_yards, # Avg. targeted air yards (TAY)
+      # avg % share of team air yards (TAY%)
+      percent_share_of_intended_air_yards,
+      avg_yac, # Avg. yards after catch (YAC)
+      avg_expected_yac, # Avg. expected yards after catch (xYAC)
       # Avg. yards after catch above expectation (+/-)
-      avg_yac_above_expectation = mean(.data$avg_yac_above_expectation)
+      avg_yac_above_expectation
     )
 
   return(te_ngs)
