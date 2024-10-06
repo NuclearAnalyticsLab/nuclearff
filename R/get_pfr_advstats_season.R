@@ -76,7 +76,7 @@ get_qb_pfr_advstats_season <- function(seasons = NULL) {
   nuclearff::validate_pfr_season(seasons)
 
   qb_pfr <- nflreadr::load_pfr_advstats(
-    seasons = seasons,
+    seasons,
     stat_type = "pass",
     summary_level = "season"
   ) %>%
@@ -175,7 +175,7 @@ get_rb_pfr_advstats_season <- function(seasons = NULL) {
   nuclearff::validate_pfr_season(seasons)
 
   rb_pfr <- nflreadr::load_pfr_advstats(
-    seasons = seasons,
+    seasons,
     stat_type = "rush",
     summary_level = "season"
   ) %>%
@@ -274,7 +274,7 @@ get_wr_pfr_advstats_season <- function(seasons = NULL) {
   nuclearff::validate_pfr_season(seasons)
 
   wr_pfr <- nflreadr::load_pfr_advstats(
-    seasons = seasons,
+    seasons,
     stat_type = "rec",
     summary_level = "season"
   ) %>%
@@ -379,7 +379,7 @@ get_te_pfr_advstats_season <- function(seasons = NULL) {
   nuclearff::validate_pfr_season(seasons)
 
   te_pfr <- nflreadr::load_pfr_advstats(
-    seasons = seasons,
+    seasons,
     stat_type = "rec",
     summary_level = "season"
   ) %>%

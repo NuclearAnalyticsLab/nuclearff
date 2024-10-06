@@ -76,7 +76,7 @@ get_qb_ngs_advstats_season <- function(seasons = NULL) {
   nuclearff::validate_ngs_season(seasons)
 
   qb_ngs <- nflreadr::load_nextgen_stats(
-    seasons = !!seasons,
+    seasons,
     stat_type = "passing"
   ) %>%
     # Filter by RB Position
@@ -191,7 +191,7 @@ get_rb_ngs_advstats_season <- function(seasons = NULL) {
   nuclearff::validate_ngs_season(seasons)
 
   rb_ngs <- nflreadr::load_nextgen_stats(
-    seasons = !!seasons,
+    seasons,
     stat_type = "rushing"
   ) %>%
     # Filter by RB Position
@@ -287,7 +287,7 @@ get_wr_ngs_advstats_season <- function(seasons = NULL) {
   nuclearff::validate_ngs_season(seasons)
 
   wr_ngs <- nflreadr::load_nextgen_stats(
-    seasons = seasons,
+    seasons,
     stat_type = "receiving"
   ) %>%
     # Filter by WR Position
@@ -379,7 +379,7 @@ get_te_ngs_advstats_season <- function(seasons = NULL) {
   nuclearff::validate_ngs_season(seasons)
 
   te_ngs <- nflreadr::load_nextgen_stats(
-    seasons = seasons,
+    seasons,
     stat_type = "receiving"
   ) %>%
     # Filter by TE Position

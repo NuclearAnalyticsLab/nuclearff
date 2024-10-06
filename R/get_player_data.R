@@ -16,8 +16,8 @@
 #' defined season and position. Player information includes several IDs for
 #' platforms such as ESPN, Rotowire, ESPN, etc.
 #'
-#' @param season NFL season or year (int)
-#' @param pos Player position (str) such as "WR"
+#' @param seasons NFL season or year (int)
+#' @param position Player position (str) such as "WR"
 #'
 #' @return Dataframe that lists player data for a specified season and position
 #'
@@ -31,9 +31,9 @@
 #'  @author Nolan MacDonald
 #'
 #' @export
-get_player_data <- function(season = NULL, pos = NULL) {
-  rosters <- nflreadr::load_rosters(seasons = season) %>%
-    dplyr::filter(position == pos) %>%
+get_player_data <- function(seasons = NULL, position = NULL) {
+  rosters <- nflreadr::load_rosters(seasons) %>%
+    dplyr::filter(position == !!position) %>%
     dplyr::select(
       player_id = gsis_id,
       player = full_name,
