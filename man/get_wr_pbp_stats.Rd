@@ -3,76 +3,9 @@
 \name{get_wr_pbp_stats}
 \alias{get_wr_pbp_stats}
 \title{WR Stats from NFL Play-by-Play Data}
-\usage{
-get_wr_pbp_stats(
-  pbp_db = NULL,
-  pbp_db_tbl = NULL,
-  season = NULL,
-  week_min = NULL,
-  week_max = NULL
-)
-}
-\arguments{
-\item{pbp_db_tbl}{Play-by-Play database table name (optional)}
-
-\item{season}{NFL season (required) to obtain play-by-play data. The
-season can be defined as a single season, \code{season = 2024}. For multiple
-seasons, use either \code{season = c(2023,2024)}}
-
-\item{week_min}{Minimum week (required) to define whether pulling a range
-of weeks or the entire season. Use \code{week_min = 1} for the first week of
-the season, must be an integer.}
-
-\item{week_max}{Maximum week (optional) to define a range of weeks to pull
-from an NFL season. If not defined, the data will be pulled for all weeks,
-beginning with \code{week_min}.}
-
-\item{pbp_dp}{Play-by-Play database path (optional)}
-}
-\value{
-Dataframe with WR stats for user-defined season(s) and week(s)
-obtained from NFL play-by-play data
-}
-\description{
-Obtain WR stats from NFL play-by-play data for a specified time frame
-from either a saved database or \code{nflreadr::load_pbp()}.
-}
-\details{
-The function \code{get_wr_pbp_stats} can be utilized to obtain player stats
-for a specified time frame that can include multiple seasons or even a
-range of weeks instead of the entire season.
-This includes stats for passing, rushing, and receiving obtained by using
-the \code{nflfastR} function \code{calculate_player_stats()}.
-The player stats are utilized to calculate fantasy points
-based on common scoring formats (4/6 point TD, STD, Half PPR, Full PPR).
-The function acquires stats by using cumulative play-by-play data
-by either loading from a saved database or using \code{nflreadr::load_pbp()}.
-The data is obtained for a user-defined season or multiple seasons.
-A range of weeks can also be defined with \code{week_min} and \code{week_max}.
-If the entire season is desired, use \code{week_min = 1} and \code{week_max} does
-not need to be defined.
-To specify loading from a database, define the path to the database with
-\code{pbp_db} as well as the name of the table to load with \code{pbp_db_tbl}.
-To load from a database, you will need to save play-by-play data to a
-database using the \code{nflfastR} function, \code{update_db()}.
-For example, the database is saved by default as \code{pbp_db} with a table that
-is stored containing all play-by-play information called \code{nflfastR_pbp}.
-Assume that the database is saved in \verb{project_name/data/}.
-Using the default naming scheme, \code{nuclearff::get_pbp_data} can be defined using the
-database with \code{pbp_db = "data/pbp_db"} and \code{pbp_db_tbl = "nflfastR_pbp"}.
-Note that these two arguments must be defined as strings.
-For more information on calculated player stats, refer to the
-\href{https://www.nflfastr.com/reference/calculate_player_stats.html}{nflfastR \code{calculate_player_stats()}}
-}
-\seealso{
-\code{\link[nuclearff]{get_pbp_data}},
-\code{\link[nflreadr]{load_pbp}},
-\code{\link[nflfastR]{update_db}}
-}
-\author{
-Nolan MacDonald
-
-\itemize{
+\format{
+A data frame with 59 variables that are described below.
+\describe{
 \item{\code{player_id}}{Player gsis id (e.g., 00-0038120)}
 \item{\code{player_display_name}}{Player name (e.g., Breece Hall)}
 \item{\code{player_name}}{Player shortened name (e.g., B.Hall)}
@@ -216,4 +149,79 @@ Adjusted EPA + CPOE composite based on coefficients which best predicts
 adjusted EPA/play in the following year
 }
 }
+}
+\usage{
+get_wr_pbp_stats(
+  pbp_db = NULL,
+  pbp_db_tbl = NULL,
+  seasons = NULL,
+  week_min = NULL,
+  week_max = NULL
+)
+}
+\arguments{
+\item{pbp_db_tbl}{Play-by-Play database table name (optional)}
+
+\item{seasons}{NFL season(s) (required) to obtain play-by-play data. The
+season can be defined as a single season, \code{season = 2024}. For multiple
+seasons, use either \code{season = c(2023,2024)}}
+
+\item{week_min}{Minimum week (required) to define whether pulling a range
+of weeks or the entire season. Use \code{week_min = 1} for the first week of
+the season, must be an integer.}
+
+\item{week_max}{Maximum week (optional) to define a range of weeks to pull
+from an NFL season. If not defined, the data will be pulled for all weeks,
+beginning with \code{week_min}.}
+
+\item{pbp_dp}{Play-by-Play database path (optional)}
+}
+\value{
+Dataframe with WR stats for user-defined season(s) and week(s)
+obtained from NFL play-by-play data
+}
+\description{
+Obtain WR stats from NFL play-by-play data for a specified time frame
+from either a saved database or \code{nflreadr::load_pbp()}.
+}
+\details{
+The function \code{get_wr_pbp_stats} can be utilized to obtain player stats
+for a specified time frame that can include multiple seasons or even a
+range of weeks instead of the entire season.
+This includes stats for passing, rushing, and receiving obtained by using
+the \code{nflfastR} function \code{calculate_player_stats()}.
+The player stats are utilized to calculate fantasy points
+based on common scoring formats (4/6 point TD, STD, Half PPR, Full PPR).
+The function acquires stats by using cumulative play-by-play data
+by either loading from a saved database or using \code{nflreadr::load_pbp()}.
+The data is obtained for a user-defined season or multiple seasons.
+A range of weeks can also be defined with \code{week_min} and \code{week_max}.
+If the entire season is desired, use \code{week_min = 1} and \code{week_max} does
+not need to be defined.
+To specify loading from a database, define the path to the database with
+\code{pbp_db} as well as the name of the table to load with \code{pbp_db_tbl}.
+To load from a database, you will need to save play-by-play data to a
+database using the \code{nflfastR} function, \code{update_db()}.
+For example, the database is saved by default as \code{pbp_db} with a table that
+is stored containing all play-by-play information called \code{nflfastR_pbp}.
+Assume that the database is saved in \verb{project_name/data/}.
+Using the default naming scheme, \code{nuclearff::get_pbp_data} can be defined using the
+database with \code{pbp_db = "data/pbp_db"} and \code{pbp_db_tbl = "nflfastR_pbp"}.
+Note that these two arguments must be defined as strings.
+For more information on calculated player stats, refer to the
+\href{https://www.nflfastr.com/reference/calculate_player_stats.html}{nflfastR \code{calculate_player_stats()}}
+}
+\seealso{
+\code{\link[nuclearff]{nuclearff::get_pbp_data}}
+Obtain play-by-play data for a specified time frame from either a saved
+database or if not defined, using \code{nflreadr::load_pbp()}
+
+\code{\link[nflreadr]{load_pbp}}
+Load play-by-play data
+
+\code{\link[nflfastR]{update_db}}
+Update or Create a nflfastR Play-by-Play Database
+}
+\author{
+Nolan MacDonald
 }

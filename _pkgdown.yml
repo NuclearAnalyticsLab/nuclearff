@@ -8,24 +8,57 @@ reference:
   desc: >
     Functions available in `nuclearff`
 
-- subtitle: "Useful Functions"
+- subtitle: "Play-by-Play Stats"
   contents:
   - get_pbp_data
   - get_qb_pbp_stats
   - get_rb_pbp_stats
   - get_wr_pbp_stats
   - get_te_pbp_stats
+
+- subtitle: "Calculate Fantasy Points"
+  contents:
   - calc_fpts
   - calc_fpts_common_formats
   - calc_fpts_ppg_common_formats
+
+- subtitle: "NFL Next Gen Stats (NGS)"
+  contents:
+  - get_qb_ngs_advstats_season
+  - get_rb_ngs_advstats_season
+  - get_wr_ngs_advstats_season
+  - get_te_ngs_advstats_season
+
+- subtitle: "Pro Football Reference (PFR) Stats"
+  contents:
+  - get_qb_pfr_advstats_season
+  - get_rb_pfr_advstats_season
+  - get_wr_pfr_advstats_season
+  - get_te_pfr_advstats_season
+
+- subtitle: "Combined Stats from All Sources"
+  contents:
+  - get_qb_combined_stats_season
+  - get_rb_combined_stats_season
+  - get_wr_combined_stats_season
+  - get_te_combined_stats_season
+
+- subtitle: "Additional Utilities"
+  contents:
+  - get_player_data
+  - get_snap_share
 
 - subtitle: "Helper Functions"
   contents:
   - load_data_from_db
   - load_data_from_nflreadr
+  - replace_player_names
+  - replace_team_names
   - validate_pbp_db
   - validate_pbp_season
   - validate_pbp_weeks
+  - validate_ngs_season
+  - validate_pfr_season
 navbar:
   structure:
     left: [home, reference, vignettes]

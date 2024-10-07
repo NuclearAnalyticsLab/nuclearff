@@ -44,7 +44,7 @@
 #'
 #' @param pbp_dp Play-by-Play database path (optional)
 #' @param pbp_db_tbl Play-by-Play database table name (optional)
-#' @param season NFL season (required) to obtain play-by-play data. The
+#' @param seasons NFL season(s) (required) to obtain play-by-play data. The
 #'  season can be defined as a single season, `season = 2024`. For multiple
 #'  seasons, use either `season = c(2023,2024)` or `season = 2022:2024`.
 #' @param week_min Minimum week (required) to define whether pulling a range
@@ -59,15 +59,16 @@
 #'
 #' @seealso \code{\link[nuclearff]{nuclearff::get_pbp_data}}
 #'  Obtain play-by-play data for a specified time frame from either a saved
-#'  database or if not defined, using `nflreadr::load_pbp()`,
+#'  database or if not defined, using `nflreadr::load_pbp()`
 #' @seealso \code{\link[nflreadr]{load_pbp}}
-#'  Load play-by-play data,
+#'  Load play-by-play data
 #' @seealso \code{\link[nflfastR]{update_db}}
 #'  Update or Create a nflfastR Play-by-Play Database
 #'
 #' @author Nolan MacDonald
 #'
-#' \itemize{
+#' @format A data frame with 57 variables that are described below.
+#' \describe{
 #'  \item{\code{player_id}}{Player gsis id (e.g., 00-0034796)}
 #'  \item{\code{player_display_name}}{Player name (e.g., Lamar Jackson)}
 #'  \item{\code{player_name}}{Player shortened name (e.g., L.Jackson)}
@@ -199,11 +200,11 @@
 #' @export
 get_qb_pbp_stats <- function(pbp_db = NULL,
                              pbp_db_tbl = NULL,
-                             season = NULL,
+                             seasons = NULL,
                              week_min = NULL,
                              week_max = NULL) {
   # Load play-by-play data with database or nflreadr
-  pbp <- nuclearff::get_pbp_data(pbp_db, pbp_db_tbl, season, week_min, week_max)
+  pbp <- nuclearff::get_pbp_data(pbp_db, pbp_db_tbl, seasons, week_min, week_max)
 
   # Filter data for RB stats and compile
   qb_pbp <- pbp %>%
@@ -214,71 +215,71 @@ get_qb_pbp_stats <- function(pbp_db = NULL,
     # Calculations
     dplyr::mutate(
       # Completion percentage (CMP\%)
-      cmp_pct = (.data$completions / .data$attempts) * 100,
+      cmp_pct = (completions / attempts) * 100,
       # Target share percentage (TGT\%)
-      tgt_pct = .data$target_share * 100
+      tgt_pct = target_share * 100
     ) %>%
     dplyr::inner_join(
-      nflfastR::fast_scraper_roster(season) %>%
+      nflfastR::fast_scraper_roster(seasons) %>%
         # Filter by player position
-        dplyr::filter(.data$position == "QB") %>%
-        dplyr::select(player_id = .data$gsis_id),
+        dplyr::filter(position == "QB") %>%
+        dplyr::select(player_id = gsis_id),
       by = "player_id"
     ) %>%
     # Select columns to keep
-    dplyr::select(.data$player_id,
-      .data$player_display_name,
-      .data$player_name,
-      .data$position,
-      team = .data$recent_team,
-      .data$games,
+    dplyr::select(player_id,
+      player_display_name,
+      player_name,
+      position,
+      team = recent_team,
+      games,
       # Fantasy points for common scoring formats
       # Calculated from nuclearff functions
-      .data$fpts_std_4pt_td, .data$ppg_std_4pt_td,
-      .data$fpts_half_ppr_4pt_td, .data$ppg_half_ppr_4pt_td,
-      .data$fpts_ppr_4pt_td, .data$ppg_ppr_4pt_td,
-      .data$fpts_std_6pt_td, .data$ppg_std_6pt_td,
-      .data$fpts_half_ppr_6pt_td, .data$ppg_half_ppr_6pt_td,
-      .data$fpts_ppr_6pt_td, .data$ppg_ppr_6pt_td,
+      fpts_std_4pt_td, ppg_std_4pt_td,
+      fpts_half_ppr_4pt_td, ppg_half_ppr_4pt_td,
+      fpts_ppr_4pt_td, ppg_ppr_4pt_td,
+      fpts_std_6pt_td, ppg_std_6pt_td,
+      fpts_half_ppr_6pt_td, ppg_half_ppr_6pt_td,
+      fpts_ppr_6pt_td, ppg_ppr_6pt_td,
       # Play-by-Play Stats
       # Passing
-      .data$completions,
-      .data$attempts,
-      .data$cmp_pct,
-      .data$passing_yards,
-      .data$passing_tds,
-      .data$interceptions,
-      .data$sacks,
-      .data$sack_yards,
-      .data$sack_fumbles,
-      .data$sack_fumbles_lost,
-      .data$passing_air_yards,
-      .data$passing_yards_after_catch,
-      .data$passing_first_downs,
-      .data$passing_epa,
-      .data$passing_2pt_conversions,
-      .data$pacr,
-      .data$dakota,
+      completions,
+      attempts,
+      cmp_pct,
+      passing_yards,
+      passing_tds,
+      interceptions,
+      sacks,
+      sack_yards,
+      sack_fumbles,
+      sack_fumbles_lost,
+      passing_air_yards,
+      passing_yards_after_catch,
+      passing_first_downs,
+      passing_epa,
+      passing_2pt_conversions,
+      pacr,
+      dakota,
       # Rushing
-      .data$carries,
-      .data$rushing_yards,
-      .data$rushing_tds,
-      .data$rushing_fumbles,
-      .data$rushing_fumbles_lost,
-      .data$rushing_first_downs,
-      .data$rushing_epa,
-      .data$rushing_2pt_conversions,
+      carries,
+      rushing_yards,
+      rushing_tds,
+      rushing_fumbles,
+      rushing_fumbles_lost,
+      rushing_first_downs,
+      rushing_epa,
+      rushing_2pt_conversions,
       # Receiving
-      .data$targets,
-      .data$receptions,
-      .data$receiving_yards,
-      .data$receiving_tds,
-      .data$receiving_fumbles,
-      .data$receiving_fumbles_lost,
-      .data$receiving_air_yards,
-      .data$receiving_yards_after_catch,
-      .data$receiving_first_downs,
-      .data$receiving_2pt_conversions
+      targets,
+      receptions,
+      receiving_yards,
+      receiving_tds,
+      receiving_fumbles,
+      receiving_fumbles_lost,
+      receiving_air_yards,
+      receiving_yards_after_catch,
+      receiving_first_downs,
+      receiving_2pt_conversions
     )
 
   return(qb_pbp)
@@ -321,7 +322,7 @@ get_qb_pbp_stats <- function(pbp_db = NULL,
 #'
 #' @param pbp_dp Play-by-Play database path (optional)
 #' @param pbp_db_tbl Play-by-Play database table name (optional)
-#' @param season NFL season (required) to obtain play-by-play data. The
+#' @param seasons NFL season(s) (required) to obtain play-by-play data. The
 #'  season can be defined as a single season, `season = 2024`. For multiple
 #'  seasons, use either `season = c(2023,2024)` or `season = 2022:2024`.
 #' @param week_min Minimum week (required) to define whether pulling a range
@@ -336,15 +337,16 @@ get_qb_pbp_stats <- function(pbp_db = NULL,
 #'
 #' @seealso \code{\link[nuclearff]{nuclearff::get_pbp_data}}
 #'  Obtain play-by-play data for a specified time frame from either a saved
-#'  database or if not defined, using `nflreadr::load_pbp()`,
+#'  database or if not defined, using `nflreadr::load_pbp()`
 #' @seealso \code{\link[nflreadr]{load_pbp}}
-#'  Load play-by-play data,
+#'  Load play-by-play data
 #' @seealso \code{\link[nflfastR]{update_db}}
 #'  Update or Create a nflfastR Play-by-Play Database
 #'
 #' @author Nolan MacDonald
 #'
-#' \itemize{
+#' @format A data frame with 59 variables that are described below.
+#' \describe{
 #'  \item{\code{player_id}}{Player gsis id (e.g., 00-0038120)}
 #'  \item{\code{player_display_name}}{Player name (e.g., Breece Hall)}
 #'  \item{\code{player_name}}{Player shortened name (e.g., B.Hall)}
@@ -492,11 +494,11 @@ get_qb_pbp_stats <- function(pbp_db = NULL,
 #' @export
 get_rb_pbp_stats <- function(pbp_db = NULL,
                              pbp_db_tbl = NULL,
-                             season = NULL,
+                             seasons = NULL,
                              week_min = NULL,
                              week_max = NULL) {
   # Load play-by-play data with database or nflreadr
-  pbp <- nuclearff::get_pbp_data(pbp_db, pbp_db_tbl, season, week_min, week_max)
+  pbp <- nuclearff::get_pbp_data(pbp_db, pbp_db_tbl, seasons, week_min, week_max)
 
   # Filter data for RB stats and compile
   rb_pbp <- pbp %>%
@@ -507,77 +509,77 @@ get_rb_pbp_stats <- function(pbp_db = NULL,
     # Calculations
     dplyr::mutate(
       # Completion percentage (CMP\%)
-      cmp_pct = (.data$completions / .data$attempts) * 100,
+      cmp_pct = (completions / attempts) * 100,
       # Target share percentage (TGT\%)
-      tgt_pct = .data$target_share * 100
+      tgt_pct = target_share * 100
     ) %>%
     dplyr::inner_join(
-      nflfastR::fast_scraper_roster(season) %>%
+      nflfastR::fast_scraper_roster(seasons) %>%
         # Filter by player position
-        dplyr::filter(.data$position == "RB") %>%
-        dplyr::select(player_id = .data$gsis_id),
+        dplyr::filter(position == "RB") %>%
+        dplyr::select(player_id = gsis_id),
       by = "player_id"
     ) %>%
     # Select columns to keep
-    dplyr::select(.data$player_id,
-      .data$player_display_name,
-      .data$player_name,
-      .data$position,
-      team = .data$recent_team,
-      .data$games,
+    dplyr::select(player_id,
+      player_display_name,
+      player_name,
+      position,
+      team = recent_team,
+      games,
       # Fantasy points for common scoring formats
       # Calculated from nuclearff functions
-      .data$fpts_std_4pt_td, .data$ppg_std_4pt_td,
-      .data$fpts_half_ppr_4pt_td, .data$ppg_half_ppr_4pt_td,
-      .data$fpts_ppr_4pt_td, .data$ppg_ppr_4pt_td,
-      .data$fpts_std_6pt_td, .data$ppg_std_6pt_td,
-      .data$fpts_half_ppr_6pt_td, .data$ppg_half_ppr_6pt_td,
-      .data$fpts_ppr_6pt_td, .data$ppg_ppr_6pt_td,
+      fpts_std_4pt_td, ppg_std_4pt_td,
+      fpts_half_ppr_4pt_td, ppg_half_ppr_4pt_td,
+      fpts_ppr_4pt_td, ppg_ppr_4pt_td,
+      fpts_std_6pt_td, ppg_std_6pt_td,
+      fpts_half_ppr_6pt_td, ppg_half_ppr_6pt_td,
+      fpts_ppr_6pt_td, ppg_ppr_6pt_td,
       # Play-by-Play Stats
       # Rushing
-      .data$carries,
-      .data$rushing_yards,
-      .data$rushing_tds,
-      .data$rushing_fumbles,
-      .data$rushing_fumbles_lost,
-      .data$rushing_first_downs,
-      .data$rushing_epa,
-      .data$rushing_2pt_conversions,
+      carries,
+      rushing_yards,
+      rushing_tds,
+      rushing_fumbles,
+      rushing_fumbles_lost,
+      rushing_first_downs,
+      rushing_epa,
+      rushing_2pt_conversions,
       # Receiving
-      .data$targets,
-      .data$receptions,
-      .data$receiving_yards,
-      .data$receiving_tds,
-      .data$receiving_fumbles,
-      .data$receiving_fumbles_lost,
-      .data$receiving_air_yards,
-      .data$receiving_yards_after_catch,
-      .data$receiving_first_downs,
-      .data$receiving_epa,
-      .data$receiving_2pt_conversions,
-      .data$racr,
-      .data$target_share,
-      .data$tgt_pct,
-      .data$air_yards_share,
-      .data$wopr,
+      targets,
+      receptions,
+      receiving_yards,
+      receiving_tds,
+      receiving_fumbles,
+      receiving_fumbles_lost,
+      receiving_air_yards,
+      receiving_yards_after_catch,
+      receiving_first_downs,
+      receiving_epa,
+      receiving_2pt_conversions,
+      racr,
+      target_share,
+      tgt_pct,
+      air_yards_share,
+      wopr,
       # Passing
-      .data$completions,
-      .data$attempts,
-      .data$cmp_pct,
-      .data$passing_yards,
-      .data$passing_tds,
-      .data$interceptions,
-      .data$sacks,
-      .data$sack_yards,
-      .data$sack_fumbles,
-      .data$sack_fumbles_lost,
-      .data$passing_air_yards,
-      .data$passing_yards_after_catch,
-      .data$passing_first_downs,
-      .data$passing_epa,
-      .data$passing_2pt_conversions,
-      .data$pacr,
-      .data$dakota
+      completions,
+      attempts,
+      cmp_pct,
+      passing_yards,
+      passing_tds,
+      interceptions,
+      sacks,
+      sack_yards,
+      sack_fumbles,
+      sack_fumbles_lost,
+      passing_air_yards,
+      passing_yards_after_catch,
+      passing_first_downs,
+      passing_epa,
+      passing_2pt_conversions,
+      pacr,
+      dakota
     )
 
   return(rb_pbp)
@@ -620,7 +622,7 @@ get_rb_pbp_stats <- function(pbp_db = NULL,
 #'
 #' @param pbp_dp Play-by-Play database path (optional)
 #' @param pbp_db_tbl Play-by-Play database table name (optional)
-#' @param season NFL season (required) to obtain play-by-play data. The
+#' @param seasons NFL season(s) (required) to obtain play-by-play data. The
 #'  season can be defined as a single season, `season = 2024`. For multiple
 #'  seasons, use either `season = c(2023,2024)`
 #' @param week_min Minimum week (required) to define whether pulling a range
@@ -633,13 +635,18 @@ get_rb_pbp_stats <- function(pbp_db = NULL,
 #' @return Dataframe with WR stats for user-defined season(s) and week(s)
 #'  obtained from NFL play-by-play data
 #'
-#' @seealso \code{\link[nuclearff]{get_pbp_data}},
-#'  \code{\link[nflreadr]{load_pbp}},
-#'  \code{\link[nflfastR]{update_db}}
+#' @seealso \code{\link[nuclearff]{nuclearff::get_pbp_data}}
+#'  Obtain play-by-play data for a specified time frame from either a saved
+#'  database or if not defined, using `nflreadr::load_pbp()`
+#' @seealso \code{\link[nflreadr]{load_pbp}}
+#'  Load play-by-play data
+#' @seealso \code{\link[nflfastR]{update_db}}
+#'  Update or Create a nflfastR Play-by-Play Database
 #'
 #' @author Nolan MacDonald
 #'
-#' \itemize{
+#' @format A data frame with 59 variables that are described below.
+#' \describe{
 #'  \item{\code{player_id}}{Player gsis id (e.g., 00-0038120)}
 #'  \item{\code{player_display_name}}{Player name (e.g., Breece Hall)}
 #'  \item{\code{player_name}}{Player shortened name (e.g., B.Hall)}
@@ -787,11 +794,11 @@ get_rb_pbp_stats <- function(pbp_db = NULL,
 #' @export
 get_wr_pbp_stats <- function(pbp_db = NULL,
                              pbp_db_tbl = NULL,
-                             season = NULL,
+                             seasons = NULL,
                              week_min = NULL,
                              week_max = NULL) {
   # Load play-by-play data with database or nflreadr
-  pbp <- nuclearff::get_pbp_data(pbp_db, pbp_db_tbl, season, week_min, week_max)
+  pbp <- nuclearff::get_pbp_data(pbp_db, pbp_db_tbl, seasons, week_min, week_max)
 
   # Filter data for RB stats and compile
   wr_pbp <- pbp %>%
@@ -802,77 +809,77 @@ get_wr_pbp_stats <- function(pbp_db = NULL,
     # Calculations
     dplyr::mutate(
       # Completion percentage (CMP\%)
-      cmp_pct = (.data$completions / .data$attempts) * 100,
+      cmp_pct = (completions / attempts) * 100,
       # Target share percentage (TGT\%)
-      tgt_pct = .data$target_share * 100
+      tgt_pct = target_share * 100
     ) %>%
     dplyr::inner_join(
-      nflfastR::fast_scraper_roster(season) %>%
+      nflfastR::fast_scraper_roster(seasons) %>%
         # Filter by player position
-        dplyr::filter(.data$position == "WR") %>%
-        dplyr::select(player_id = .data$gsis_id),
+        dplyr::filter(position == "WR") %>%
+        dplyr::select(player_id = gsis_id),
       by = "player_id"
     ) %>%
     # Select columns to keep
-    dplyr::select(.data$player_id,
-      .data$player_display_name,
-      .data$player_name,
-      .data$position,
-      team = .data$recent_team,
-      .data$games,
+    dplyr::select(player_id,
+      player_display_name,
+      player_name,
+      position,
+      team = recent_team,
+      games,
       # Fantasy points for common scoring formats
       # Calculated from nuclearff functions
-      .data$fpts_std_4pt_td, .data$ppg_std_4pt_td,
-      .data$fpts_half_ppr_4pt_td, .data$ppg_half_ppr_4pt_td,
-      .data$fpts_ppr_4pt_td, .data$ppg_ppr_4pt_td,
-      .data$fpts_std_6pt_td, .data$ppg_std_6pt_td,
-      .data$fpts_half_ppr_6pt_td, .data$ppg_half_ppr_6pt_td,
-      .data$fpts_ppr_6pt_td, .data$ppg_ppr_6pt_td,
+      fpts_std_4pt_td, ppg_std_4pt_td,
+      fpts_half_ppr_4pt_td, ppg_half_ppr_4pt_td,
+      fpts_ppr_4pt_td, ppg_ppr_4pt_td,
+      fpts_std_6pt_td, ppg_std_6pt_td,
+      fpts_half_ppr_6pt_td, ppg_half_ppr_6pt_td,
+      fpts_ppr_6pt_td, ppg_ppr_6pt_td,
       # Play-by-Play Stats
       # Receiving
-      .data$targets,
-      .data$receptions,
-      .data$receiving_yards,
-      .data$receiving_tds,
-      .data$receiving_fumbles,
-      .data$receiving_fumbles_lost,
-      .data$receiving_air_yards,
-      .data$receiving_yards_after_catch,
-      .data$receiving_first_downs,
-      .data$receiving_epa,
-      .data$receiving_2pt_conversions,
-      .data$racr,
-      .data$target_share,
-      .data$tgt_pct,
-      .data$air_yards_share,
-      .data$wopr,
+      targets,
+      receptions,
+      receiving_yards,
+      receiving_tds,
+      receiving_fumbles,
+      receiving_fumbles_lost,
+      receiving_air_yards,
+      receiving_yards_after_catch,
+      receiving_first_downs,
+      receiving_epa,
+      receiving_2pt_conversions,
+      racr,
+      target_share,
+      tgt_pct,
+      air_yards_share,
+      wopr,
       # Rushing
-      .data$carries,
-      .data$rushing_yards,
-      .data$rushing_tds,
-      .data$rushing_fumbles,
-      .data$rushing_fumbles_lost,
-      .data$rushing_first_downs,
-      .data$rushing_epa,
-      .data$rushing_2pt_conversions,
+      carries,
+      rushing_yards,
+      rushing_tds,
+      rushing_fumbles,
+      rushing_fumbles_lost,
+      rushing_first_downs,
+      rushing_epa,
+      rushing_2pt_conversions,
       # Passing
-      .data$completions,
-      .data$attempts,
-      .data$cmp_pct,
-      .data$passing_yards,
-      .data$passing_tds,
-      .data$interceptions,
-      .data$sacks,
-      .data$sack_yards,
-      .data$sack_fumbles,
-      .data$sack_fumbles_lost,
-      .data$passing_air_yards,
-      .data$passing_yards_after_catch,
-      .data$passing_first_downs,
-      .data$passing_epa,
-      .data$passing_2pt_conversions,
-      .data$pacr,
-      .data$dakota
+      completions,
+      attempts,
+      cmp_pct,
+      passing_yards,
+      passing_tds,
+      interceptions,
+      sacks,
+      sack_yards,
+      sack_fumbles,
+      sack_fumbles_lost,
+      passing_air_yards,
+      passing_yards_after_catch,
+      passing_first_downs,
+      passing_epa,
+      passing_2pt_conversions,
+      pacr,
+      dakota
     )
 
   return(wr_pbp)
@@ -913,17 +920,9 @@ get_wr_pbp_stats <- function(pbp_db = NULL,
 #'    https://www.nflfastr.com/reference/calculate_player_stats.html
 #'    )
 #'
-#' @seealso \code{\link[nuclearff]{nuclearff::get_pbp_data}}:
-#'  Obtain play-by-play data for a specified time frame from either a saved
-#'  database or if not defined, using `nflreadr::load_pbp()`,
-#' @seealso \code{\link[nflreadr]{load_pbp}}
-#'  Load play-by-play data,
-#' @seealso \code{\link[nflfastR]{update_db}}
-#'  Update or Create a nflfastR Play-by-Play Database
-#'
 #' @param pbp_dp Play-by-Play database path (optional)
 #' @param pbp_db_tbl Play-by-Play database table name (optional)
-#' @param season NFL season (required) to obtain play-by-play data. The
+#' @param seasons NFL season(s) (required) to obtain play-by-play data. The
 #'  season can be defined as a single season, `season = 2024`. For multiple
 #'  seasons, use either `season = c(2023,2024)` or `season = 2022:2024`.
 #' @param week_min Minimum week (required) to define whether pulling a range
@@ -936,9 +935,18 @@ get_wr_pbp_stats <- function(pbp_db = NULL,
 #' @return Dataframe with TE stats for user-defined season(s) and week(s)
 #'  obtained from NFL play-by-play data
 #'
+#' @seealso \code{\link[nuclearff]{nuclearff::get_pbp_data}}
+#'  Obtain play-by-play data for a specified time frame from either a saved
+#'  database or if not defined, using `nflreadr::load_pbp()`
+#' @seealso \code{\link[nflreadr]{load_pbp}}
+#'  Load play-by-play data
+#' @seealso \code{\link[nflfastR]{update_db}}
+#'  Update or Create a nflfastR Play-by-Play Database
+#'
 #' @author Nolan MacDonald
 #'
-#' \itemize{
+#' @format A data frame with 59 variables that are described below.
+#' \describe{
 #'  \item{\code{player_id}}{Player gsis id (e.g., 00-0038120)}
 #'  \item{\code{player_display_name}}{Player name (e.g., Breece Hall)}
 #'  \item{\code{player_name}}{Player shortened name (e.g., B.Hall)}
@@ -1086,11 +1094,11 @@ get_wr_pbp_stats <- function(pbp_db = NULL,
 #' @export
 get_te_pbp_stats <- function(pbp_db = NULL,
                              pbp_db_tbl = NULL,
-                             season = NULL,
+                             seasons = NULL,
                              week_min = NULL,
                              week_max = NULL) {
   # Load play-by-play data with database or nflreadr
-  pbp <- nuclearff::get_pbp_data(pbp_db, pbp_db_tbl, season, week_min, week_max)
+  pbp <- nuclearff::get_pbp_data(pbp_db, pbp_db_tbl, seasons, week_min, week_max)
 
   # Filter data for RB stats and compile
   te_pbp <- pbp %>%
@@ -1101,77 +1109,77 @@ get_te_pbp_stats <- function(pbp_db = NULL,
     # Calculations
     dplyr::mutate(
       # Completion percentage (CMP\%)
-      cmp_pct = (.data$completions / .data$attempts) * 100,
+      cmp_pct = (completions / attempts) * 100,
       # Target share percentage (TGT\%)
-      tgt_pct = .data$target_share * 100
+      tgt_pct = target_share * 100
     ) %>%
     dplyr::inner_join(
-      nflfastR::fast_scraper_roster(season) %>%
+      nflfastR::fast_scraper_roster(seasons) %>%
         # Filter by player position
-        dplyr::filter(.data$position == "TE") %>%
-        dplyr::select(player_id = .data$gsis_id),
+        dplyr::filter(position == "TE") %>%
+        dplyr::select(player_id = gsis_id),
       by = "player_id"
     ) %>%
     # Select columns to keep
-    dplyr::select(.data$player_id,
-      .data$player_display_name,
-      .data$player_name,
-      .data$position,
-      team = .data$recent_team,
-      .data$games,
+    dplyr::select(player_id,
+      player_display_name,
+      player_name,
+      position,
+      team = recent_team,
+      games,
       # Fantasy points for common scoring formats
       # Calculated from nuclearff functions
-      .data$fpts_std_4pt_td, .data$ppg_std_4pt_td,
-      .data$fpts_half_ppr_4pt_td, .data$ppg_half_ppr_4pt_td,
-      .data$fpts_ppr_4pt_td, .data$ppg_ppr_4pt_td,
-      .data$fpts_std_6pt_td, .data$ppg_std_6pt_td,
-      .data$fpts_half_ppr_6pt_td, .data$ppg_half_ppr_6pt_td,
-      .data$fpts_ppr_6pt_td, .data$ppg_ppr_6pt_td,
+      fpts_std_4pt_td, ppg_std_4pt_td,
+      fpts_half_ppr_4pt_td, ppg_half_ppr_4pt_td,
+      fpts_ppr_4pt_td, ppg_ppr_4pt_td,
+      fpts_std_6pt_td, ppg_std_6pt_td,
+      fpts_half_ppr_6pt_td, ppg_half_ppr_6pt_td,
+      fpts_ppr_6pt_td, ppg_ppr_6pt_td,
       # Play-by-Play Stats
       # Receiving
-      .data$targets,
-      .data$receptions,
-      .data$receiving_yards,
-      .data$receiving_tds,
-      .data$receiving_fumbles,
-      .data$receiving_fumbles_lost,
-      .data$receiving_air_yards,
-      .data$receiving_yards_after_catch,
-      .data$receiving_first_downs,
-      .data$receiving_epa,
-      .data$receiving_2pt_conversions,
-      .data$racr,
-      .data$target_share,
-      .data$tgt_pct,
-      .data$air_yards_share,
-      .data$wopr,
+      targets,
+      receptions,
+      receiving_yards,
+      receiving_tds,
+      receiving_fumbles,
+      receiving_fumbles_lost,
+      receiving_air_yards,
+      receiving_yards_after_catch,
+      receiving_first_downs,
+      receiving_epa,
+      receiving_2pt_conversions,
+      racr,
+      target_share,
+      tgt_pct,
+      air_yards_share,
+      wopr,
       # Rushing
-      .data$carries,
-      .data$rushing_yards,
-      .data$rushing_tds,
-      .data$rushing_fumbles,
-      .data$rushing_fumbles_lost,
-      .data$rushing_first_downs,
-      .data$rushing_epa,
-      .data$rushing_2pt_conversions,
+      carries,
+      rushing_yards,
+      rushing_tds,
+      rushing_fumbles,
+      rushing_fumbles_lost,
+      rushing_first_downs,
+      rushing_epa,
+      rushing_2pt_conversions,
       # Passing
-      .data$completions,
-      .data$attempts,
-      .data$cmp_pct,
-      .data$passing_yards,
-      .data$passing_tds,
-      .data$interceptions,
-      .data$sacks,
-      .data$sack_yards,
-      .data$sack_fumbles,
-      .data$sack_fumbles_lost,
-      .data$passing_air_yards,
-      .data$passing_yards_after_catch,
-      .data$passing_first_downs,
-      .data$passing_epa,
-      .data$passing_2pt_conversions,
-      .data$pacr,
-      .data$dakota
+      completions,
+      attempts,
+      cmp_pct,
+      passing_yards,
+      passing_tds,
+      interceptions,
+      sacks,
+      sack_yards,
+      sack_fumbles,
+      sack_fumbles_lost,
+      passing_air_yards,
+      passing_yards_after_catch,
+      passing_first_downs,
+      passing_epa,
+      passing_2pt_conversions,
+      pacr,
+      dakota
     )
 
   return(te_pbp)

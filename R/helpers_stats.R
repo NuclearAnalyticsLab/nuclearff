@@ -1,7 +1,7 @@
 ################################################################################
 # Author: Nolan MacDonald
 # Purpose:
-#   Obtain NFL play-by-play data with a database or using `nflreadr`
+#   Helper functions to validate inputs for obtaining NFL data and stats
 # Code Style Guide:
 #   styler::tidyverse_style(), lintr::use_lintr(type = "tidyverse")
 ################################################################################
