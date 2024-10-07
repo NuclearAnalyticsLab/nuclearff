@@ -27,30 +27,34 @@
 #' @author Nolan MacDonald
 #'
 #' @export
-replace_player_names <- function(df) {
+replace_player_names <- function(df, player_col = "player") {
+  player_col_sym <- rlang::sym(player_col)
+
   df %>%
     dplyr::mutate(
-      player = dplyr::case_when(
-        position == "RB" & player == "De'Von Achane" ~ "Devon Achane",
-        position == "RB" & player == "Kenneth Walker III" ~ "Kenneth Walker",
-        position == "RB" & player == "Jeff Wilson" ~ "Jeffery Wilson",
-        position == "RB" & player == "Chris Brooks" ~ "Christopher Brooks",
-        position == "WR" & player == "Gabriel Davis" ~ "Gabe Davis",
-        position == "WR" & player == "D.K. Metcalf" ~ "DK Metcalf",
-        position == "TE" & player == "AJ Barner" ~ "A.J. Barner",
+      !!player_col_sym := dplyr::case_when(
+        position == "RB" & !!player_col_sym == "De'Von Achane" ~ "Devon Achane",
+        position == "RB" & !!player_col_sym == "Kenneth Walker III" ~ "Kenneth Walker",
+        position == "RB" & !!player_col_sym == "Jeff Wilson" ~ "Jeffery Wilson",
+        position == "RB" & !!player_col_sym == "Chris Brooks" ~ "Christopher Brooks",
+        position == "WR" & !!player_col_sym == "Gabriel Davis" ~ "Gabe Davis",
+        position == "WR" & !!player_col_sym == "D.K. Metcalf" ~ "DK Metcalf",
+        position == "TE" & !!player_col_sym == "AJ Barner" ~ "A.J. Barner",
         # Remove Jr. or Sr. when detected
-        stringr::str_detect(player, "\\s*(Jr\\.|Sr\\.)$") ~ stringr::str_replace(player, "\\s*(Jr\\.|Sr\\.)$", ""),
+        stringr::str_detect(!!player_col_sym, "\\s*(Jr\\.|Sr\\.)$") ~ stringr::str_replace(!!player_col_sym, "\\s*(Jr\\.|Sr\\.)$", ""),
         # Remove II or III when detected
-        stringr::str_detect(player, "\\s*(II|III)$") ~ stringr::str_replace(player, "\\s*(II|III)$", ""),
-        # Strip initials
-        TRUE ~ stringr::str_replace_all(player, "\\b([A-Z])\\.", "\\1") %>%
+        stringr::str_detect(!!player_col_sym, "\\s*(II|III)$") ~ stringr::str_replace(!!player_col_sym, "\\s*(II|III)$", ""),
+        # Remove apostrophes from first names
+        TRUE ~ stringr::str_replace_all(!!player_col_sym, "'", "") %>%
+          stringr::str_replace_all("\\b([A-Z])\\.", "\\1") %>%
           stringr::str_replace_all("\\s+", " ") %>%
           stringr::str_trim(),
         # Leave all other names unchanged
-        TRUE ~ player
+        TRUE ~ !!player_col_sym
       )
     )
 }
+
 
 #' Helper - Cleanup Team Abbreviations
 #'
