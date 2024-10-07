@@ -7,6 +7,227 @@
 #   styler::tidyverse_style(), lintr::use_lintr(type = "tidyverse")
 ################################################################################
 
+#' QB Cumulative Season Advanced Stats
+#'
+#' @description
+#' Obtain QB stats from NFL cumulative season stats for a specified time frame
+#' from either a saved database or `nflreadr::load_pbp()`. The stats are
+#' obtained using play-by-play data, NFL Next Gen Stats (NGS) and Pro Football
+#' Reference (PFR).
+#'
+#' @details
+#'  The function `get_qb_combined_stats_season` can be utilized to obtain
+#'  player stats for a season, including advanced stats.
+#'  This includes stats for passing, rushing, and receiving obtained by using
+#'  the `nflfastR` function `calculate_player_stats()`.
+#'  The player stats are utilized to calculate fantasy points
+#'  based on common scoring formats (4/6 point TD, STD, Half PPR, Full PPR).
+#'  The function acquires stats by using cumulative play-by-play data
+#'  by either loading from a saved database or using `nflreadr::load_pbp()`.
+#'  The data is obtained for a user-defined season.
+#'  Play-by-play data is merged with NFL Next Gen Stats (NGS) utilizing the
+#'  `nflreadr` function `load_nextgen_stats` to load player level weekly stats
+#'  starting with the 2016 season.
+#'  Play-by-play data is also merged with advanced stats from
+#'  Pro Football Reference (PFR), beginning from 2018.
+#'  Note that to use this function, `seasons` must be 2018 or later.
+#'
+#' @param pbp_dp Play-by-Play database path (optional)
+#' @param pbp_db_tbl Play-by-Play database table name (optional)
+#' @param seasons NFL season (required) to obtain play-by-play data. The
+#'  season can be defined as a single season, `season = 2024`. For multiple
+#'  seasons, use either `season = c(2023,2024)` or `season = 2022:2024`.
+#'
+#' @return Dataframe with QB stats for user-defined season(s) obtained from NFL
+#'  play-by-play data, Next Gen Stats (NGS) and Pro Football Reference (PFR)
+#'
+#' @seealso \code{\link[nuclearff]{nuclearff::get_pbp_data}}
+#'  Obtain play-by-play data for a specified time frame from either a saved
+#'  database or if not defined, using `nflreadr::load_pbp()`
+#' @seealso \code{\link[nflreadr]{load_pbp}}
+#'  Load play-by-play data
+#' @seealso \code{\link[nflfastR]{update_db}}
+#'  Update or Create a nflfastR Play-by-Play Database
+#' @seealso \code{\link[nflreadr]{load_nextgen_stats}}
+#'  Load player level weekly NFL Next Gen Stats
+#' @seealso \code{\link[nflreadr]{load_pfr_advstats}}
+#'  Load advanced stats from PFR
+#'
+#' @author Nolan MacDonald
+#'
+#' @format A data frame with 79 variables that are described below.
+#' \describe{
+#'  \item{\code{player_id}}{Player gsis id (e.g., 00-0034796)}
+#'  \item{\code{player_display_name}}{Player name (e.g., Lamar Jackson)}
+#'  \item{\code{player_name}}{Player shortened name (e.g., L.Jackson)}
+#'  \item{\code{pos}}{Player position (e.g., QB)}
+#'  \item{\code{tm}}{Player team (e.g., BAL)}
+#'  \item{\code{g}}{Number of games played}
+#'  \item{\code{completions}}{Total pass completions (CMP)from PBP data}
+#'  \item{\code{attempts}}{Total pass attempts (ATT)from PBP data}
+#'  \item{\code{cmp_pct}}{Pass completion percentage from PBP data}
+#'  \item{\code{expected_completion_percentage}}{
+#'    Expected completion percentage from NGS
+#'    }
+#'  \item{\code{completion_percentage_above_expectation}}{
+#'      Average expected completion percentage (xCOMP) from NGS
+#'      }
+#'  \item{\code{passing_yards}}{Total passing yards from PBP data}
+#'  \item{\code{passing_tds}}{Total passing touchdowns from PBP data}
+#'  \item{\code{interceptions}}{Total pass interceptions (INT) from PBP data}
+#'  \item{\code{passing_epa}}{
+#'    Total expected points added (EPA) on pass attempts and sacks.
+#'    NOTE: This uses the variable `qb_epa`, which gives QB credit for EPA for
+#'    up to the point where a receiver lost a fumble after a completed catch
+#'    and makes EPA work more like passing yards on plays with fumbles
+#'    }
+#'  \item{\code{passer_rating}}{Average passer rating from NGS}
+#'  \item{\code{pacr}}{
+#'    Passing Air Conversion Ratio.
+#'    PACR = `passing_yards` / `passing_air_yards`  from PBP data
+#'    }
+#'  \item{\code{dakota}}{
+#'    Adjusted EPA + CPOE composite based on coefficients which best predicts
+#'    adjusted EPA/play in the following year from PBP data
+#'    }
+#'  \item{\code{aggressiveness}}{Average aggressiveness (AGG%) from NGS}
+#'  \item{\code{passing_air_yards}}{
+#'    Passing air yards (includes incomplete passes) from PBP data
+#'    }
+#'  \item{\code{passing_yards_after_catch}}{
+#'    Yards after the catch gained on plays in which player was the passer
+#'    (this is an unofficial stat and may differ slightly between different
+#'    sources) from PBP data
+#'    }
+#'  \item{\code{avg_air_distance}}{Average air distance from NGS}
+#'  \item{\code{max_air_distance}}{Maximum or longest air distance from NGS}
+#'  \item{\code{avg_time_to_throw}}{Average time to throw (TT) from NGS}
+#'  \item{\code{avg_completed_air_yards}}{
+#'    Average completed air yards (CAY) from NGS
+#'    }
+#'  \item{\code{avg_intended_air_yards}}{
+#'    Average intended air yards (IAY) from NGS
+#'    }
+#'  \item{\code{avg_air_yards_differential}}{
+#'      Average air yards differential (AYD) from NGS
+#'      }
+#'  \item{\code{max_completed_air_distance}}{
+#'      Maximum or longest completed air distance (LCAD) from NGS
+#'      }
+#'  \item{\code{avg_air_yards_to_sticks}}{
+#'      Average air yards to the sticks (AYTS) from NGS
+#'      }
+#'  \item{\code{passing_first_downs}}{
+#'    First downs on pass attempts from PBP data
+#'    }
+#'  \item{\code{throwaways}}{Number of throwaways from PFR}
+#'  \item{\code{spikes}}{Number of spikes from PFR}
+#'  \item{\code{drops}}{Number of throws dropped from PFR}
+#'  \item{\code{drop_pct}}{Percentage of dropped throws from PFR}
+#'  \item{\code{bad_throws}}{Number of bad throws from PFR}
+#'  \item{\code{bad_throw_pct}}{Percentage of bad throws from PFR}
+#'  \item{\code{pocket_time}}{Average time in pocket from PFR}
+#'  \item{\code{times_blitzed}}{Number of times blitzed from PFR}
+#'  \item{\code{times_hurried}}{Number of times hurried from PFR}
+#'  \item{\code{times_hit}}{Number of times hit from PFR}
+#'  \item{\code{times_pressured}}{Number of times pressured from PFR}
+#'  \item{\code{pressure_pct}}{Percent of time pressured from PFR}
+#'  \item{\code{batted_balls}}{Number of batted balls from PFR}
+#'  \item{\code{on_tgt_throws}}{Number of throws on target from PFR}
+#'  \item{\code{on_tgt_pct}}{Percent of throws on target from PFR}
+#'  \item{\code{rpo_plays}}{Run-pass-option (RPO) number of plays from PFR}
+#'  \item{\code{rpo_yards}}{Run-pass-option (RPO) total yards from PFR}
+#'  \item{\code{rpo_pass_att}}{Run-pass-option (RPO) pass attempts from PFR}
+#'  \item{\code{rpo_pass_yards}}{Run-pass-option (RPO) pass yards from PFR}
+#'  \item{\code{rpo_rush_att}}{Run-pass-option (RPO) rush attempts from PFR}
+#'  \item{\code{rpo_rush_yards}}{Run-pass-option (RPO) rush yards from PFR}
+#'  \item{\code{pa_pass_att}}{Play action pass attempts from PFR}
+#'  \item{\code{pa_pass_yards}}{Play action pass yards from PFR}
+#'  \item{\code{passing_2pt_conversions}}{
+#'    Two-point conversion passes from PBP data
+#'    }
+#'  \item{\code{sacks}}{Total number of sacks taken from PBP data}
+#'  \item{\code{sack_yards}}{Total yards taken from sacks from PBP data}
+#'  \item{\code{sack_fumbles}}{Total fumbles from sacks from PBP data}
+#'  \item{\code{sack_fumbles_lost}}{Total fumbles lost from sacks from PBP data}
+#'  \item{\code{carries}}{
+#'    Number of rush attempts including scrambles and kneel downs. Rushes after
+#'    a lateral reception don't count as a carry from PBP data
+#'    }
+#'  \item{\code{rushing_yards}}{
+#'    Yards gained when rushing including scrambles and kneel downs. Also
+#'    includes yards gained after obtaining a lateral on a play that started
+#'    with a rushing attempt from PBP data
+#'    }
+#'  \item{\code{rushing_tds}}{
+#'    The number of rushing touchdowns (incl. scrambles). Also includes
+#'    touchdowns after obtaining a lateral on a play that started with a
+#'    rushing attempt from PBP data
+#'    }
+#'  \item{\code{rushing_fumbles}}{Number of rushes with a fumble from PBP data}
+#'  \item{\code{rushing_fumbles_lost}}{
+#'    Number of rushes with a lost fumble from PBP data
+#'    }
+#'  \item{\code{rushing_first_downs}}{
+#'    Number of rushing first downs from PBP data
+#'    }
+#'  \item{\code{rushing_epa}}{
+#'    Expected points added (EPA) on rush attempts including scrambles and
+#'    kneel downs from PBP data
+#'    }
+#'  \item{\code{rushing_2pt_conversions}}{
+#'    Two-point conversion rushes from PBP data
+#'    }
+#'  \item{\code{fpts_std_4pt_td}}{
+#'    Total fantasy points for standard scoring with 4 point touchdowns
+#'    }
+#'  \item{\code{ppg_std_4pt_td}}{
+#'    Points per game (PPG) for standard scoring with 4 point touchdowns
+#'    }
+#'  \item{\code{fpts_half_ppr_4pt_td}}{
+#'    Total fantasy points for half point per reception (Half PPR) scoring
+#'    with 4 point touchdowns
+#'    }
+#'  \item{\code{ppg_half_ppr_4pt_td}}{
+#'    Points per game (PPG) for half point per reception (Half PPR) scoring
+#'    with 4 point touchdowns
+#'    }
+#'  \item{\code{fpts_ppr_4pt_td}}{
+#'    Total fantasy points for point per reception (full PPR) scoring with
+#'    4 point touchdowns
+#'    }
+#'  \item{\code{ppg_ppr_4pt_td}}{
+#'    Points per game (PPG) for point per reception (Full PPR) scoring
+#'    with 4 point touchdowns
+#'    }
+#'  \item{\code{fpts_std_6pt_td}}{
+#'    Total fantasy points for standard scoring with 6 point touchdowns
+#'    }
+#'  \item{\code{ppg_std_6pt_td}}{
+#'    Points per game (PPG) for standard scoring with 6 point touchdowns
+#'    }
+#'  \item{\code{fpts_half_ppr_6pt_td}}{
+#'    Total fantasy points for half point per reception (Half PPR) scoring
+#'    with 6 point touchdowns
+#'    }
+#'  \item{\code{ppg_half_ppr_6pt_td}}{
+#'    Points per game (PPG) for half point per reception (Half PPR) scoring
+#'    with 6 point touchdowns
+#'    }
+#'  \item{\code{fpts_ppr_6pt_td}}{
+#'    Total fantasy points for point per reception (full PPR) scoring with
+#'    6 point touchdowns
+#'    }
+#'  \item{\code{ppg_ppr_6pt_td}}{
+#'    Points per game (PPG) for point per reception (Full PPR) scoring
+#'    with 6 point touchdowns
+#'    }
+#'  \item{\code{pfr_id}}{
+#'      Pro Football Reference player ID (e.g., JackLa00)
+#'      }
+#'  }
+#'
+#' @export
 get_qb_combined_stats_season <- function(pbp_db = NULL,
                                          pbp_db_tbl = NULL,
                                          seasons = NULL) {
@@ -18,10 +239,10 @@ get_qb_combined_stats_season <- function(pbp_db = NULL,
 
   # Pull RB PBP data
   qb_pbp <- get_qb_pbp_stats(
-    pbp_db = "./data/pbp_db",
-    pbp_db_tbl = "nflfastR_pbp",
-    season = 2024,
-    week_min = 1
+    pbp_db,
+    pbp_db_tbl,
+    seasons,
+    week_min = 1 # Pulling entire season starting from week 1
   ) %>%
     # Clean up player names in defined player column
     nuclearff::replace_player_names(player_col = "player_display_name")
@@ -188,6 +409,195 @@ get_qb_combined_stats_season <- function(pbp_db = NULL,
 
   return(qb_combined_stats)
 }
+
+#' RB Cumulative Season Advanced Stats
+#'
+#' @description
+#' Obtain RB stats from NFL cumulative season stats for a specified time frame
+#' from either a saved database or `nflreadr::load_pbp()`. The stats are
+#' obtained using play-by-play data, NFL Next Gen Stats (NGS) and Pro Football
+#' Reference (PFR).
+#'
+#' @details
+#'  The function `get_rb_combined_stats_season` can be utilized to obtain
+#'  player stats for a season, including advanced stats.
+#'  This includes stats for passing, rushing, and receiving obtained by using
+#'  the `nflfastR` function `calculate_player_stats()`.
+#'  The player stats are utilized to calculate fantasy points
+#'  based on common scoring formats (4/6 point TD, STD, Half PPR, Full PPR).
+#'  The function acquires stats by using cumulative play-by-play data
+#'  by either loading from a saved database or using `nflreadr::load_pbp()`.
+#'  The data is obtained for a user-defined season.
+#'  Play-by-play data is merged with NFL Next Gen Stats (NGS) utilizing the
+#'  `nflreadr` function `load_nextgen_stats` to load player level weekly stats
+#'  starting with the 2016 season.
+#'  Play-by-play data is also merged with advanced stats from
+#'  Pro Football Reference (PFR), beginning from 2018.
+#'  Note that to use this function, `seasons` must be 2018 or later.
+#'
+#' @param pbp_dp Play-by-Play database path (optional)
+#' @param pbp_db_tbl Play-by-Play database table name (optional)
+#' @param seasons NFL season (required) to obtain play-by-play data. The
+#'  season can be defined as a single season, `season = 2024`. For multiple
+#'  seasons, use either `season = c(2023,2024)` or `season = 2022:2024`.
+#'
+#' @return Dataframe with QB stats for user-defined season(s) obtained from NFL
+#'  play-by-play data, Next Gen Stats (NGS) and Pro Football Reference (PFR)
+#'
+#' @seealso \code{\link[nuclearff]{nuclearff::get_pbp_data}}
+#'  Obtain play-by-play data for a specified time frame from either a saved
+#'  database or if not defined, using `nflreadr::load_pbp()`
+#' @seealso \code{\link[nflreadr]{load_pbp}}
+#'  Load play-by-play data
+#' @seealso \code{\link[nflfastR]{update_db}}
+#'  Update or Create a nflfastR Play-by-Play Database
+#' @seealso \code{\link[nflreadr]{load_nextgen_stats}}
+#'  Load player level weekly NFL Next Gen Stats
+#' @seealso \code{\link[nflreadr]{load_pfr_advstats}}
+#'  Load advanced stats from PFR
+#'
+#' @author Nolan MacDonald
+#'
+#' @format A data frame with 57 variables that are described below.
+#' \describe{
+#'  \item{\code{player_id}}{Player gsis id (e.g., 00-0034796)}
+#'  \item{\code{player_display_name}}{Player name (e.g., Lamar Jackson)}
+#'  \item{\code{player_name}}{Player shortened name (e.g., L.Jackson)}
+#'  \item{\code{pos}}{Player position (e.g., QB)}
+#'  \item{\code{tm}}{Player team (e.g., BAL)}
+#'  \item{\code{g}}{Number of games played}
+#'  \item{\code{carries}}{
+#'    Number of rush attempts including scrambles and kneel downs. Rushes after
+#'    a lateral reception don't count as a carry from PBP data
+#'    }
+#'  \item{\code{rushing_yards}}{
+#'    Yards gained when rushing including scrambles and kneel downs. Also
+#'    includes yards gained after obtaining a lateral on a play that started
+#'    with a rushing attempt from PBP data
+#'    }
+#'  \item{\code{rushing_tds}}{
+#'    The number of rushing touchdowns (incl. scrambles). Also includes
+#'    touchdowns after obtaining a lateral on a play that started with a
+#'    rushing attempt from PBP data
+#'    }
+#'  \item{\code{rushing_fumbles}}{Number of rushes with a fumble from PBP data}
+#'  \item{\code{rushing_fumbles_lost}}{
+#'    Number of rushes with a lost fumble from PBP data
+#'    }
+#'  \item{\code{rushing_first_downs}}{
+#'    Number of rushing first downs from PBP data
+#'    }
+#'  \item{\code{rushing_epa}}{
+#'    Expected points added (EPA) on rush attempts including scrambles and
+#'    kneel downs from PBP data
+#'    }
+#'  \item{\code{rushing_2pt_conversions}}{
+#'    Two-point conversion rushes from PBP data
+#'    }
+#'  \item{\code{efficiency}}{Average efficiency (EFF) from NGS}
+#'  \item{\code{percent_attempts_gte_eight_defenders }}{
+#'      Average percent attempts with 8+ Defenders in the Box (8+D) from NGS
+#'      }
+#'  \item{\code{avg_time_to_los}}{
+#'    Average time behind line of scrimmage (TLOS) from NGS
+#'    }
+#'  \item{\code{avg_rush_yards}}{Average rush yards per attempt}
+#'  \item{\code{expected_rush_yards}}{Average expected rush yards from NGS}
+#'  \item{\code{rush_yards_over_expected}}{
+#'    Average rush yards over expected from NGS
+#'    }
+#'  \item{\code{rush_yards_over_expected_per_att}}{
+#'      Average rush yards over expected per attempt from NGS
+#'      }
+#'  \item{\code{rush_pct_over_expected}}{
+#'    Average rush percent over expected from NGS
+#'    }
+#'  \item{\code{ybc}}{Rushing yards before contact from PFR}
+#'  \item{\code{ybc_att}}{
+#'    Rushing yards before contact per rushing attempt from PFR
+#'    }
+#'  \item{\code{yac}}{Rushing yards after contact from PFR}
+#'  \item{\code{yac_att}}{Rushing yards after contact per attempt from PFR}
+#'  \item{\code{brk_tkl}}{Broken tackles on rushes from PFR}
+#'  \item{\code{att_br}}{Rush attempts per broken tackle from PFR}
+#'  \item{\code{fpts_std_4pt_td}}{
+#'    Fantasy points for standard format with 4 point TD
+#'    }
+#'  \item{\code{ppg_std_4pt_td}}{
+#'    Fantasy points per game for standard format with 4 point TD
+#'    }
+#'  \item{\code{fpts_half_ppr_4pt_td}}{
+#'    Fantasy points for half PPR format with 4 point TD
+#'    }
+#'  \item{\code{ppg_half_ppr_4pt_td}}{
+#'    Fantasy points per game for half PPR format with 4 point TD
+#'    }
+#'  \item{\code{fpts_ppr_4pt_td}}{
+#'    Fantasy points for full PPR format with 4 point TD
+#'    }
+#'  \item{\code{ppg_ppr_4pt_td}}{
+#'    Fantasy points per game for full PPR format with 4 point TD
+#'    }
+#'  \item{\code{fpts_std_6pt_td}}{
+#'    Fantasy points for standard format with 6 point TD
+#'    }
+#'  \item{\code{ppg_std_6pt_td}}{
+#'    Fantasy points per game for standard format with 6 point TD
+#'    }
+#'  \item{\code{fpts_half_ppr_6pt_td}}{
+#'    Fantasy points for half PPR format with 6 point TD
+#'    }
+#'  \item{\code{ppg_half_ppr_6pt_td}}{
+#'    Fantasy points per game for half PPR format with 6 point TD
+#'    }
+#'  \item{\code{fpts_ppr_6pt_td}}{
+#'    Fantasy points for full PPR format with 6 point TD
+#'    }
+#'  \item{\code{ppg_ppr_6pt_td}}{
+#'    Fantasy points per game for full PPR format with 6 point TD
+#'    }
+#'  \item{\code{tgt}}{
+#'    Number of pass plays where the player was targeted as a receiver from
+#'    PBP data
+#'    }
+#'  \item{\code{rec}}{
+#'    Number of pass receptions. Lateral receptions don't count as a reception
+#'    from PBP data
+#'    }
+#'  \item{\code{rec_yds}}{
+#'    Yards gained after a pass reception. Includes yards gained after
+#'    receiving a lateral on a play that started as a pass play from PBP data
+#'    }
+#'  \item{\code{rec_td}}{
+#'    Number of reception touchdowns, including after receiving a lateral on a
+#'    play that began as a pass play from PBP data
+#'    }
+#'  \item{\code{receiving_fumbles}}{Number of fumbles after a pass reception
+#'    from PBP data
+#'    }
+#'  \item{\code{receiving_fumbles_lost}}{
+#'    Number of fumbles lost after a pass reception from PBP data
+#'    }
+#'  \item{\code{receiving_air}}{
+#'    Receiving air yards including incomplete passes from PBP data
+#'    }
+#'  \item{\code{yac_rec}}{
+#'    Yards after the catch gained on plays in which player was receiver (this
+#'    is an unofficial stat and may differ slightly between different sources)
+#'     from PBP data
+#'    }
+#'  \item{\code{x1d_rec}}{
+#'    Number of first downs gained on a reception from PBP data
+#'    }
+#'  \item{\code{receiving_epa}}{Expected points added on receptions
+#'    from PBP data
+#'    }
+#'  \item{\code{pfr_id}}{
+#'      Pro Football Reference player ID (e.g., JackLa00)
+#'      }
+#'  }
+#'
+#' @export
 get_rb_combined_stats_season <- function(pbp_db = NULL,
                                          pbp_db_tbl = NULL,
                                          seasons = NULL) {
@@ -199,9 +609,9 @@ get_rb_combined_stats_season <- function(pbp_db = NULL,
 
   # Pull RB PBP data
   rb_pbp <- nuclearff::get_rb_pbp_stats(
-    pbp_db = "./data/pbp_db",
-    pbp_db_tbl = "nflfastR_pbp",
-    season = 2024,
+    pbp_db,
+    pbp_db_tbl,
+    seasons,
     week_min = 1 # Pulling entire season starting from week 1
   ) %>%
     # Clean up player names in defined player column
@@ -267,7 +677,7 @@ get_rb_combined_stats_season <- function(pbp_db = NULL,
 
   # Combine RB play-by-play data, PFR data, and NGS data
   rb_combined_stats <- rb_pbp_pfr %>%
-    left_join(rb_ngs, by = common_vars_pbp_pfr_ngs) # %>%
+    left_join(rb_ngs, by = common_vars_pbp_pfr_ngs) %>%
   dplyr::select(
     player_id,
     player_display_name,
@@ -288,6 +698,7 @@ get_rb_combined_stats_season <- function(pbp_db = NULL,
     efficiency,
     percent_attempts_gte_eight_defenders,
     avg_time_to_los,
+    avg_rush_yards,
     expected_rush_yards,
     rush_yards_over_expected,
     rush_yards_over_expected_per_att,
@@ -299,7 +710,6 @@ get_rb_combined_stats_season <- function(pbp_db = NULL,
     yac_att,
     brk_tkl,
     att_br,
-    avg_rush_yards,
     # Fantasy Points
     fpts_std_4pt_td,
     ppg_std_4pt_td,
@@ -321,9 +731,8 @@ get_rb_combined_stats_season <- function(pbp_db = NULL,
     receiving_fumbles,
     receiving_fumbles_lost,
     rec_air = receiving_air_yards,
-    yac = receiving_yards_after_catch, # yards after catch (YAC)
-    yac_r, # Yards after catch per reception (YAC/R) PFR
-    x1d = receiving_first_downs, # Receiving first downs (x1D)
+    yac_rec = receiving_yards_after_catch, # yards after catch (YAC)
+    x1d_rec = receiving_first_downs, # Receiving first downs (x1D)
     receiving_epa, # Receiving expected points added (EPA)
     receiving_2pt_conversions,
     racr,
@@ -338,7 +747,209 @@ get_rb_combined_stats_season <- function(pbp_db = NULL,
   return(rb_combined_stats)
 }
 
-
+#' WR Cumulative Season Advanced Stats
+#'
+#' @description
+#' Obtain WR stats from NFL cumulative season stats for a specified time frame
+#' from either a saved database or `nflreadr::load_pbp()`. The stats are
+#' obtained using play-by-play data, NFL Next Gen Stats (NGS) and Pro Football
+#' Reference (PFR).
+#'
+#' @details
+#'  The function `get_wr_combined_stats_season` can be utilized to obtain
+#'  player stats for a season, including advanced stats.
+#'  This includes stats for passing, rushing, and receiving obtained by using
+#'  the `nflfastR` function `calculate_player_stats()`.
+#'  The player stats are utilized to calculate fantasy points
+#'  based on common scoring formats (4/6 point TD, STD, Half PPR, Full PPR).
+#'  The function acquires stats by using cumulative play-by-play data
+#'  by either loading from a saved database or using `nflreadr::load_pbp()`.
+#'  The data is obtained for a user-defined season.
+#'  Play-by-play data is merged with NFL Next Gen Stats (NGS) utilizing the
+#'  `nflreadr` function `load_nextgen_stats` to load player level weekly stats
+#'  starting with the 2016 season.
+#'  Play-by-play data is also merged with advanced stats from
+#'  Pro Football Reference (PFR), beginning from 2018.
+#'  Note that to use this function, `seasons` must be 2018 or later.
+#'
+#' @param pbp_dp Play-by-Play database path (optional)
+#' @param pbp_db_tbl Play-by-Play database table name (optional)
+#' @param seasons NFL season (required) to obtain play-by-play data. The
+#'  season can be defined as a single season, `season = 2024`. For multiple
+#'  seasons, use either `season = c(2023,2024)` or `season = 2022:2024`.
+#' @return Dataframe with QB stats for user-defined season(s) obtained from NFL
+#'  play-by-play data, Next Gen Stats (NGS) and Pro Football Reference (PFR)
+#'
+#' @seealso \code{\link[nuclearff]{nuclearff::get_pbp_data}}
+#'  Obtain play-by-play data for a specified time frame from either a saved
+#'  database or if not defined, using `nflreadr::load_pbp()`
+#' @seealso \code{\link[nflreadr]{load_pbp}}
+#'  Load play-by-play data
+#' @seealso \code{\link[nflfastR]{update_db}}
+#'  Update or Create a nflfastR Play-by-Play Database
+#' @seealso \code{\link[nflreadr]{load_nextgen_stats}}
+#'  Load player level weekly NFL Next Gen Stats
+#' @seealso \code{\link[nflreadr]{load_pfr_advstats}}
+#'  Load advanced stats from PFR
+#'
+#' @author Nolan MacDonald
+#'
+#' @format A data frame with 61 variables that are described below.
+#' \describe{
+#'  \item{\code{player_id}}{Player gsis id (e.g., 00-0034796)}
+#'  \item{\code{player_display_name}}{Player name (e.g., Lamar Jackson)}
+#'  \item{\code{player_name}}{Player shortened name (e.g., L.Jackson)}
+#'  \item{\code{pos}}{Player position (e.g., QB)}
+#'  \item{\code{tm}}{Player team (e.g., BAL)}
+#'  \item{\code{g}}{Number of games played}
+#'  \item{\code{tgt}}{
+#'    Number of pass plays where the player was targeted as a receiver from
+#'    PBP data
+#'    }
+#'  \item{\code{rec}}{
+#'    Number of pass receptions. Lateral receptions don't count as a reception
+#'    from PBP data
+#'    }
+#'  \item{\code{rec_yds}}{
+#'    Yards gained after a pass reception. Includes yards gained after
+#'    receiving a lateral on a play that started as a pass play from PBP data
+#'    }
+#'  \item{\code{rec_td}}{
+#'    Number of reception touchdowns, including after receiving a lateral on a
+#'    play that began as a pass play from PBP data
+#'    }
+#'  \item{\code{avg_yac}}{Average yards after catch (YAC) from NGS}
+#'  \item{\code{avg_expected_yac}}{Average expected yards after catch (xYAC) from NGS}
+#'  \item{\code{avg_yac_above_expectation}}{
+#'      Average yards after catch above expectation (+/-) from NGS
+#'      }
+#'  \item{\code{yac}}{Yards after catch (YAC) from PFR}
+#'  \item{\code{yac_r}}{Yards after catch (YAC) per reception from PFR}
+#'  \item{\code{adot}}{
+#'      Average depth of target (ADOT) when targeted, whether completed or not,
+#'      from PFR
+#'      }
+#'  \item{\code{receiving_epa}}{Expected points added on receptions
+#'    from PBP data
+#'    }
+#'  \item{\code{racr}}{
+#'    Receiving Air Conversion Ratio.
+#'    RACR = `receiving_yards` / `receiving_air_yards` from PBP
+#'    }
+#'  \item{\code{wopr}}{
+#'    Weighted Opportunity Rating.
+#'    WOPR = 1.5 x `target_share` + 0.7 x `air_yards_share` from PBP data
+#'    }
+#'  \item{\code{avg_cushion}}{Average cushion (CUSH) from NGS}
+#'  \item{\code{avg_separation}}{Average separation (SEP) from NGS}
+#'  \item{\code{target_share}}{
+#'    Share of targets of player compared to all team targets from PBP
+#'    }
+#'  \item{\code{tgt_pct}}{Share of targets percentage from PBP}
+#'  \item{\code{ybc}}{
+#'      Total yards passes traveled in the air before being caught or yards
+#'      before catch (YBC) from PFR}
+#'  \item{\code{ybc_r}}{Yards before catch per reception from PFR}
+#'  \item{\code{receiving_air}}{
+#'    Receiving air yards including incomplete passes from PBP data
+#'    }
+#'  \item{\code{avg_intended_air_yards}}{Average targeted air yards (TAY) from NGS}
+#'  \item{\code{percent_share_of_intended_air_yards}}{
+#'      Average % share of team's air yards (TAY%) from NGS
+#'      }
+#'  \item{\code{air_yards_share}}{
+#'    Share of `receiving_air_yards` of the player to all team `air_yards`
+#'    from PBP data
+#'    }
+#'  \item{\code{x1d_rec}}{
+#'    Number of first downs gained on a reception from PBP data
+#'    }
+#'  \item{\code{brk_tkl}}{Number of broken tackles from PFR}
+#'  \item{\code{rec_br}}{Receptions per broken tackle from PFR}
+#'  \item{\code{drop}}{Number of dropped passes from PFR}
+#'  \item{\code{drop_percent}}{Dropped pass percentage when targeted from PFR}
+#'  \item{\code{catch_percentage}}{Average catch percentage from NGS}
+#'  \item{\code{receiving_fumbles}}{Number of fumbles after a pass reception
+#'    from PBP data
+#'    }
+#'  \item{\code{receiving_fumbles_lost}}{
+#'    Number of fumbles lost after a pass reception from PBP data
+#'    }
+#'  \item{\code{receiving_2pt_conversions}}{
+#'    Two-point conversion receptions from PBP data
+#'    }
+#'  \item{\code{int_tgt}}{Interceptions on passes where targetedfrom PFR}
+#'  \item{\code{rat}}{Passer rating on passes when targeted from PFR}
+#'  \item{\code{fpts_std_4pt_td}}{
+#'    Fantasy points for standard format with 4 point TD
+#'    }
+#'  \item{\code{ppg_std_4pt_td}}{
+#'    Fantasy points per game for standard format with 4 point TD
+#'    }
+#'  \item{\code{fpts_half_ppr_4pt_td}}{
+#'    Fantasy points for half PPR format with 4 point TD
+#'    }
+#'  \item{\code{ppg_half_ppr_4pt_td}}{
+#'    Fantasy points per game for half PPR format with 4 point TD
+#'    }
+#'  \item{\code{fpts_ppr_4pt_td}}{
+#'    Fantasy points for full PPR format with 4 point TD
+#'    }
+#'  \item{\code{ppg_ppr_4pt_td}}{
+#'    Fantasy points per game for full PPR format with 4 point TD
+#'    }
+#'  \item{\code{fpts_std_6pt_td}}{
+#'    Fantasy points for standard format with 6 point TD
+#'    }
+#'  \item{\code{ppg_std_6pt_td}}{
+#'    Fantasy points per game for standard format with 6 point TD
+#'    }
+#'  \item{\code{fpts_half_ppr_6pt_td}}{
+#'    Fantasy points for half PPR format with 6 point TD
+#'    }
+#'  \item{\code{ppg_half_ppr_6pt_td}}{
+#'    Fantasy points per game for half PPR format with 6 point TD
+#'    }
+#'  \item{\code{fpts_ppr_6pt_td}}{
+#'    Fantasy points for full PPR format with 6 point TD
+#'    }
+#'  \item{\code{ppg_ppr_6pt_td}}{
+#'    Fantasy points per game for full PPR format with 6 point TD
+#'    }
+#'  \item{\code{carries}}{
+#'    Number of rush attempts including scrambles and kneel downs. Rushes after
+#'    a lateral reception don't count as a carry from PBP data
+#'    }
+#'  \item{\code{rushing_yards}}{
+#'    Yards gained when rushing including scrambles and kneel downs. Also
+#'    includes yards gained after obtaining a lateral on a play that started
+#'    with a rushing attempt from PBP data
+#'    }
+#'  \item{\code{rushing_tds}}{
+#'    The number of rushing touchdowns (incl. scrambles). Also includes
+#'    touchdowns after obtaining a lateral on a play that started with a
+#'    rushing attempt from PBP data
+#'    }
+#'  \item{\code{rushing_fumbles}}{Number of rushes with a fumble from PBP data}
+#'  \item{\code{rushing_fumbles_lost}}{
+#'    Number of rushes with a lost fumble from PBP data
+#'    }
+#'  \item{\code{rushing_first_downs}}{
+#'    Number of rushing first downs from PBP data
+#'    }
+#'  \item{\code{rushing_epa}}{
+#'    Expected points added (EPA) on rush attempts including scrambles and
+#'    kneel downs from PBP data
+#'    }
+#'  \item{\code{rushing_2pt_conversions}}{
+#'    Two-point conversion rushes from PBP data
+#'    }
+#'  \item{\code{pfr_id}}{
+#'      Pro Football Reference player ID (e.g., JackLa00)
+#'      }
+#'  }
+#'
+#' @export
 get_wr_combined_stats_season <- function(pbp_db = NULL,
                                          pbp_db_tbl = NULL,
                                          seasons = NULL) {
@@ -350,9 +961,9 @@ get_wr_combined_stats_season <- function(pbp_db = NULL,
 
   # Pull WR PBP data
   wr_pbp <- nuclearff::get_wr_pbp_stats(
-    pbp_db = "./data/pbp_db",
-    pbp_db_tbl = "nflfastR_pbp",
-    season = 2024,
+    pbp_db,
+    pbp_db_tbl,
+    seasons,
     week_min = 1 # Pulling entire season starting from week 1
   ) %>%
     # Clean up player names in defined player column
@@ -494,6 +1105,210 @@ get_wr_combined_stats_season <- function(pbp_db = NULL,
   return(wr_combined_stats)
 }
 
+#' TE Cumulative Season Advanced Stats
+#'
+#' @description
+#' Obtain TE stats from NFL cumulative season stats for a specified time frame
+#' from either a saved database or `nflreadr::load_pbp()`. The stats are
+#' obtained using play-by-play data, NFL Next Gen Stats (NGS) and Pro Football
+#' Reference (PFR).
+#'
+#' @details
+#'  The function `get_te_combined_stats_season` can be utilized to obtain
+#'  player stats for a season, including advanced stats.
+#'  This includes stats for passing, rushing, and receiving obtained by using
+#'  the `nflfastR` function `calculate_player_stats()`.
+#'  The player stats are utilized to calculate fantasy points
+#'  based on common scoring formats (4/6 point TD, STD, Half PPR, Full PPR).
+#'  The function acquires stats by using cumulative play-by-play data
+#'  by either loading from a saved database or using `nflreadr::load_pbp()`.
+#'  The data is obtained for a user-defined season.
+#'  Play-by-play data is merged with NFL Next Gen Stats (NGS) utilizing the
+#'  `nflreadr` function `load_nextgen_stats` to load player level weekly stats
+#'  starting with the 2016 season.
+#'  Play-by-play data is also merged with advanced stats from
+#'  Pro Football Reference (PFR), beginning from 2018.
+#'  Note that to use this function, `seasons` must be 2018 or later.
+#'
+#' @param pbp_dp Play-by-Play database path (optional)
+#' @param pbp_db_tbl Play-by-Play database table name (optional)
+#' @param seasons NFL season (required) to obtain play-by-play data. The
+#'  season can be defined as a single season, `season = 2024`. For multiple
+#'  seasons, use either `season = c(2023,2024)` or `season = 2022:2024`.
+#'
+#' @return Dataframe with QB stats for user-defined season(s) obtained from NFL
+#'  play-by-play data, Next Gen Stats (NGS) and Pro Football Reference (PFR)
+#'
+#' @seealso \code{\link[nuclearff]{nuclearff::get_pbp_data}}
+#'  Obtain play-by-play data for a specified time frame from either a saved
+#'  database or if not defined, using `nflreadr::load_pbp()`
+#' @seealso \code{\link[nflreadr]{load_pbp}}
+#'  Load play-by-play data
+#' @seealso \code{\link[nflfastR]{update_db}}
+#'  Update or Create a nflfastR Play-by-Play Database
+#' @seealso \code{\link[nflreadr]{load_nextgen_stats}}
+#'  Load player level weekly NFL Next Gen Stats
+#' @seealso \code{\link[nflreadr]{load_pfr_advstats}}
+#'  Load advanced stats from PFR
+#'
+#' @author Nolan MacDonald
+#'
+#' @format A data frame with 61 variables that are described below.
+#' \describe{
+#'  \item{\code{player_id}}{Player gsis id (e.g., 00-0034796)}
+#'  \item{\code{player_display_name}}{Player name (e.g., Lamar Jackson)}
+#'  \item{\code{player_name}}{Player shortened name (e.g., L.Jackson)}
+#'  \item{\code{pos}}{Player position (e.g., QB)}
+#'  \item{\code{tm}}{Player team (e.g., BAL)}
+#'  \item{\code{g}}{Number of games played}
+#'  \item{\code{tgt}}{
+#'    Number of pass plays where the player was targeted as a receiver from
+#'    PBP data
+#'    }
+#'  \item{\code{rec}}{
+#'    Number of pass receptions. Lateral receptions don't count as a reception
+#'    from PBP data
+#'    }
+#'  \item{\code{rec_yds}}{
+#'    Yards gained after a pass reception. Includes yards gained after
+#'    receiving a lateral on a play that started as a pass play from PBP data
+#'    }
+#'  \item{\code{rec_td}}{
+#'    Number of reception touchdowns, including after receiving a lateral on a
+#'    play that began as a pass play from PBP data
+#'    }
+#'  \item{\code{avg_yac}}{Average yards after catch (YAC) from NGS}
+#'  \item{\code{avg_expected_yac}}{Average expected yards after catch (xYAC) from NGS}
+#'  \item{\code{avg_yac_above_expectation}}{
+#'      Average yards after catch above expectation (+/-) from NGS
+#'      }
+#'  \item{\code{yac}}{Yards after catch (YAC) from PFR}
+#'  \item{\code{yac_r}}{Yards after catch (YAC) per reception from PFR}
+#'  \item{\code{adot}}{
+#'      Average depth of target (ADOT) when targeted, whether completed or not,
+#'      from PFR
+#'      }
+#'  \item{\code{receiving_epa}}{Expected points added on receptions
+#'    from PBP data
+#'    }
+#'  \item{\code{racr}}{
+#'    Receiving Air Conversion Ratio.
+#'    RACR = `receiving_yards` / `receiving_air_yards` from PBP
+#'    }
+#'  \item{\code{wopr}}{
+#'    Weighted Opportunity Rating.
+#'    WOPR = 1.5 x `target_share` + 0.7 x `air_yards_share` from PBP data
+#'    }
+#'  \item{\code{avg_cushion}}{Average cushion (CUSH) from NGS}
+#'  \item{\code{avg_separation}}{Average separation (SEP) from NGS}
+#'  \item{\code{target_share}}{
+#'    Share of targets of player compared to all team targets from PBP
+#'    }
+#'  \item{\code{tgt_pct}}{Share of targets percentage from PBP}
+#'  \item{\code{ybc}}{
+#'      Total yards passes traveled in the air before being caught or yards
+#'      before catch (YBC) from PFR}
+#'  \item{\code{ybc_r}}{Yards before catch per reception from PFR}
+#'  \item{\code{receiving_air}}{
+#'    Receiving air yards including incomplete passes from PBP data
+#'    }
+#'  \item{\code{avg_intended_air_yards}}{Average targeted air yards (TAY) from NGS}
+#'  \item{\code{percent_share_of_intended_air_yards}}{
+#'      Average % share of team's air yards (TAY%) from NGS
+#'      }
+#'  \item{\code{air_yards_share}}{
+#'    Share of `receiving_air_yards` of the player to all team `air_yards`
+#'    from PBP data
+#'    }
+#'  \item{\code{x1d_rec}}{
+#'    Number of first downs gained on a reception from PBP data
+#'    }
+#'  \item{\code{brk_tkl}}{Number of broken tackles from PFR}
+#'  \item{\code{rec_br}}{Receptions per broken tackle from PFR}
+#'  \item{\code{drop}}{Number of dropped passes from PFR}
+#'  \item{\code{drop_percent}}{Dropped pass percentage when targeted from PFR}
+#'  \item{\code{catch_percentage}}{Average catch percentage from NGS}
+#'  \item{\code{receiving_fumbles}}{Number of fumbles after a pass reception
+#'    from PBP data
+#'    }
+#'  \item{\code{receiving_fumbles_lost}}{
+#'    Number of fumbles lost after a pass reception from PBP data
+#'    }
+#'  \item{\code{receiving_2pt_conversions}}{
+#'    Two-point conversion receptions from PBP data
+#'    }
+#'  \item{\code{int_tgt}}{Interceptions on passes where targetedfrom PFR}
+#'  \item{\code{rat}}{Passer rating on passes when targeted from PFR}
+#'  \item{\code{fpts_std_4pt_td}}{
+#'    Fantasy points for standard format with 4 point TD
+#'    }
+#'  \item{\code{ppg_std_4pt_td}}{
+#'    Fantasy points per game for standard format with 4 point TD
+#'    }
+#'  \item{\code{fpts_half_ppr_4pt_td}}{
+#'    Fantasy points for half PPR format with 4 point TD
+#'    }
+#'  \item{\code{ppg_half_ppr_4pt_td}}{
+#'    Fantasy points per game for half PPR format with 4 point TD
+#'    }
+#'  \item{\code{fpts_ppr_4pt_td}}{
+#'    Fantasy points for full PPR format with 4 point TD
+#'    }
+#'  \item{\code{ppg_ppr_4pt_td}}{
+#'    Fantasy points per game for full PPR format with 4 point TD
+#'    }
+#'  \item{\code{fpts_std_6pt_td}}{
+#'    Fantasy points for standard format with 6 point TD
+#'    }
+#'  \item{\code{ppg_std_6pt_td}}{
+#'    Fantasy points per game for standard format with 6 point TD
+#'    }
+#'  \item{\code{fpts_half_ppr_6pt_td}}{
+#'    Fantasy points for half PPR format with 6 point TD
+#'    }
+#'  \item{\code{ppg_half_ppr_6pt_td}}{
+#'    Fantasy points per game for half PPR format with 6 point TD
+#'    }
+#'  \item{\code{fpts_ppr_6pt_td}}{
+#'    Fantasy points for full PPR format with 6 point TD
+#'    }
+#'  \item{\code{ppg_ppr_6pt_td}}{
+#'    Fantasy points per game for full PPR format with 6 point TD
+#'    }
+#'  \item{\code{carries}}{
+#'    Number of rush attempts including scrambles and kneel downs. Rushes after
+#'    a lateral reception don't count as a carry from PBP data
+#'    }
+#'  \item{\code{rushing_yards}}{
+#'    Yards gained when rushing including scrambles and kneel downs. Also
+#'    includes yards gained after obtaining a lateral on a play that started
+#'    with a rushing attempt from PBP data
+#'    }
+#'  \item{\code{rushing_tds}}{
+#'    The number of rushing touchdowns (incl. scrambles). Also includes
+#'    touchdowns after obtaining a lateral on a play that started with a
+#'    rushing attempt from PBP data
+#'    }
+#'  \item{\code{rushing_fumbles}}{Number of rushes with a fumble from PBP data}
+#'  \item{\code{rushing_fumbles_lost}}{
+#'    Number of rushes with a lost fumble from PBP data
+#'    }
+#'  \item{\code{rushing_first_downs}}{
+#'    Number of rushing first downs from PBP data
+#'    }
+#'  \item{\code{rushing_epa}}{
+#'    Expected points added (EPA) on rush attempts including scrambles and
+#'    kneel downs from PBP data
+#'    }
+#'  \item{\code{rushing_2pt_conversions}}{
+#'    Two-point conversion rushes from PBP data
+#'    }
+#'  \item{\code{pfr_id}}{
+#'      Pro Football Reference player ID (e.g., JackLa00)
+#'      }
+#'  }
+#'
+#' @export
 get_te_combined_stats_season <- function(pbp_db = NULL,
                                          pbp_db_tbl = NULL,
                                          seasons = NULL) {
@@ -505,9 +1320,9 @@ get_te_combined_stats_season <- function(pbp_db = NULL,
 
   # Pull TE PBP data
   te_pbp <- nuclearff::get_te_pbp_stats(
-    pbp_db = "./data/pbp_db",
-    pbp_db_tbl = "nflfastR_pbp",
-    season = 2024,
+    pbp_db,
+    pbp_db_tbl,
+    seasons,
     week_min = 1 # Pulling entire season starting from week 1
   ) %>%
     # Clean up player names in defined player column
@@ -529,7 +1344,7 @@ get_te_combined_stats_season <- function(pbp_db = NULL,
 
   # Combine PBP data with roster information and IDs
   te_stats <- te_pbp %>%
-    left_join(wr_data,
+    left_join(te_data,
               by = c("player_id",
                      "player_display_name",
                      "position",

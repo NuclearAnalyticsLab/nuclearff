@@ -3,6 +3,31 @@
 \name{get_te_ngs_advstats_season}
 \alias{get_te_ngs_advstats_season}
 \title{TE Cumulative Season NFL Next Gen Stats (NGS)}
+\format{
+A data frame with 16 variables that are described below.
+\describe{
+\item{\code{player_id}}{Player gsis id (e.g., 00-0037744)}
+\item{\code{player_display_name}}{Player name (e.g., Trey McBride)}
+\item{\code{player_name}}{Player shortened name (e.g., T.McBride)}
+\item{\code{position}}{Player position}
+\item{\code{targets}}{Total receiving targets}
+\item{\code{receptions}}{Total receptions}
+\item{\code{yards}}{Total receiving yards}
+\item{\code{rec_touchdowns}}{Total reception touchdowns}
+\item{\code{avg_cushion}}{Average cushion (CUSH)}
+\item{\code{avg_separation}}{Average separation (SEP)}
+\item{\code{avg_intended_air_yards}}{Average targeted air yards (TAY)}
+\item{\code{avg_percent_share_of_intended_air_yards}}{
+Average \% share of team's air yards (TAY\%)
+}
+\item{\code{avg_catch_percentage}}{Average catch percentage}
+\item{\code{avg_yac}}{Average yards after catch (YAC)}
+\item{\code{avg_expected_yac}}{Average expected yards after catch (xYAC)}
+\item{\code{avg_yac_above_expectation}}{
+Average yards after catch above expectation (+/-)
+}
+}
+}
 \usage{
 get_te_ngs_advstats_season(seasons = NULL)
 }
@@ -34,27 +59,4 @@ Load player level weekly NFL Next Gen Stats
 }
 \author{
 Nolan MacDonald
-
-\itemize{
-\item{\code{player_id}}{Player gsis id (e.g., 00-0037744)}
-\item{\code{player_display_name}}{Player name (e.g., Trey McBride)}
-\item{\code{player_name}}{Player shortened name (e.g., T.McBride)}
-\item{\code{position}}{Player position}
-\item{\code{targets}}{Total receiving targets}
-\item{\code{receptions}}{Total receptions}
-\item{\code{yards}}{Total receiving yards}
-\item{\code{rec_touchdowns}}{Total reception touchdowns}
-\item{\code{avg_cushion}}{Average cushion (CUSH)}
-\item{\code{avg_separation}}{Average separation (SEP)}
-\item{\code{avg_intended_air_yards}}{Average targeted air yards (TAY)}
-\item{\code{avg_percent_share_of_intended_air_yards}}{
-Average \% share of team's air yards (TAY\%)
-}
-\item{\code{avg_catch_percentage}}{Average catch percentage}
-\item{\code{avg_yac}}{Average yards after catch (YAC)}
-\item{\code{avg_expected_yac}}{Average expected yards after catch (xYAC)}
-\item{\code{avg_yac_above_expectation}}{
-Average yards after catch above expectation (+/-)
-}
-}
 }

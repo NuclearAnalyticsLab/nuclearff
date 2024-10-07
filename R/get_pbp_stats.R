@@ -44,7 +44,7 @@
 #'
 #' @param pbp_dp Play-by-Play database path (optional)
 #' @param pbp_db_tbl Play-by-Play database table name (optional)
-#' @param season NFL season (required) to obtain play-by-play data. The
+#' @param seasons NFL season(s) (required) to obtain play-by-play data. The
 #'  season can be defined as a single season, `season = 2024`. For multiple
 #'  seasons, use either `season = c(2023,2024)` or `season = 2022:2024`.
 #' @param week_min Minimum week (required) to define whether pulling a range
@@ -59,15 +59,16 @@
 #'
 #' @seealso \code{\link[nuclearff]{nuclearff::get_pbp_data}}
 #'  Obtain play-by-play data for a specified time frame from either a saved
-#'  database or if not defined, using `nflreadr::load_pbp()`,
+#'  database or if not defined, using `nflreadr::load_pbp()`
 #' @seealso \code{\link[nflreadr]{load_pbp}}
-#'  Load play-by-play data,
+#'  Load play-by-play data
 #' @seealso \code{\link[nflfastR]{update_db}}
 #'  Update or Create a nflfastR Play-by-Play Database
 #'
 #' @author Nolan MacDonald
 #'
-#' \itemize{
+#' @format A data frame with 57 variables that are described below.
+#' \describe{
 #'  \item{\code{player_id}}{Player gsis id (e.g., 00-0034796)}
 #'  \item{\code{player_display_name}}{Player name (e.g., Lamar Jackson)}
 #'  \item{\code{player_name}}{Player shortened name (e.g., L.Jackson)}
@@ -199,11 +200,11 @@
 #' @export
 get_qb_pbp_stats <- function(pbp_db = NULL,
                              pbp_db_tbl = NULL,
-                             season = NULL,
+                             seasons = NULL,
                              week_min = NULL,
                              week_max = NULL) {
   # Load play-by-play data with database or nflreadr
-  pbp <- nuclearff::get_pbp_data(pbp_db, pbp_db_tbl, season, week_min, week_max)
+  pbp <- nuclearff::get_pbp_data(pbp_db, pbp_db_tbl, seasons, week_min, week_max)
 
   # Filter data for RB stats and compile
   qb_pbp <- pbp %>%
@@ -219,7 +220,7 @@ get_qb_pbp_stats <- function(pbp_db = NULL,
       tgt_pct = target_share * 100
     ) %>%
     dplyr::inner_join(
-      nflfastR::fast_scraper_roster(season) %>%
+      nflfastR::fast_scraper_roster(seasons) %>%
         # Filter by player position
         dplyr::filter(position == "QB") %>%
         dplyr::select(player_id = gsis_id),
@@ -321,7 +322,7 @@ get_qb_pbp_stats <- function(pbp_db = NULL,
 #'
 #' @param pbp_dp Play-by-Play database path (optional)
 #' @param pbp_db_tbl Play-by-Play database table name (optional)
-#' @param season NFL season (required) to obtain play-by-play data. The
+#' @param seasons NFL season(s) (required) to obtain play-by-play data. The
 #'  season can be defined as a single season, `season = 2024`. For multiple
 #'  seasons, use either `season = c(2023,2024)` or `season = 2022:2024`.
 #' @param week_min Minimum week (required) to define whether pulling a range
@@ -336,15 +337,16 @@ get_qb_pbp_stats <- function(pbp_db = NULL,
 #'
 #' @seealso \code{\link[nuclearff]{nuclearff::get_pbp_data}}
 #'  Obtain play-by-play data for a specified time frame from either a saved
-#'  database or if not defined, using `nflreadr::load_pbp()`,
+#'  database or if not defined, using `nflreadr::load_pbp()`
 #' @seealso \code{\link[nflreadr]{load_pbp}}
-#'  Load play-by-play data,
+#'  Load play-by-play data
 #' @seealso \code{\link[nflfastR]{update_db}}
 #'  Update or Create a nflfastR Play-by-Play Database
 #'
 #' @author Nolan MacDonald
 #'
-#' \itemize{
+#' @format A data frame with 59 variables that are described below.
+#' \describe{
 #'  \item{\code{player_id}}{Player gsis id (e.g., 00-0038120)}
 #'  \item{\code{player_display_name}}{Player name (e.g., Breece Hall)}
 #'  \item{\code{player_name}}{Player shortened name (e.g., B.Hall)}
@@ -492,11 +494,11 @@ get_qb_pbp_stats <- function(pbp_db = NULL,
 #' @export
 get_rb_pbp_stats <- function(pbp_db = NULL,
                              pbp_db_tbl = NULL,
-                             season = NULL,
+                             seasons = NULL,
                              week_min = NULL,
                              week_max = NULL) {
   # Load play-by-play data with database or nflreadr
-  pbp <- nuclearff::get_pbp_data(pbp_db, pbp_db_tbl, season, week_min, week_max)
+  pbp <- nuclearff::get_pbp_data(pbp_db, pbp_db_tbl, seasons, week_min, week_max)
 
   # Filter data for RB stats and compile
   rb_pbp <- pbp %>%
@@ -512,7 +514,7 @@ get_rb_pbp_stats <- function(pbp_db = NULL,
       tgt_pct = target_share * 100
     ) %>%
     dplyr::inner_join(
-      nflfastR::fast_scraper_roster(season) %>%
+      nflfastR::fast_scraper_roster(seasons) %>%
         # Filter by player position
         dplyr::filter(position == "RB") %>%
         dplyr::select(player_id = gsis_id),
@@ -620,7 +622,7 @@ get_rb_pbp_stats <- function(pbp_db = NULL,
 #'
 #' @param pbp_dp Play-by-Play database path (optional)
 #' @param pbp_db_tbl Play-by-Play database table name (optional)
-#' @param season NFL season (required) to obtain play-by-play data. The
+#' @param seasons NFL season(s) (required) to obtain play-by-play data. The
 #'  season can be defined as a single season, `season = 2024`. For multiple
 #'  seasons, use either `season = c(2023,2024)`
 #' @param week_min Minimum week (required) to define whether pulling a range
@@ -633,13 +635,18 @@ get_rb_pbp_stats <- function(pbp_db = NULL,
 #' @return Dataframe with WR stats for user-defined season(s) and week(s)
 #'  obtained from NFL play-by-play data
 #'
-#' @seealso \code{\link[nuclearff]{get_pbp_data}},
-#'  \code{\link[nflreadr]{load_pbp}},
-#'  \code{\link[nflfastR]{update_db}}
+#' @seealso \code{\link[nuclearff]{nuclearff::get_pbp_data}}
+#'  Obtain play-by-play data for a specified time frame from either a saved
+#'  database or if not defined, using `nflreadr::load_pbp()`
+#' @seealso \code{\link[nflreadr]{load_pbp}}
+#'  Load play-by-play data
+#' @seealso \code{\link[nflfastR]{update_db}}
+#'  Update or Create a nflfastR Play-by-Play Database
 #'
 #' @author Nolan MacDonald
 #'
-#' \itemize{
+#' @format A data frame with 59 variables that are described below.
+#' \describe{
 #'  \item{\code{player_id}}{Player gsis id (e.g., 00-0038120)}
 #'  \item{\code{player_display_name}}{Player name (e.g., Breece Hall)}
 #'  \item{\code{player_name}}{Player shortened name (e.g., B.Hall)}
@@ -787,11 +794,11 @@ get_rb_pbp_stats <- function(pbp_db = NULL,
 #' @export
 get_wr_pbp_stats <- function(pbp_db = NULL,
                              pbp_db_tbl = NULL,
-                             season = NULL,
+                             seasons = NULL,
                              week_min = NULL,
                              week_max = NULL) {
   # Load play-by-play data with database or nflreadr
-  pbp <- nuclearff::get_pbp_data(pbp_db, pbp_db_tbl, season, week_min, week_max)
+  pbp <- nuclearff::get_pbp_data(pbp_db, pbp_db_tbl, seasons, week_min, week_max)
 
   # Filter data for RB stats and compile
   wr_pbp <- pbp %>%
@@ -807,7 +814,7 @@ get_wr_pbp_stats <- function(pbp_db = NULL,
       tgt_pct = target_share * 100
     ) %>%
     dplyr::inner_join(
-      nflfastR::fast_scraper_roster(season) %>%
+      nflfastR::fast_scraper_roster(seasons) %>%
         # Filter by player position
         dplyr::filter(position == "WR") %>%
         dplyr::select(player_id = gsis_id),
@@ -913,17 +920,9 @@ get_wr_pbp_stats <- function(pbp_db = NULL,
 #'    https://www.nflfastr.com/reference/calculate_player_stats.html
 #'    )
 #'
-#' @seealso \code{\link[nuclearff]{nuclearff::get_pbp_data}}:
-#'  Obtain play-by-play data for a specified time frame from either a saved
-#'  database or if not defined, using `nflreadr::load_pbp()`,
-#' @seealso \code{\link[nflreadr]{load_pbp}}
-#'  Load play-by-play data,
-#' @seealso \code{\link[nflfastR]{update_db}}
-#'  Update or Create a nflfastR Play-by-Play Database
-#'
 #' @param pbp_dp Play-by-Play database path (optional)
 #' @param pbp_db_tbl Play-by-Play database table name (optional)
-#' @param season NFL season (required) to obtain play-by-play data. The
+#' @param seasons NFL season(s) (required) to obtain play-by-play data. The
 #'  season can be defined as a single season, `season = 2024`. For multiple
 #'  seasons, use either `season = c(2023,2024)` or `season = 2022:2024`.
 #' @param week_min Minimum week (required) to define whether pulling a range
@@ -936,9 +935,18 @@ get_wr_pbp_stats <- function(pbp_db = NULL,
 #' @return Dataframe with TE stats for user-defined season(s) and week(s)
 #'  obtained from NFL play-by-play data
 #'
+#' @seealso \code{\link[nuclearff]{nuclearff::get_pbp_data}}
+#'  Obtain play-by-play data for a specified time frame from either a saved
+#'  database or if not defined, using `nflreadr::load_pbp()`
+#' @seealso \code{\link[nflreadr]{load_pbp}}
+#'  Load play-by-play data
+#' @seealso \code{\link[nflfastR]{update_db}}
+#'  Update or Create a nflfastR Play-by-Play Database
+#'
 #' @author Nolan MacDonald
 #'
-#' \itemize{
+#' @format A data frame with 59 variables that are described below.
+#' \describe{
 #'  \item{\code{player_id}}{Player gsis id (e.g., 00-0038120)}
 #'  \item{\code{player_display_name}}{Player name (e.g., Breece Hall)}
 #'  \item{\code{player_name}}{Player shortened name (e.g., B.Hall)}
@@ -1086,11 +1094,11 @@ get_wr_pbp_stats <- function(pbp_db = NULL,
 #' @export
 get_te_pbp_stats <- function(pbp_db = NULL,
                              pbp_db_tbl = NULL,
-                             season = NULL,
+                             seasons = NULL,
                              week_min = NULL,
                              week_max = NULL) {
   # Load play-by-play data with database or nflreadr
-  pbp <- nuclearff::get_pbp_data(pbp_db, pbp_db_tbl, season, week_min, week_max)
+  pbp <- nuclearff::get_pbp_data(pbp_db, pbp_db_tbl, seasons, week_min, week_max)
 
   # Filter data for RB stats and compile
   te_pbp <- pbp %>%
@@ -1106,7 +1114,7 @@ get_te_pbp_stats <- function(pbp_db = NULL,
       tgt_pct = target_share * 100
     ) %>%
     dplyr::inner_join(
-      nflfastR::fast_scraper_roster(season) %>%
+      nflfastR::fast_scraper_roster(seasons) %>%
         # Filter by player position
         dplyr::filter(position == "TE") %>%
         dplyr::select(player_id = gsis_id),

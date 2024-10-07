@@ -3,6 +3,29 @@
 \name{get_rb_pfr_advstats_season}
 \alias{get_rb_pfr_advstats_season}
 \title{RB Advanced Season Stats from Pro Football Reference (PFR)}
+\format{
+A data frame with 16 variables that are described below.
+\describe{
+\item{\code{player_display_name}}{Player name (e.g., Lamar Jackson)}
+\item{\code{age}}{}
+\item{\code{position}}{}
+\item{\code{g}}{Number of games played}
+\item{\code{gs}}{Number of games started}
+\item{\code{att}}{Total rush attempts}
+\item{\code{yds}}{Total rush yards}
+\item{\code{td}}{Total rush touchdowns}
+\item{\code{x1d}}{Rushing first downs}
+\item{\code{ybc}}{Rushing yards before contact}
+\item{\code{ybc_att}}{Rushing yards before contact per rushing attempt}
+\item{\code{yac}}{Rushing yards after contact}
+\item{\code{yac_att}}{Rushing yards after contact per attempt}
+\item{\code{brk_tkl}}{Broken tackles on rushes}
+\item{\code{att_br}}{Rush attempts per broken tackle}
+\item{\code{pfr_player_id}}{
+Pro Football Reference player ID (e.g., JackLa00)
+}
+}
+}
 \usage{
 get_rb_pfr_advstats_season(seasons = NULL)
 }
@@ -33,25 +56,4 @@ Load advanced stats from PFR
 }
 \author{
 Nolan MacDonald
-
-\itemize{
-\item{\code{player_display_name}}{Player name (e.g., Lamar Jackson)}
-\item{\code{age}}{}
-\item{\code{position}}{}
-\item{\code{g}}{Number of games played}
-\item{\code{gs}}{Number of games started}
-\item{\code{att}}{Total rush attempts}
-\item{\code{yds}}{Total rush yards}
-\item{\code{td}}{Total rush touchdowns}
-\item{\code{x1d}}{Rushing first downs}
-\item{\code{ybc}}{Rushing yards before contact}
-\item{\code{ybc_att}}{Rushing yards before contact per rushing attempt}
-\item{\code{yac}}{Rushing yards after contact}
-\item{\code{yac_att}}{Rushing yards after contact per attempt}
-\item{\code{brk_tkl}}{Broken tackles on rushes}
-\item{\code{att_br}}{Rush attempts per broken tackle}
-\item{\code{pfr_player_id}}{
-Pro Football Reference player ID (e.g., JackLa00)
-}
-}
 }

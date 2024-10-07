@@ -3,6 +3,40 @@
 \name{get_qb_ngs_advstats_season}
 \alias{get_qb_ngs_advstats_season}
 \title{QB Cumulative Season NFL Next Gen Stats (NGS)}
+\format{
+A data frame with 33 variables that are described below.
+\describe{
+\item{\code{player_id}}{Player gsis id (e.g., 00-0034796)}
+\item{\code{player_display_name}}{Player name (e.g., Lamar Jackson)}
+\item{\code{player_name}}{Player shortened name (e.g., L.Jackson)}
+\item{\code{position}}{Player position}
+\item{\code{pass_yards}}{Total pass yards}
+\item{\code{pass_touchdowns}}{Total pass touchdowns}
+\item{\code{interceptions}}{Total interceptions}
+\item{\code{passer_rating}}{Average passer rating}
+\item{\code{attempts}}{Total pass attempts}
+\item{\code{completions}}{Total pass completions}
+\item{\code{completion_percentage}}{Average completion percentage (\%)}
+\item{\code{expected_completion_percentage}}{Expected completion percentage}
+\item{\code{completion_percentage_above_expectation}}{
+Average expected completion percentage (xCOMP)
+}
+\item{\code{avg_air_distance}}{Average air distance}
+\item{\code{max_air_distance}}{Maximum or longest air distance}
+\item{\code{avg_time_to_throw}}{Average time to throw (TT)}
+\item{\code{avg_completed_air_yards}}{Average completed air yards (CAY)}
+\item{\code{avg_intended_air_yards}}{Average intended air yards (IAY)}
+\item{\code{avg_air_yards_differential}}{
+Average air yards differential (AYD)
+}
+\item{\code{aggressiveness}}{Average aggressiveness (AGG\%)}
+\item{\code{max_completed_air_distance}}{
+Maximum or longest completed air distance (LCAD)}
+\item{\code{avg_air_yards_to_sticks}}{
+Average air yards to the sticks (AYTS)
+}
+}
+}
 \usage{
 get_qb_ngs_advstats_season(seasons = NULL)
 }
@@ -34,36 +68,4 @@ Load player level weekly NFL Next Gen Stats
 }
 \author{
 Nolan MacDonald
-
-\itemize{
-\item{\code{player_id}}{Player gsis id (e.g., 00-0034796)}
-\item{\code{player_display_name}}{Player name (e.g., Lamar Jackson)}
-\item{\code{player_name}}{Player shortened name (e.g., L.Jackson)}
-\item{\code{position}}{Player position}
-\item{\code{pass_yards}}{Total pass yards}
-\item{\code{pass_touchdowns}}{Total pass touchdowns}
-\item{\code{interceptions}}{Total interceptions}
-\item{\code{passer_rating}}{Average passer rating}
-\item{\code{attempts}}{Total pass attempts}
-\item{\code{completions}}{Total pass completions}
-\item{\code{completion_percentage}}{Average completion percentage (\%)}
-\item{\code{expected_completion_percentage}}{}
-\item{\code{completion_percentage_above_expectation}}{
-Average expected completion percentage (xCOMP)
-}
-\item{\code{avg_air_distance}}{Average air distance}
-\item{\code{max_air_distance}}{Maximum or longest air distance}
-\item{\code{avg_time_to_throw}}{Average time to throw (TT)}
-\item{\code{avg_completed_air_yards}}{Average completed air yards (CAY)}
-\item{\code{avg_intended_air_yards}}{Average intended air yards (IAY)}
-\item{\code{avg_air_yards_differential}}{
-Average air yards differential (AYD)
-}
-\item{\code{aggressiveness}}{Average aggressiveness (AGG\%)}
-\item{\code{max_completed_air_distance}}{
-Maximum or longest completed air distance (LCAD)}
-\item{\code{avg_air_yards_to_sticks}}{
-Average air yards to the sticks (AYTS)
-}
-}
 }

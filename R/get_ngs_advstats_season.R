@@ -34,7 +34,8 @@
 #'
 #' @author Nolan MacDonald
 #'
-#' \itemize{
+#' @format A data frame with 33 variables that are described below.
+#' \describe{
 #'  \item{\code{player_id}}{Player gsis id (e.g., 00-0034796)}
 #'  \item{\code{player_display_name}}{Player name (e.g., Lamar Jackson)}
 #'  \item{\code{player_name}}{Player shortened name (e.g., L.Jackson)}
@@ -46,7 +47,7 @@
 #'  \item{\code{attempts}}{Total pass attempts}
 #'  \item{\code{completions}}{Total pass completions}
 #'  \item{\code{completion_percentage}}{Average completion percentage (%)}
-#'  \item{\code{expected_completion_percentage}}{}
+#'  \item{\code{expected_completion_percentage}}{Expected completion percentage}
 #'  \item{\code{completion_percentage_above_expectation}}{
 #'      Average expected completion percentage (xCOMP)
 #'      }
@@ -159,7 +160,8 @@ get_qb_ngs_advstats_season <- function(seasons = NULL) {
 #'
 #' @author Nolan MacDonald
 #'
-#' \itemize{
+#' @format A data frame with 15 variables that are described below.
+#' \describe{
 #'  \item{\code{player_id}}{Player gsis id (e.g., 00-0038120)}
 #'  \item{\code{player_display_name}}{Player name (e.g., Breece Hall)}
 #'  \item{\code{player_name}}{Player shortened name (e.g., B.Hall)}
@@ -254,7 +256,8 @@ get_rb_ngs_advstats_season <- function(seasons = NULL) {
 #'
 #' @author Nolan MacDonald
 #'
-#' \itemize{
+#' @format A data frame with 16 variables that are described below.
+#' \describe{
 #'  \item{\code{player_id}}{Player gsis id (e.g., 00-0039337)}
 #'  \item{\code{player_display_name}}{Player name (e.g., Malik Nabers)}
 #'  \item{\code{player_name}}{Player shortened name (e.g., M.Nabers)}
@@ -266,10 +269,10 @@ get_rb_ngs_advstats_season <- function(seasons = NULL) {
 #'  \item{\code{avg_cushion}}{Average cushion (CUSH)}
 #'  \item{\code{avg_separation}}{Average separation (SEP)}
 #'  \item{\code{avg_intended_air_yards}}{Average targeted air yards (TAY)}
-#'  \item{\code{avg_percent_share_of_intended_air_yards}}{
+#'  \item{\code{percent_share_of_intended_air_yards}}{
 #'      Average % share of team's air yards (TAY%)
 #'      }
-#'  \item{\code{avg_catch_percentage}}{Average catch percentage}
+#'  \item{\code{catch_percentage}}{Average catch percentage}
 #'  \item{\code{avg_yac}}{Average yards after catch (YAC)}
 #'  \item{\code{avg_expected_yac}}{Average expected yards after catch (xYAC)}
 #'  \item{\code{avg_yac_above_expectation}}{
@@ -346,7 +349,8 @@ get_wr_ngs_advstats_season <- function(seasons = NULL) {
 #'
 #' @author Nolan MacDonald
 #'
-#' \itemize{
+#' @format A data frame with 16 variables that are described below.
+#' \describe{
 #'  \item{\code{player_id}}{Player gsis id (e.g., 00-0037744)}
 #'  \item{\code{player_display_name}}{Player name (e.g., Trey McBride)}
 #'  \item{\code{player_name}}{Player shortened name (e.g., T.McBride)}

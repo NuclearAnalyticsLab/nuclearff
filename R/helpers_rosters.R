@@ -33,13 +33,13 @@ replace_player_names <- function(df, player_col = "player") {
   df %>%
     dplyr::mutate(
       !!player_col_sym := dplyr::case_when(
-        position == "RB" & !!player_col_sym == "De'Von Achane" ~ "Devon Achane",
-        position == "RB" & !!player_col_sym == "Kenneth Walker III" ~ "Kenneth Walker",
-        position == "RB" & !!player_col_sym == "Jeff Wilson" ~ "Jeffery Wilson",
-        position == "RB" & !!player_col_sym == "Chris Brooks" ~ "Christopher Brooks",
-        position == "WR" & !!player_col_sym == "Gabriel Davis" ~ "Gabe Davis",
-        position == "WR" & !!player_col_sym == "D.K. Metcalf" ~ "DK Metcalf",
-        position == "TE" & !!player_col_sym == "AJ Barner" ~ "A.J. Barner",
+        !!player_col_sym == "De'Von Achane" ~ "Devon Achane",
+        !!player_col_sym == "Kenneth Walker III" ~ "Kenneth Walker",
+        !!player_col_sym == "Jeff Wilson" ~ "Jeffery Wilson",
+        !!player_col_sym == "Chris Brooks" ~ "Christopher Brooks",
+        !!player_col_sym == "Gabriel Davis" ~ "Gabe Davis",
+        !!player_col_sym == "D.K. Metcalf" ~ "DK Metcalf",
+        !!player_col_sym == "AJ Barner" ~ "A.J. Barner",
         # Remove Jr. or Sr. when detected
         stringr::str_detect(!!player_col_sym, "\\s*(Jr\\.|Sr\\.)$") ~ stringr::str_replace(!!player_col_sym, "\\s*(Jr\\.|Sr\\.)$", ""),
         # Remove II or III when detected

@@ -4,12 +4,12 @@
 \alias{get_player_data}
 \title{Player Identification Data}
 \usage{
-get_player_data(season = NULL, pos = NULL)
+get_player_data(seasons = NULL, position = NULL)
 }
 \arguments{
-\item{season}{NFL season or year (int)}
+\item{seasons}{NFL season or year (int)}
 
-\item{pos}{Player position (str) such as "WR"}
+\item{position}{Player position (str) such as "WR"}
 }
 \value{
 Dataframe that lists player data for a specified season and position

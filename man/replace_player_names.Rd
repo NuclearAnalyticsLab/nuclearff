@@ -4,7 +4,7 @@
 \alias{replace_player_names}
 \title{Helper - Cleanup Player Names}
 \usage{
-replace_player_names(df)
+replace_player_names(df, player_col = "player")
 }
 \arguments{
 \item{df}{Dataframe with player column to clean up names}

@@ -16,11 +16,12 @@ calc_fpts(pbp = pbp, pass_td_pts = 6, pass_int_pts = -2, rec_pts = 1)
 \item{rec_pts}{Reception Points}
 }
 \value{
-Calculate fantasy points using play-by-play and data and user-defined
+Dataframe with total fantasy points using play-by-play data and user-defined
 scoring settings (e.g., 6PT PASS TD, -2 PASS INT, Full PPR)
 }
 \description{
-Calculate Fantasy Points
+Calculate fantasy points using play-by-play and data and user-defined
+scoring settings (e.g., 6PT PASS TD, -2 PASS INT, Full PPR)
 }
 \author{
 Nolan MacDonald

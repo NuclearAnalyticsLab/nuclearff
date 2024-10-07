@@ -3,16 +3,73 @@
 \name{calc_fpts_common_formats}
 \alias{calc_fpts_common_formats}
 \title{Calculate Fantasy Points for Common Scoring Formats}
+\format{
+A data frame with 79 variables that are described below.
+\describe{
+\item{\code{fpts_std_4pt_td}}{
+Total fantasy points for standard scoring with 4 point touchdowns
+}
+\item{\code{ppg_std_4pt_td}}{
+Points per game (PPG) for standard scoring with 4 point touchdowns
+}
+\item{\code{fpts_half_ppr_4pt_td}}{
+Total fantasy points for half point per reception (Half PPR) scoring
+with 4 point touchdowns
+}
+\item{\code{ppg_half_ppr_4pt_td}}{
+Points per game (PPG) for half point per reception (Half PPR) scoring
+with 4 point touchdowns
+}
+\item{\code{fpts_ppr_4pt_td}}{
+Total fantasy points for point per reception (full PPR) scoring with
+4 point touchdowns
+}
+\item{\code{ppg_ppr_4pt_td}}{
+Points per game (PPG) for point per reception (Full PPR) scoring
+with 4 point touchdowns
+}
+\item{\code{fpts_std_6pt_td}}{
+Total fantasy points for standard scoring with 6 point touchdowns
+}
+\item{\code{ppg_std_6pt_td}}{
+Points per game (PPG) for standard scoring with 6 point touchdowns
+}
+\item{\code{fpts_half_ppr_6pt_td}}{
+Total fantasy points for half point per reception (Half PPR) scoring
+with 6 point touchdowns
+}
+\item{\code{ppg_half_ppr_6pt_td}}{
+Points per game (PPG) for half point per reception (Half PPR) scoring
+with 6 point touchdowns
+}
+\item{\code{fpts_ppr_6pt_td}}{
+Total fantasy points for point per reception (full PPR) scoring with
+6 point touchdowns
+}
+\item{\code{ppg_ppr_6pt_td}}{
+Points per game (PPG) for point per reception (Full PPR) scoring
+with 6 point touchdowns
+}
+}
+}
 \usage{
 calc_fpts_common_formats(pbp = pbp)
 }
 \arguments{
-\item{pbp}{Play-by-play Dataframe}
+\item{pbp}{Play-by-play Data frame}
 }
 \value{
-Calculate fantasy points using play-by-play and data and common
+Data frame with total fantasy points for common
 scoring settings (i.e., 4/6PT PASS TD, -2 PASS INT, STD/Half PPR/Full PPR)
 }
 \description{
-Calculate Fantasy Points for Common Scoring Formats
+Calculate fantasy points using play-by-play data and common
+scoring settings (i.e., 4/6PT PASS TD, -2 PASS INT, STD/Half PPR/Full PPR)
+}
+\seealso{
+\code{\link[nuclearff]{calc_fpts}}
+Calculate total fantasy points
+}
+\author{
+Nolan MacDonald
 }

@@ -3,37 +3,9 @@
 \name{get_qb_pfr_advstats_season}
 \alias{get_qb_pfr_advstats_season}
 \title{QB Advanced Season Stats from Pro Football Reference (PFR)}
-\usage{
-get_qb_pfr_advstats_season(seasons = NULL)
-}
-\arguments{
-\item{seasons}{NFL Season(s) where \code{seasons = 2024}}
-}
-\value{
-Dataframe with QB advanced stats from Pro Football Reference (PFR)
-for a defined season
-}
-\description{
-Obtain QB advanced season stats from \code{nflreadr},
-to acquire Pro Football Reference (PFR) data.
-}
-\details{
-\code{get_qb_pfr_advstats_season} is a function to obtain advanced stats from
-Pro Football Reference (PFR).
-The function utilizes the \code{nflreadr} function \code{load_pfr_advstats} to load
-player level season stats starting with the 2018 season.
-For quarterbacks, the \code{stat_type} is defined as \code{pass}.
-More information is available about QB PFR advanced stats from
-\href{https://nflreadr.nflverse.com/articles/dictionary_pfr_passing.html}{PFR passing data dictionary}.
-}
-\seealso{
-\code{\link[nflreadr]{load_pfr_advstats}}
-Load advanced stats from PFR
-}
-\author{
-Nolan MacDonald
-
-\itemize{
+\format{
+A data frame with 26 variables that are described below.
+\describe{
 \item{\code{player_display_name}}{Player name (e.g., Lamar Jackson)}
 \item{\code{pass_attempts}}{Total pass attempts}
 \item{\code{throwaways}}{Number of throwaways}
@@ -63,4 +35,34 @@ Nolan MacDonald
 Pro Football Reference player ID (e.g., JackLa00)
 }
 }
+}
+\usage{
+get_qb_pfr_advstats_season(seasons = NULL)
+}
+\arguments{
+\item{seasons}{NFL Season(s) where \code{seasons = 2024}}
+}
+\value{
+Dataframe with QB advanced stats from Pro Football Reference (PFR)
+for a defined season
+}
+\description{
+Obtain QB advanced season stats from \code{nflreadr},
+to acquire Pro Football Reference (PFR) data.
+}
+\details{
+\code{get_qb_pfr_advstats_season} is a function to obtain advanced stats from
+Pro Football Reference (PFR).
+The function utilizes the \code{nflreadr} function \code{load_pfr_advstats} to load
+player level season stats starting with the 2018 season.
+For quarterbacks, the \code{stat_type} is defined as \code{pass}.
+More information is available about QB PFR advanced stats from
+\href{https://nflreadr.nflverse.com/articles/dictionary_pfr_passing.html}{PFR passing data dictionary}.
+}
+\seealso{
+\code{\link[nflreadr]{load_pfr_advstats}}
+Load advanced stats from PFR
+}
+\author{
+Nolan MacDonald
 }

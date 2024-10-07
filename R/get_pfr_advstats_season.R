@@ -35,7 +35,8 @@
 #'
 #' @author Nolan MacDonald
 #'
-#' \itemize{
+#' @format A data frame with 26 variables that are described below.
+#' \describe{
 #'  \item{\code{player_display_name}}{Player name (e.g., Lamar Jackson)}
 #'  \item{\code{pass_attempts}}{Total pass attempts}
 #'  \item{\code{throwaways}}{Number of throwaways}
@@ -144,7 +145,8 @@ get_qb_pfr_advstats_season <- function(seasons = NULL) {
 #'
 #' @author Nolan MacDonald
 #'
-#' \itemize{
+#' @format A data frame with 16 variables that are described below.
+#' \describe{
 #'  \item{\code{player_display_name}}{Player name (e.g., Lamar Jackson)}
 #'  \item{\code{age}}{}
 #'  \item{\code{position}}{}
@@ -233,7 +235,8 @@ get_rb_pfr_advstats_season <- function(seasons = NULL) {
 #'
 #' @author Nolan MacDonald
 #'
-#' \itemize{
+#' @format A data frame with 22 variables that are described below.
+#' \describe{
 #'  \item{\code{player_display_name}}{Player name (e.g., Malik Nabers)}
 #'  \item{\code{age}}{Player age}
 #'  \item{\code{position}}{Player position}
@@ -338,7 +341,8 @@ get_wr_pfr_advstats_season <- function(seasons = NULL) {
 #'
 #' @author Nolan MacDonald
 #'
-#' \itemize{
+#' @format A data frame with 22 variables that are described below.
+#' \describe{
 #'  \item{\code{player_display_name}}{Player name (e.g., George Kittle)}
 #'  \item{\code{age}}{Player age}
 #'  \item{\code{position}}{Player position}

@@ -3,6 +3,30 @@
 \name{get_rb_ngs_advstats_season}
 \alias{get_rb_ngs_advstats_season}
 \title{RB Cumulative Season NFL Next Gen Stats (NGS)}
+\format{
+A data frame with 15 variables that are described below.
+\describe{
+\item{\code{player_id}}{Player gsis id (e.g., 00-0038120)}
+\item{\code{player_display_name}}{Player name (e.g., Breece Hall)}
+\item{\code{player_name}}{Player shortened name (e.g., B.Hall)}
+\item{\code{position}}{Player position}
+\item{\code{rush_attempts}}{Total rush attempts}
+\item{\code{rush_yards}}{Total rush yards}
+\item{\code{avg_rush_yards}}{Average rush yards per attempt}
+\item{\code{rush_touchdowns}}{Total rush touchdowns}
+\item{\code{efficiency}}{Average efficiency (EFF)}
+\item{\code{percent_attempts_gte_eight_defenders }}{
+Average \% attempts with 8+ Defenders in the Box (8+D\%)
+}
+\item{\code{avg_time_to_los}}{Average time behind line of scrimmage (TLOS)}
+\item{\code{expected_rush_yards}}{Average expected rush yards}
+\item{\code{rush_yards_over_expected}}{Average rush yards over expected}
+\item{\code{rush_yards_over_expected_per_att}}{
+Average rush yards over expected per attempt
+}
+\item{\code{rush_pct_over_expected}}{Average rush \% over expected}
+}
+}
 \usage{
 get_rb_ngs_advstats_season(seasons = NULL)
 }
@@ -34,26 +58,4 @@ Load player level weekly NFL Next Gen Stats
 }
 \author{
 Nolan MacDonald
-
-\itemize{
-\item{\code{player_id}}{Player gsis id (e.g., 00-0038120)}
-\item{\code{player_display_name}}{Player name (e.g., Breece Hall)}
-\item{\code{player_name}}{Player shortened name (e.g., B.Hall)}
-\item{\code{position}}{Player position}
-\item{\code{rush_attempts}}{Total rush attempts}
-\item{\code{rush_yards}}{Total rush yards}
-\item{\code{avg_rush_yards}}{Average rush yards per attempt}
-\item{\code{rush_touchdowns}}{Total rush touchdowns}
-\item{\code{efficiency}}{Average efficiency (EFF)}
-\item{\code{percent_attempts_gte_eight_defenders }}{
-Average \% attempts with 8+ Defenders in the Box (8+D\%)
-}
-\item{\code{avg_time_to_los}}{Average time behind line of scrimmage (TLOS)}
-\item{\code{expected_rush_yards}}{Average expected rush yards}
-\item{\code{rush_yards_over_expected}}{Average rush yards over expected}
-\item{\code{rush_yards_over_expected_per_att}}{
-Average rush yards over expected per attempt
-}
-\item{\code{rush_pct_over_expected}}{Average rush \% over expected}
-}
 }

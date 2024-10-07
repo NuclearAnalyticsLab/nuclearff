@@ -10,9 +10,13 @@ calc_fpts_ppg_common_formats(pbp = pbp)
 \item{pbp}{Play-by-play Dataframe}
 }
 \value{
-Calculate fantasy points per game using play-by-play and data and common
+Dataframe with fantasy points per game (PPG) using common
 scoring settings (i.e., 4/6PT PASS TD, -2 PASS INT, STD/Half PPR/Full PPR)
 }
 \description{
-Calculate Fantasy Points Per Game for Common Scoring Formats
+Calculate fantasy points per game using play-by-play and data and common
+scoring settings (i.e., 4/6PT PASS TD, -2 PASS INT, STD/Half PPR/Full PPR)
+}
+\author{
+Nolan MacDonald
 }

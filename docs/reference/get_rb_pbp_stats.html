@@ -43,12 +43,210 @@ from either a saved database or <code><a href="https://nflreadr.nflverse.com/ref
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_rb_pbp_stats</span><span class="op">(</span></span>
 <span>  pbp_db <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  pbp_db_tbl <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  season <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  seasons <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  week_min <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  week_max <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
+    <div class="section level2">
+    <h2 id="format">Format<a class="anchor" aria-label="anchor" href="#format"></a></h2>
+    <p>A data frame with 59 variables that are described below.</p><dl><dt><code>player_id</code></dt>
+<dd><p>Player gsis id (e.g., 00-0038120)</p></dd>
+
+<dt><code>player_display_name</code></dt>
+<dd><p>Player name (e.g., Breece Hall)</p></dd>
+
+<dt><code>player_name</code></dt>
+<dd><p>Player shortened name (e.g., B.Hall)</p></dd>
+
+<dt><code>position</code></dt>
+<dd><p>Player position (e.g., RB)</p></dd>
+
+<dt><code>team</code></dt>
+<dd><p>Player team (e.g., NYJ)</p></dd>
+
+<dt><code>games</code></dt>
+<dd><p>Number of games played</p></dd>
+
+<dt><code>fpts_std_4pt_td</code></dt>
+<dd><p>Fantasy points for standard format with 4 point TD</p></dd>
+
+<dt><code>ppg_std_4pt_td</code></dt>
+<dd><p>Fantasy points per game for standard format with 4 point TD</p></dd>
+
+<dt><code>fpts_half_ppr_4pt_td</code></dt>
+<dd><p>Fantasy points for half PPR format with 4 point TD</p></dd>
+
+<dt><code>ppg_half_ppr_4pt_td</code></dt>
+<dd><p>Fantasy points per game for half PPR format with 4 point TD</p></dd>
+
+<dt><code>fpts_ppr_4pt_td</code></dt>
+<dd><p>Fantasy points for full PPR format with 4 point TD</p></dd>
+
+<dt><code>ppg_ppr_4pt_td</code></dt>
+<dd><p>Fantasy points per game for full PPR format with 4 point TD</p></dd>
+
+<dt><code>fpts_std_6pt_td</code></dt>
+<dd><p>Fantasy points for standard format with 6 point TD</p></dd>
+
+<dt><code>ppg_std_6pt_td</code></dt>
+<dd><p>Fantasy points per game for standard format with 6 point TD</p></dd>
+
+<dt><code>fpts_half_ppr_6pt_td</code></dt>
+<dd><p>Fantasy points for half PPR format with 6 point TD</p></dd>
+
+<dt><code>ppg_half_ppr_6pt_td</code></dt>
+<dd><p>Fantasy points per game for half PPR format with 6 point TD</p></dd>
+
+<dt><code>fpts_ppr_6pt_td</code></dt>
+<dd><p>Fantasy points for full PPR format with 6 point TD</p></dd>
+
+<dt><code>ppg_ppr_6pt_td</code></dt>
+<dd><p>Fantasy points per game for full PPR format with 6 point TD</p></dd>
+
+<dt><code>carries</code></dt>
+<dd><p>Number of rush attempts including scrambles and kneel downs. Rushes after
+a lateral reception don't count as a carry</p></dd>
+
+<dt><code>rushing_yards</code></dt>
+<dd><p>Yards gained when rushing including scrambles and kneel downs. Also
+includes yards gained after obtaining a lateral on a play that started
+with a rushing attempt</p></dd>
+
+<dt><code>rushing_tds</code></dt>
+<dd><p>The number of rushing touchdowns (incl. scrambles). Also includes
+touchdowns after obtaining a lateral on a play that started with a
+rushing attempt</p></dd>
+
+<dt><code>rushing_fumbles</code></dt>
+<dd><p>Number of rushes with a fumble</p></dd>
+
+<dt><code>rushing_fumbles_lost</code></dt>
+<dd><p>Number of rushes with a lost fumble</p></dd>
+
+<dt><code>rushing_first_downs</code></dt>
+<dd><p>Number of rushing first downs</p></dd>
+
+<dt><code>rushing_epa</code></dt>
+<dd><p>Expected points added (EPA) on rush attempts including scrambles and
+kneel downs</p></dd>
+
+<dt><code>rushing_2pt_conversions</code></dt>
+<dd><p>Two-point conversion rushes</p></dd>
+
+<dt><code>targets</code></dt>
+<dd><p>Number of pass plays where the player was targeted as a receiver</p></dd>
+
+<dt><code>receptions</code></dt>
+<dd><p>Number of pass receptions. Lateral receptions don't count as a reception</p></dd>
+
+<dt><code>receiving_yards</code></dt>
+<dd><p>Yards gained after a pass reception. Includes yards gained after
+receiving a lateral on a play that started as a pass play</p></dd>
+
+<dt><code>receiving_tds</code></dt>
+<dd><p>Number of reception touchdowns, including after receiving a lateral on a
+play that began as a pass play</p></dd>
+
+<dt><code>receiving_fumbles</code></dt>
+<dd><p>Number of fumbles after a pass reception</p></dd>
+
+<dt><code>receiving_fumbles_lost</code></dt>
+<dd><p>Number of fumbles lost after a pass reception</p></dd>
+
+<dt><code>receiving_air_yards</code></dt>
+<dd><p>Receiving air yards including incomplete passes</p></dd>
+
+<dt><code>receiving_yards_after_catch</code></dt>
+<dd><p>Yards after the catch gained on plays in which player was receiver (this
+is an unofficial stat and may differ slightly between different sources)</p></dd>
+
+<dt><code>receiving_first_downs</code></dt>
+<dd><p>Number of first downs gained on a reception</p></dd>
+
+<dt><code>receiving_epa</code></dt>
+<dd><p>Expected points added on receptions</p></dd>
+
+<dt><code>receiving_2pt_conversions</code></dt>
+<dd><p>Two-point conversion receptions</p></dd>
+
+<dt><code>racr</code></dt>
+<dd><p>Receiving Air Conversion Ratio.
+RACR = <code>receiving_yards</code> / <code>receiving_air_yards</code></p></dd>
+
+<dt><code>target_share</code></dt>
+<dd><p>Share of targets of player compared to all team targets</p></dd>
+
+<dt><code>tgt_pct</code></dt>
+<dd><p>Share of targets percentage</p></dd>
+
+<dt><code>air_yards_share</code></dt>
+<dd><p>Share of <code>receiving_air_yards</code> of the player to all team <code>air_yards</code></p></dd>
+
+<dt><code>wopr</code></dt>
+<dd><p>Weighted Opportunity Rating.
+WOPR = 1.5 x <code>target_share</code> + 0.7 x <code>air_yards_share</code></p></dd>
+
+<dt><code>completions</code></dt>
+<dd><p>Total pass completions (CMP)</p></dd>
+
+<dt><code>attempts</code></dt>
+<dd><p>Total pass attempts (ATT)</p></dd>
+
+<dt><code>cmp_pct</code></dt>
+<dd><p>Pass completion percentage</p></dd>
+
+<dt><code>passing_yards</code></dt>
+<dd><p>Total passing yards</p></dd>
+
+<dt><code>passing_tds</code></dt>
+<dd><p>Total passing touchdowns</p></dd>
+
+<dt><code>interceptions</code></dt>
+<dd><p>Total pass interceptions (INT)</p></dd>
+
+<dt><code>sacks</code></dt>
+<dd><p>Total number of sacks taken</p></dd>
+
+<dt><code>sack_yards</code></dt>
+<dd><p>Total yards taken from sacks</p></dd>
+
+<dt><code>sack_fumbles</code></dt>
+<dd><p>Total fumbles from sacks</p></dd>
+
+<dt><code>sack_fumbles_lost</code></dt>
+<dd><p>Total fumbles lost from sacks</p></dd>
+
+<dt><code>passing_air_yards</code></dt>
+<dd><p>Passing air yards (includes incomplete passes)</p></dd>
+
+<dt><code>passing_yards_after_catch</code></dt>
+<dd><p>Yards after the catch gained on plays in which player was the passer
+(this is an unofficial stat and may differ slightly between different
+sources).</p></dd>
+
+<dt><code>passing_first_downs</code></dt>
+<dd><p>First downs on pass attempts</p></dd>
+
+<dt><code>passing_epa</code></dt>
+<dd><p>Total expected points added (EPA) on pass attempts and sacks.
+NOTE: This uses the variable <code>qb_epa</code>, which gives QB credit for EPA for
+up to the point where a receiver lost a fumble after a completed catch
+and makes EPA work more like passing yards on plays with fumbles</p></dd>
+
+<dt><code>passing_2pt_conversions</code></dt>
+<dd><p>Two-point conversion passes</p></dd>
+
+<dt><code>pacr</code></dt>
+<dd><p>Passing Air Conversion Ratio. PACR = <code>passing_yards</code> / <code>passing_air_yards</code></p></dd>
+
+<dt><code>dakota</code></dt>
+<dd><p>Adjusted EPA + CPOE composite based on coefficients which best predicts
+adjusted EPA/play in the following year</p></dd>
+
+
+</dl></div>
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
 
@@ -57,8 +255,8 @@ from either a saved database or <code><a href="https://nflreadr.nflverse.com/ref
 <dd><p>Play-by-Play database table name (optional)</p></dd>
 
 
-<dt id="arg-season">season<a class="anchor" aria-label="anchor" href="#arg-season"></a></dt>
-<dd><p>NFL season (required) to obtain play-by-play data. The
+<dt id="arg-seasons">seasons<a class="anchor" aria-label="anchor" href="#arg-seasons"></a></dt>
+<dd><p>NFL season(s) (required) to obtain play-by-play data. The
 season can be defined as a single season, <code>season = 2024</code>. For multiple
 seasons, use either <code>season = c(2023,2024)</code> or <code>season = 2022:2024</code>.</p></dd>
 
@@ -116,125 +314,16 @@ For more information on calculated player stats, refer to the
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p><code><a href="get_pbp_data.html">nuclearff::get_pbp_data</a></code>
 Obtain play-by-play data for a specified time frame from either a saved
-database or if not defined, using <code><a href="https://nflreadr.nflverse.com/reference/load_pbp.html" class="external-link">nflreadr::load_pbp()</a></code>,</p>
+database or if not defined, using <code><a href="https://nflreadr.nflverse.com/reference/load_pbp.html" class="external-link">nflreadr::load_pbp()</a></code></p>
 <p><code><a href="https://nflreadr.nflverse.com/reference/load_pbp.html" class="external-link">load_pbp</a></code>
-Load play-by-play data,</p>
+Load play-by-play data</p>
 <p><code><a href="https://www.nflfastr.com/reference/update_db.html" class="external-link">update_db</a></code>
 Update or Create a nflfastR Play-by-Play Database</p></div>
     </div>
     <div class="section level2">
     <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a></h2>
     <p>Nolan MacDonald</p>
-<ul><li><p><code>player_id</code>Player gsis id (e.g., 00-0038120)</p></li>
-<li><p><code>player_display_name</code>Player name (e.g., Breece Hall)</p></li>
-<li><p><code>player_name</code>Player shortened name (e.g., B.Hall)</p></li>
-<li><p><code>position</code>Player position (e.g., RB)</p></li>
-<li><p><code>team</code>Player team (e.g., NYJ)</p></li>
-<li><p><code>games</code>Number of games played</p></li>
-<li><p><code>fpts_std_4pt_td</code>
-Fantasy points for standard format with 4 point TD</p></li>
-<li><p><code>ppg_std_4pt_td</code>
-Fantasy points per game for standard format with 4 point TD</p></li>
-<li><p><code>fpts_half_ppr_4pt_td</code>
-Fantasy points for half PPR format with 4 point TD</p></li>
-<li><p><code>ppg_half_ppr_4pt_td</code>
-Fantasy points per game for half PPR format with 4 point TD</p></li>
-<li><p><code>fpts_ppr_4pt_td</code>
-Fantasy points for full PPR format with 4 point TD</p></li>
-<li><p><code>ppg_ppr_4pt_td</code>
-Fantasy points per game for full PPR format with 4 point TD</p></li>
-<li><p><code>fpts_std_6pt_td</code>
-Fantasy points for standard format with 6 point TD</p></li>
-<li><p><code>ppg_std_6pt_td</code>
-Fantasy points per game for standard format with 6 point TD</p></li>
-<li><p><code>fpts_half_ppr_6pt_td</code>
-Fantasy points for half PPR format with 6 point TD</p></li>
-<li><p><code>ppg_half_ppr_6pt_td</code>
-Fantasy points per game for half PPR format with 6 point TD</p></li>
-<li><p><code>fpts_ppr_6pt_td</code>
-Fantasy points for full PPR format with 6 point TD</p></li>
-<li><p><code>ppg_ppr_6pt_td</code>
-Fantasy points per game for full PPR format with 6 point TD</p></li>
-<li><p><code>carries</code>
-Number of rush attempts including scrambles and kneel downs. Rushes after
-a lateral reception don't count as a carry</p></li>
-<li><p><code>rushing_yards</code>
-Yards gained when rushing including scrambles and kneel downs. Also
-includes yards gained after obtaining a lateral on a play that started
-with a rushing attempt</p></li>
-<li><p><code>rushing_tds</code>
-The number of rushing touchdowns (incl. scrambles). Also includes
-touchdowns after obtaining a lateral on a play that started with a
-rushing attempt</p></li>
-<li><p><code>rushing_fumbles</code>Number of rushes with a fumble</p></li>
-<li><p><code>rushing_fumbles_lost</code>Number of rushes with a lost fumble</p></li>
-<li><p><code>rushing_first_downs</code>Number of rushing first downs</p></li>
-<li><p><code>rushing_epa</code>
-Expected points added (EPA) on rush attempts including scrambles and
-kneel downs</p></li>
-<li><p><code>rushing_2pt_conversions</code>Two-point conversion rushes</p></li>
-<li><p><code>targets</code>
-Number of pass plays where the player was targeted as a receiver</p></li>
-<li><p><code>receptions</code>
-Number of pass receptions. Lateral receptions don't count as a reception</p></li>
-<li><p><code>receiving_yards</code>
-Yards gained after a pass reception. Includes yards gained after
-receiving a lateral on a play that started as a pass play</p></li>
-<li><p><code>receiving_tds</code>
-Number of reception touchdowns, including after receiving a lateral on a
-play that began as a pass play</p></li>
-<li><p><code>receiving_fumbles</code>Number of fumbles after a pass reception</p></li>
-<li><p><code>receiving_fumbles_lost</code>
-Number of fumbles lost after a pass reception</p></li>
-<li><p><code>receiving_air_yards</code>
-Receiving air yards including incomplete passes</p></li>
-<li><p><code>receiving_yards_after_catch</code>
-Yards after the catch gained on plays in which player was receiver (this
-is an unofficial stat and may differ slightly between different sources)</p></li>
-<li><p><code>receiving_first_downs</code>
-Number of first downs gained on a reception</p></li>
-<li><p><code>receiving_epa</code>Expected points added on receptions</p></li>
-<li><p><code>receiving_2pt_conversions</code>Two-point conversion receptions</p></li>
-<li><p><code>racr</code>
-Receiving Air Conversion Ratio.
-RACR = <code>receiving_yards</code> / <code>receiving_air_yards</code></p></li>
-<li><p><code>target_share</code>
-Share of targets of player compared to all team targets</p></li>
-<li><p><code>tgt_pct</code>Share of targets percentage</p></li>
-<li><p><code>air_yards_share</code>
-Share of <code>receiving_air_yards</code> of the player to all team <code>air_yards</code></p></li>
-<li><p><code>wopr</code>
-Weighted Opportunity Rating.
-WOPR = 1.5 x <code>target_share</code> + 0.7 x <code>air_yards_share</code></p></li>
-<li><p><code>completions</code>Total pass completions (CMP)</p></li>
-<li><p><code>attempts</code>Total pass attempts (ATT)</p></li>
-<li><p><code>cmp_pct</code>Pass completion percentage</p></li>
-<li><p><code>passing_yards</code>Total passing yards</p></li>
-<li><p><code>passing_tds</code>Total passing touchdowns</p></li>
-<li><p><code>interceptions</code>Total pass interceptions (INT)</p></li>
-<li><p><code>sacks</code>Total number of sacks taken</p></li>
-<li><p><code>sack_yards</code>Total yards taken from sacks</p></li>
-<li><p><code>sack_fumbles</code>Total fumbles from sacks</p></li>
-<li><p><code>sack_fumbles_lost</code>Total fumbles lost from sacks</p></li>
-<li><p><code>passing_air_yards</code>
-Passing air yards (includes incomplete passes)</p></li>
-<li><p><code>passing_yards_after_catch</code>
-Yards after the catch gained on plays in which player was the passer
-(this is an unofficial stat and may differ slightly between different
-sources).</p></li>
-<li><p><code>passing_first_downs</code>First downs on pass attempts</p></li>
-<li><p><code>passing_epa</code>
-Total expected points added (EPA) on pass attempts and sacks.
-NOTE: This uses the variable <code>qb_epa</code>, which gives QB credit for EPA for
-up to the point where a receiver lost a fumble after a completed catch
-and makes EPA work more like passing yards on plays with fumbles</p></li>
-<li><p><code>passing_2pt_conversions</code>Two-point conversion passes</p></li>
-<li><p><code>pacr</code>
-Passing Air Conversion Ratio. PACR = <code>passing_yards</code> / <code>passing_air_yards</code></p></li>
-<li><p><code>dakota</code>
-Adjusted EPA + CPOE composite based on coefficients which best predicts
-adjusted EPA/play in the following year</p></li>
-</ul></div>
+    </div>
 
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>

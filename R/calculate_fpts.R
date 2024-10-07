@@ -1,4 +1,18 @@
+################################################################################
+# Author: Nolan MacDonald
+# Purpose:
+#   Calculate total fantasy points and points per game (PPG) based on standard
+#   scoring formats.
+# Code Style Guide:
+#   styler::tidyverse_style(), lintr::use_lintr(type = "tidyverse")
+################################################################################
+
 #' Calculate Fantasy Points
+#'
+#' @description
+#' Calculate fantasy points using play-by-play and data and user-defined
+#' scoring settings (e.g., 6PT PASS TD, -2 PASS INT, Full PPR)
+#'
 #'
 #' @param pbp Play-by-play Dataframe
 #' @param pass_td_pts Passing Touchdown Points
@@ -6,7 +20,7 @@
 #' @param rec_pts Reception Points
 #'
 #' @return
-#' Calculate fantasy points using play-by-play and data and user-defined
+#' Dataframe with total fantasy points using play-by-play data and user-defined
 #' scoring settings (e.g., 6PT PASS TD, -2 PASS INT, Full PPR)
 #'
 #' @author Nolan MacDonald
@@ -38,11 +52,69 @@ calc_fpts <- function(pbp = pbp,
 
 #' Calculate Fantasy Points for Common Scoring Formats
 #'
-#' @param pbp Play-by-play Dataframe
+#' @description
+#' Calculate fantasy points using play-by-play data and common
+#' scoring settings (i.e., 4/6PT PASS TD, -2 PASS INT, STD/Half PPR/Full PPR)
+#'
+#' @param pbp Play-by-play Data frame
 #'
 #' @return
-#' Calculate fantasy points using play-by-play and data and common
+#' Data frame with total fantasy points for common
 #' scoring settings (i.e., 4/6PT PASS TD, -2 PASS INT, STD/Half PPR/Full PPR)
+#'
+#' @seealso \code{\link[nuclearff]{calc_fpts}}
+#'  Calculate total fantasy points
+#'
+#' @author Nolan MacDonald
+#'
+#' @format A data frame with 79 variables that are described below.
+#' \describe{
+#'  \item{\code{fpts_std_4pt_td}}{
+#'    Total fantasy points for standard scoring with 4 point touchdowns
+#'    }
+#'  \item{\code{ppg_std_4pt_td}}{
+#'    Points per game (PPG) for standard scoring with 4 point touchdowns
+#'    }
+#'  \item{\code{fpts_half_ppr_4pt_td}}{
+#'    Total fantasy points for half point per reception (Half PPR) scoring
+#'    with 4 point touchdowns
+#'    }
+#'  \item{\code{ppg_half_ppr_4pt_td}}{
+#'    Points per game (PPG) for half point per reception (Half PPR) scoring
+#'    with 4 point touchdowns
+#'    }
+#'  \item{\code{fpts_ppr_4pt_td}}{
+#'    Total fantasy points for point per reception (full PPR) scoring with
+#'    4 point touchdowns
+#'    }
+#'  \item{\code{ppg_ppr_4pt_td}}{
+#'    Points per game (PPG) for point per reception (Full PPR) scoring
+#'    with 4 point touchdowns
+#'    }
+#'  \item{\code{fpts_std_6pt_td}}{
+#'    Total fantasy points for standard scoring with 6 point touchdowns
+#'    }
+#'  \item{\code{ppg_std_6pt_td}}{
+#'    Points per game (PPG) for standard scoring with 6 point touchdowns
+#'    }
+#'  \item{\code{fpts_half_ppr_6pt_td}}{
+#'    Total fantasy points for half point per reception (Half PPR) scoring
+#'    with 6 point touchdowns
+#'    }
+#'  \item{\code{ppg_half_ppr_6pt_td}}{
+#'    Points per game (PPG) for half point per reception (Half PPR) scoring
+#'    with 6 point touchdowns
+#'    }
+#'  \item{\code{fpts_ppr_6pt_td}}{
+#'    Total fantasy points for point per reception (full PPR) scoring with
+#'    6 point touchdowns
+#'    }
+#'  \item{\code{ppg_ppr_6pt_td}}{
+#'    Points per game (PPG) for point per reception (Full PPR) scoring
+#'    with 6 point touchdowns
+#'    }
+#'  }
+#'
 #' @export
 calc_fpts_common_formats <- function(pbp = pbp)
 {
@@ -105,11 +177,19 @@ calc_fpts_common_formats <- function(pbp = pbp)
 
 #' Calculate Fantasy Points Per Game for Common Scoring Formats
 #'
+#' @description
+#' Calculate fantasy points per game using play-by-play and data and common
+#' scoring settings (i.e., 4/6PT PASS TD, -2 PASS INT, STD/Half PPR/Full PPR)
+#'
+#'
 #' @param pbp Play-by-play Dataframe
 #'
 #' @return
-#' Calculate fantasy points per game using play-by-play and data and common
+#' Dataframe with fantasy points per game (PPG) using common
 #' scoring settings (i.e., 4/6PT PASS TD, -2 PASS INT, STD/Half PPR/Full PPR)
+#'
+#' @author Nolan MacDonald
+#'
 #' @export
 calc_fpts_ppg_common_formats <- function(pbp = pbp)
 {
