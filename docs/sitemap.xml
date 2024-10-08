@@ -18,6 +18,8 @@
 <url><loc>https://github.com/NuclearAnalyticsLab/nuclearff/reference/get_rb_ngs_advstats_season.html</loc></url>
 <url><loc>https://github.com/NuclearAnalyticsLab/nuclearff/reference/get_rb_pbp_stats.html</loc></url>
 <url><loc>https://github.com/NuclearAnalyticsLab/nuclearff/reference/get_rb_pfr_advstats_season.html</loc></url>
+<url><loc>https://github.com/NuclearAnalyticsLab/nuclearff/reference/get_scoring_columns.html</loc></url>
+<url><loc>https://github.com/NuclearAnalyticsLab/nuclearff/reference/get_scoring_format.html</loc></url>
 <url><loc>https://github.com/NuclearAnalyticsLab/nuclearff/reference/get_snap_share.html</loc></url>
 <url><loc>https://github.com/NuclearAnalyticsLab/nuclearff/reference/get_te_combined_stats_season.html</loc></url>
 <url><loc>https://github.com/NuclearAnalyticsLab/nuclearff/reference/get_te_ngs_advstats_season.html</loc></url>
@@ -32,6 +34,11 @@
 <url><loc>https://github.com/NuclearAnalyticsLab/nuclearff/reference/load_data_from_nflreadr.html</loc></url>
 <url><loc>https://github.com/NuclearAnalyticsLab/nuclearff/reference/replace_player_names.html</loc></url>
 <url><loc>https://github.com/NuclearAnalyticsLab/nuclearff/reference/replace_team_names.html</loc></url>
+<url><loc>https://github.com/NuclearAnalyticsLab/nuclearff/reference/save_gt_table.html</loc></url>
+<url><loc>https://github.com/NuclearAnalyticsLab/nuclearff/reference/table_ovr_qb_fantasy.html</loc></url>
+<url><loc>https://github.com/NuclearAnalyticsLab/nuclearff/reference/table_ovr_rb_fantasy.html</loc></url>
+<url><loc>https://github.com/NuclearAnalyticsLab/nuclearff/reference/table_ovr_te_fantasy.html</loc></url>
+<url><loc>https://github.com/NuclearAnalyticsLab/nuclearff/reference/table_ovr_wr_fantasy.html</loc></url>
 <url><loc>https://github.com/NuclearAnalyticsLab/nuclearff/reference/validate_ngs_season.html</loc></url>
 <url><loc>https://github.com/NuclearAnalyticsLab/nuclearff/reference/validate_pbp_db.html</loc></url>
 <url><loc>https://github.com/NuclearAnalyticsLab/nuclearff/reference/validate_pbp_season.html</loc></url>

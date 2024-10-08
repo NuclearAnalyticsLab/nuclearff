@@ -19,6 +19,7 @@ Imports:
     gganimate,
     ggplot2,
     ggrepel,
+    glue,
     gsisdecoder,
     gt,
     gtExtras,

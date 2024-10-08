@@ -43,6 +43,16 @@ reference:
   - get_wr_combined_stats_season
   - get_te_combined_stats_season
 
+- subtitle: "Generate Tables/Figures"
+  contents:
+  - table_ovr_qb_fantasy
+  - table_ovr_rb_fantasy
+  - table_ovr_wr_fantasy
+  - table_ovr_te_fantasy
+  - get_scoring_columns
+  - get_scoring_format
+  - save_gt_table
+
 - subtitle: "Additional Utilities"
   contents:
   - get_player_data
