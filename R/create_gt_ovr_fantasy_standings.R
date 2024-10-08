@@ -655,13 +655,20 @@ table_ovr_te_fantasy <- function(num_players = NULL,
                                  output_dir = NULL
 ) {
 
-  te_pbp_stats <- nuclearff::get_wr_pbp_stats(pbp_db,
+  te_pbp_stats <- nuclearff::get_te_pbp_stats(pbp_db,
                                               pbp_db_tbl,
                                               seasons,
                                               week_min = 1
   ) %>%
     # Clean up player names in defined player column
-    nuclearff::replace_player_names(player_col = "player_display_name")
+    nuclearff::replace_player_names(player_col = "player_display_name") %>%
+    # Clean up team names e.g., LA to LAR
+    nuclearff::replace_team_names() %>%
+    # Redefine position for the strange case of Taysom Hill to "TE"
+    dplyr::mutate(position = dplyr::case_when(
+      player_display_name == "Taysom Hill" ~ "TE",
+      TRUE ~ position
+    ))
 
   # Pull WR roster information and player IDs
   te_data <- nuclearff::get_player_data(seasons,
@@ -687,7 +694,7 @@ table_ovr_te_fantasy <- function(num_players = NULL,
     )
 
   # Add snap share to data
-  snap_pct <- nuclearff::get_snap_share(season = seasons, pos = "WR") %>%
+  snap_pct <- nuclearff::get_snap_share(season = seasons, pos = "TE") %>%
     # Clean up player names in defined player column
     nuclearff::replace_player_names(player_col = "player")
 
@@ -717,10 +724,10 @@ table_ovr_te_fantasy <- function(num_players = NULL,
     ) %>%
     # Arrange by total fantasy points descending
     dplyr::arrange(dplyr::desc(fpts)) %>%
-    # Only keep the top 16 WR
+    # Only keep the top 16 TE
     utils::head(num_players) %>%
-    # mutate(OVR = 1:16) %>%    # Add the OVERALL column
-    mutate(OVR = paste0("WR", 1:num_players)) %>%  # Combine "WR" with the numbers 1 to 16
+    # Combine "TE" with the numbers 1 to 16
+    mutate(OVR = paste0("TE", 1:num_players)) %>%
     select(OVR, everything()) # Move OVERALL to the first column
 
   # Get the max week - current week
