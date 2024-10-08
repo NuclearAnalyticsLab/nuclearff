@@ -51,6 +51,7 @@ reference:
   - table_ovr_te_fantasy
   - get_scoring_columns
   - get_scoring_format
+  - save_gt_table
 
 - subtitle: "Additional Utilities"
   contents:
