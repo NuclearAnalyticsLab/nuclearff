@@ -226,7 +226,9 @@ table_ovr_rb_fantasy <- function(num_players = NULL,
                                               week_min = 1
   ) %>%
     # Clean up player names in defined player column
-    nuclearff::replace_player_names(player_col = "player_display_name")
+    nuclearff::replace_player_names(player_col = "player_display_name") %>%
+    # Clean up team names e.g., LA to LAR
+    nuclearff::replace_team_names()
 
   # Pull WR roster information and player IDs
   rb_data <- nuclearff::get_player_data(seasons,
@@ -240,7 +242,9 @@ table_ovr_rb_fantasy <- function(num_players = NULL,
       pfr_id
     ) %>%
     # Clean up player names in defined player column
-    nuclearff::replace_player_names(player_col = "player_display_name")
+    nuclearff::replace_player_names(player_col = "player_display_name") %>%
+    # Clean up team names e.g., LA to LAR
+    nuclearff::replace_team_names()
 
   # Combine PBP data with roster information and IDs
   rb_stats <- rb_pbp_stats %>%
@@ -426,7 +430,9 @@ table_ovr_wr_fantasy <- function(num_players = NULL,
                                               week_min = 1
   ) %>%
     # Clean up player names in defined player column
-    nuclearff::replace_player_names(player_col = "player_display_name")
+    nuclearff::replace_player_names(player_col = "player_display_name") %>%
+    # Clean up team names e.g., LA to LAR
+    nuclearff::replace_team_names()
 
   # Pull WR roster information and player IDs
   wr_data <- nuclearff::get_player_data(seasons,
