@@ -75,3 +75,6 @@ inst/doc
 README.html
 /doc/
 /Meta/
+
+# Ignore VSCode Cache
+*.vscode/
