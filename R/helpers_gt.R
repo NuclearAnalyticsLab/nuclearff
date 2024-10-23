@@ -148,3 +148,48 @@ get_scoring_format <- function(scoring = NULL, position = NULL) {
 
   return(format)
 }
+
+#' Helper Function - Save Table
+#'
+#' @description
+#' Save a `gt` table to a file in the specified directory.
+#'
+#' @details
+#' Save a `gt` table to a file in the specified directory. The file name and output directory must be provided.
+#' If the output directory does not exist, it will be created.
+#'
+#' @param table Name of the variable for the table to save
+#' @param file_name Name of the file to save the table as, typically a `.png` file (str)
+#' @param output_dir Directory to save the table to (str)
+#'
+#' @return description
+#'
+#' @seealso \code{\link[nuclearff]{nuclearff::get_wr_pbp_stats}}
+#'  WR cumulative season stats obtained from play-by-play data
+#' @seealso \code{\link[nuclearff]{nuclearff::get_player_data}}
+#'  Get player data and IDs to merge dataframes
+#' @seealso \code{\link[nuclearff]{nuclearff::get_snap_share}}
+#'  Pull player snap shares
+#'
+#' @author Nolan MacDonald
+#'
+#' @export
+save_gt_table <- function(table = NULL, file_name = NULL, output_dir = NULL) {
+  # Check if both output_dir and file_name are provided
+  if (!is.null(output_dir) && !is.null(file_name)) {
+    # Check if the directory exists, and create it if it doesn't
+    if (!dir.exists(output_dir)) {
+      dir.create(output_dir, recursive = TRUE)
+    }
+
+    # Create path to save the figure
+    file_path <- file.path(output_dir, file_name)
+
+    # Save the table
+    table %>% gtsave(file_path)
+
+    message("Table Saved: ", file_path)
+  } else {
+    message("File Not Saved! 'output_dir' and 'file_name' must be defined.")
+  }
+}
