@@ -149,28 +149,39 @@ table_ovr_qb_fantasy <- function(num_players = NULL,
     # trim = TRUE makes colors light, less pronounced
     gt_hulk_col_numeric(ppg, trim = FALSE) %>%
     # Footer
-    tab_source_note("Table: @nuclearffnolan | Data: @nflfastR") %>%
+    gt::tab_source_note(
+    md(glue("<div style='display: flex; align-items: center; margin: 0; padding: 0; line-height: 0;'>
+    <img src='https://raw.githubusercontent.com/NuclearAnalyticsLab/nuclearff/main/inst/logos/png/logo-500x500.png' style='height:30px; margin: 0; padding: 0; display: inline-block;'>
+    <span style='margin-left: 5px; padding: 0; display: inline-block; vertical-align: middle;'>| Table: @nuclearffnolan | Data: @nflfastR |</span>
+    </div>"))
+  ) %>%
     # Title
-    tab_header(
-      # Use glue for dynamic linking variables
-      title = md(glue("**QB OVERALL STANDINGS WEEK {week_number}**")),
-      subtitle = glue("{seasons} Fantasy PPG {format}")
+    gt::tab_header(
+    title = md(glue("
+  <div style='display: flex; justify-content: center; align-items: center;'>
+    <div style='text-align: center;'>
+    <strong>QB OVERALL STANDINGS WEEK {week_number}</strong>
+    <div style='font-size: 14px;'>{seasons} Fantasy PPG {format}</div>
+    </div>
+    <div style='position: absolute; right: 10px;'>
+    <img src='https://raw.githubusercontent.com/NuclearAnalyticsLab/nuclearff/main/inst/logos/svg/logos/nuclearff-pink-blue-alt.svg' 
+       style='height:80px;'>
+    </div>
+  </div>
+  ")
+      )
     ) %>%
     # Add padding between title and subtitle
-    tab_options(
+    gt::tab_options(
       heading.padding = px(0),  # Adjust the padding value as needed
       table.border.top.style = "hidden" # Hide top border above title
-      # table.border.bottom.style = "hidden" # Hide bottom footnote border
     )
 
   # Fastest way to show a table with nflplotr
-  gt_render_image(qb_tbl)
+  nflplotR::gt_render_image(qb_tbl)
 
   nuclearff::save_gt_table(qb_tbl, file_name, output_dir)
 }
-
-
-
 
 #' RB Overall Fantasy Football Standings Table
 #'
@@ -349,24 +360,35 @@ table_ovr_rb_fantasy <- function(num_players = NULL,
     ) %>%
     # Add hulk color theme
     # trim = TRUE makes colors light, less pronounced
-    gt_hulk_col_numeric(ppg, trim = FALSE) %>%
+    gtExtras::gt_hulk_col_numeric(ppg, trim = FALSE) %>%
     # Footer
-    tab_source_note("Table: @nuclearffnolan | Data: @nflfastR") %>%
-    # Title
-    tab_header(
-      # Use glue for dynamic linking variables
-      title = md(glue("**RB OVERALL STANDINGS WEEK {week_number}**")),
-      subtitle = glue("{seasons} Fantasy PPG {format}")
+    gt::tab_source_note(
+      md(glue("<div style='display: flex; align-items: center; margin: 0; padding: 0; line-height: 0;'>
+      <img src='https://raw.githubusercontent.com/NuclearAnalyticsLab/nuclearff/main/inst/logos/png/logo-500x500.png' style='height:30px; margin: 0; padding: 0; display: inline-block;'>
+      <span style='margin-left: 5px; padding: 0; display: inline-block; vertical-align: middle;'>| Table: @nuclearffnolan | Data: @nflfastR |</span>
+      </div>"))
+    ) %>%
+    gt::tab_header(
+      title = md(glue("
+    <div style='display: flex; justify-content: center; align-items: center;'>
+      <div style='text-align: center;'>
+      <strong>RB OVERALL STANDINGS WEEK {week_number}</strong>
+      <div style='font-size: 14px;'>{seasons} Fantasy PPG {format}</div>
+      </div>
+      <div style='position: absolute; right: 25px;'>
+      <img src='https://raw.githubusercontent.com/NuclearAnalyticsLab/nuclearff/main/inst/logos/svg/logos/nuclearff-pink-blue-alt.svg' style='height:80px;'>
+      </div>
+    </div>
+    "))
     ) %>%
     # Add padding between title and subtitle
-    tab_options(
+    gt::tab_options(
       heading.padding = px(0),  # Adjust the padding value as needed
       table.border.top.style = "hidden" # Hide top border above title
-      # table.border.bottom.style = "hidden" # Hide bottom footnote border
     )
 
   # Fastest way to show a table with nflplotr
-  gt_render_image(rb_tbl)
+  nflplotR::gt_render_image(rb_tbl)
 
   nuclearff::save_gt_table(rb_tbl, file_name, output_dir)
 }
@@ -545,66 +567,36 @@ table_ovr_wr_fantasy <- function(num_players = NULL,
     # trim = TRUE makes colors light, less pronounced
     gt_hulk_col_numeric(ppg, trim = FALSE) %>%
     # Footer
-    tab_source_note("Table: @nuclearffnolan | Data: @nflfastR") %>%
-    # Title
-    tab_header(
-      # Use glue for dynamic linking variables
-      title = md(glue("**WR OVERALL STANDINGS WEEK {week_number}**")),
-      subtitle = glue("{seasons} Fantasy PPG {format}")
+    gt::tab_source_note(
+      md(glue("<div style='display: flex; align-items: center; margin: 0; padding: 0; line-height: 0;'>
+      <img src='https://raw.githubusercontent.com/NuclearAnalyticsLab/nuclearff/main/inst/logos/png/logo-500x500.png' style='height:30px; margin: 0; padding: 0; display: inline-block;'>
+      <span style='margin-left: 5px; padding: 0; display: inline-block; vertical-align: middle;'>| Table: @nuclearffnolan | Data: @nflfastR |</span>
+      </div>"))
+    ) %>%
+    gt::tab_header(
+      title = md(glue("
+    <div style='display: flex; justify-content: center; align-items: center;'>
+      <div style='text-align: center;'>
+      <strong>WR OVERALL STANDINGS WEEK {week_number}</strong>
+      <div style='font-size: 14px;'>{seasons} Fantasy PPG {format}</div>
+      </div>
+      <div style='position: absolute; right: 120px;'>
+      <img src='https://raw.githubusercontent.com/NuclearAnalyticsLab/nuclearff/main/inst/logos/svg/logos/nuclearff-pink-blue-alt.svg' style='height:80px;'>
+      </div>
+    </div>
+    "))
     ) %>%
     # Add padding between title and subtitle
-    tab_options(
+    gt::tab_options(
       heading.padding = px(0),  # Adjust the padding value as needed
       table.border.top.style = "hidden" # Hide top border above title
       # table.border.bottom.style = "hidden" # Hide bottom footnote border
     )
 
   # Fastest way to show a table with nflplotr
-  gt_render_image(wr_tbl)
+  nflplotR::gt_render_image(wr_tbl)
 
   nuclearff::save_gt_table(wr_tbl, file_name, output_dir)
-}
-
-#' Helper Function - Save Table
-#'
-#' @description
-#' Hello
-#'
-#' @details
-#' Additional details...
-#'
-#' @param name description
-#'
-#' @return description
-#'
-#' @seealso \code{\link[nuclearff]{nuclearff::get_wr_pbp_stats}}
-#'  WR cumulative season stats obtained from play-by-play data
-#' @seealso \code{\link[nuclearff]{nuclearff::get_player_data}}
-#'  Get player data and IDs to merge dataframes
-#' @seealso \code{\link[nuclearff]{nuclearff::get_snap_share}}
-#'  Pull player snap shares
-#'
-#' @author Nolan MacDonald
-#'
-#' @export
-save_gt_table <- function(table = NULL, file_name = NULL, output_dir = NULL) {
-  # Check if both output_dir and file_name are provided
-  if (!is.null(output_dir) && !is.null(file_name)) {
-    # Check if the directory exists, and create it if it doesn't
-    if (!dir.exists(output_dir)) {
-      dir.create(output_dir, recursive = TRUE)
-    }
-
-    # Create path to save the figure
-    file_path <- file.path(output_dir, file_name)
-
-    # Save the table
-    table %>% gtsave(file_path)
-
-    message("Table saved at: ", file_path)
-  } else {
-    message("File not saved: 'output_dir' and 'file_name' must be defined.")
-  }
 }
 
 #' TE Overall Fantasy Football Standings Table
@@ -785,24 +777,37 @@ table_ovr_te_fantasy <- function(num_players = NULL,
     ) %>%
     # Add hulk color theme
     # trim = TRUE makes colors light, less pronounced
-    gt_hulk_col_numeric(ppg, trim = FALSE) %>%
+    gtExtras::gt_hulk_col_numeric(ppg, trim = FALSE) %>%
     # Footer
-    tab_source_note("Table: @nuclearffnolan | Data: @nflfastR") %>%
+    tab_source_note(
+      md(glue("<div style='display: flex; align-items: center; margin: 0; padding: 0; line-height: 0;'>
+      <img src='https://raw.githubusercontent.com/NuclearAnalyticsLab/nuclearff/main/inst/logos/png/logo-500x500.png' style='height:30px; margin: 0; padding: 0; display: inline-block;'>
+      <span style='margin-left: 5px; padding: 0; display: inline-block; vertical-align: middle;'>| Table: @nuclearffnolan | Data: @nflfastR |</span>
+      </div>"))
+    ) %>%
     # Title
     tab_header(
-      # Use glue for dynamic linking variables
-      title = md(glue("**TE OVERALL STANDINGS WEEK {week_number}**")),
-      subtitle = glue("{seasons} Fantasy PPG {format}")
+      title = md(glue("
+    <div style='display: flex; justify-content: center; align-items: center;'>
+      <div style='text-align: center;'>
+      <strong>TE OVERALL STANDINGS WEEK {week_number}</strong>
+      <div style='font-size: 14px;'>{seasons} Fantasy PPG {format}</div>
+      </div>
+      <div style='position: absolute; right: 120px;'>
+      <img src='https://raw.githubusercontent.com/NuclearAnalyticsLab/nuclearff/main/inst/logos/svg/logos/nuclearff-pink-blue-alt.svg' style='height:80px;'>
+      </div>
+    </div>
+    "))
     ) %>%
     # Add padding between title and subtitle
-    tab_options(
+    gt::tab_options(
       heading.padding = px(0),  # Adjust the padding value as needed
       table.border.top.style = "hidden" # Hide top border above title
       # table.border.bottom.style = "hidden" # Hide bottom footnote border
     )
 
   # Fastest way to show a table with nflplotr
-  gt_render_image(te_tbl)
+  nflplotR::gt_render_image(te_tbl)
 
   nuclearff::save_gt_table(te_tbl, file_name, output_dir)
 }
